@@ -1,6 +1,7 @@
 package dao.impl;
 
 import entities.Order;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -112,6 +113,10 @@ public class OrderDaoImpl extends AbstractDao implements dao.OrderDao {
         return psDelete.executeUpdate();
     }
 
+    @Override
+    public Session getCurrentSession() {
+        return null;
+    }
     private static Order populateEntity(ResultSet rs) throws SQLException {
         Order entity = new Order();
         entity.setId(rs.getLong(1));

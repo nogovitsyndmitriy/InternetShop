@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.BasketDao;
 import entities.Basket;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -44,5 +45,10 @@ public class BasketDaoImpl extends AbstractDao implements BasketDao {
     @Override
     public int delete(Serializable id) throws SQLException {
         return 0;
+    }
+
+    @Override
+    public Session getCurrentSession() {
+        return null;
     }
 }

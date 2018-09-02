@@ -1,5 +1,7 @@
 package command.impl;
 
+import dao.GenericCommentDao;
+import dao.impl.GenericCommentDaoImpl;
 import entities.*;
 import service.ItemService;
 import service.ProductService;
@@ -16,6 +18,7 @@ import java.io.IOException;
 public class AddToBasketController implements Controller {
     ProductService productService = ProductServiceImpl.getINSTANCE();
     ItemService itemService = ItemServiceImpl.getINSTANCE();
+    GenericCommentDao genericCommentDao = new GenericCommentDaoImpl(Comment.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,6 +39,7 @@ public class AddToBasketController implements Controller {
             Order order = new Order();
             Item item = itemService.save(new Item(product.getName(), quantity, order.getId(),productId, user.getId(), product.getPrice()));
 //        basket.getBasket().add(item);
+
             String contextPath = request.getContextPath();
             response.sendRedirect(contextPath + "/frontController?command=products");
         }

@@ -1,8 +1,6 @@
 package dao.impl;
 
-import dbConnection.ConnectionManager;
-import entities.User;
-
+import dbConnection.ConnectionManagerOld;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,11 +9,11 @@ import java.sql.SQLException;
 public abstract class AbstractDao {
 
     protected PreparedStatement preparedStatement(String query) throws SQLException {
-        return ConnectionManager.getConnection().prepareStatement(query);
+        return ConnectionManagerOld.getConnection().prepareStatement(query);
     }
 
     protected PreparedStatement preparedStatement(String query, int flag) throws SQLException {
-        return ConnectionManager.getConnection().prepareStatement(query, flag);
+        return ConnectionManagerOld.getConnection().prepareStatement(query, flag);
     }
 
     public static void close(ResultSet rs) {

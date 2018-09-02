@@ -3,6 +3,9 @@ package service.impl;
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
 import entities.User;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.AbstractService;
 import service.UserService;
 
@@ -13,6 +16,7 @@ import java.util.List;
 
 public class UserServiceImpl extends AbstractService implements UserService {
     private static volatile UserService INSTANCE = null;
+    private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
     private UserDao userDao = UserDaoImpl.getINSTANCE();
     User user = new User();
 
@@ -37,6 +41,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             user = userDao.getUserByAccount(login);
             commit();
         } catch (SQLException e) {
+            log.info(e.getMessage(), e);
             rollback();
         }
         return user;
@@ -49,7 +54,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             user = userDao.get(id);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return user;
@@ -62,7 +67,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             userDao.update(user);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
     }
@@ -74,7 +79,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             userDao.delete(id);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return 0;
@@ -88,7 +93,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             userDao.save(newuser);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return user;
@@ -102,7 +107,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
             list = userDao.getAll();
             commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
+            rollback();
         }
         return list;
     }

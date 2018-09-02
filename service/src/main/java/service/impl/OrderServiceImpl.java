@@ -6,9 +6,10 @@ import dao.ProductDao;
 import dao.impl.ItemDaoImpl;
 import dao.impl.OrderDaoImpl;
 import dao.impl.ProductDaoImpl;
-import entities.Item;
 import entities.Order;
 import entities.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.AbstractService;
 import service.OrderService;
 
@@ -19,10 +20,12 @@ import java.util.List;
 
 public class OrderServiceImpl extends AbstractService implements OrderService {
     private static volatile OrderService INSTANCE = null;
+    private static final Logger log = LogManager.getLogger(OrderServiceImpl.class);
     private OrderDao orderDao = OrderDaoImpl.getINSTANCE();
     private ProductDao productDao = ProductDaoImpl.getINSTANCE();
     private ItemDao itemDao = ItemDaoImpl.getINSTANCE();
     Order order = new Order();
+
 
 
     public static OrderService getINSTANCE() {
@@ -46,7 +49,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             list = orderDao.getAll();
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return list;
@@ -59,7 +62,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             order = orderDao.getByUserId(id);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return order;
@@ -72,7 +75,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             order = orderDao.save(order);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return order;
@@ -84,7 +87,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             startTransaction();
             order = orderDao.get(id);
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return order;
@@ -97,7 +100,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             orderDao.update(order);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
     }
@@ -109,7 +112,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             orderDao.delete(id);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return 0;
@@ -131,7 +134,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             commit();
         } catch (SQLException e) {
             rollback();
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         }
         return order;
     }

@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.ProductDao;
 import entities.Product;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -132,5 +133,10 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
         }
         close(rs);
         return list;
+    }
+
+    @Override
+    public Session getCurrentSession() {
+        return null;
     }
 }

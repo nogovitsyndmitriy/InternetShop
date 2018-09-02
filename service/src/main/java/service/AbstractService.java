@@ -1,28 +1,27 @@
 package service;
 
-import dbConnection.ConnectionManager;
+import dbConnection.ConnectionManagerOld;
 import dbConnection.DbManagerException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
 
 public abstract class AbstractService {
 
-    public static final Logger log = Logger.getLogger(String.valueOf(AbstractService.class));
 
     public void startTransaction() throws SQLException {
-        ConnectionManager.getConnection().setAutoCommit(false);
+        ConnectionManagerOld.getConnection().setAutoCommit(false);
     }
 
     public void commit() throws SQLException {
-        ConnectionManager.getConnection().commit();
+        ConnectionManagerOld.getConnection().commit();
     }
 
-    public Connection getConnection(){
-        return ConnectionManager.getConnection();
+    public Connection getConnection() {
+        return ConnectionManagerOld.getConnection();
     }
 
-    public void rollback(){
+    public void rollback() {
         try {
             getConnection().rollback();
         } catch (SQLException e) {

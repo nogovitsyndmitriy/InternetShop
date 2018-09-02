@@ -3,6 +3,9 @@ package service.impl;
 import dao.ItemDao;
 import dao.impl.ItemDaoImpl;
 import entities.Item;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.AbstractService;
 import service.ItemService;
 
@@ -12,8 +15,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ItemServiceImpl extends AbstractService implements ItemService {
 
+
+public class ItemServiceImpl extends AbstractService implements ItemService {
+    private static final Logger log = LogManager.getLogger(ItemServiceImpl.class);
     private static volatile ItemService INSTANCE = null;
     private ItemDao itemDao = ItemDaoImpl.getINSTANCE();
     Item item = new Item();
@@ -38,7 +43,7 @@ public class ItemServiceImpl extends AbstractService implements ItemService {
             item = itemDao.save(item);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return item;
@@ -51,7 +56,7 @@ public class ItemServiceImpl extends AbstractService implements ItemService {
             item = itemDao.get(id);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return item;
@@ -63,7 +68,7 @@ public class ItemServiceImpl extends AbstractService implements ItemService {
             startTransaction();
             itemDao.update(item);
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
     }
@@ -75,7 +80,7 @@ public class ItemServiceImpl extends AbstractService implements ItemService {
             itemDao.delete(id);
             commit();
         } catch (SQLException e) {
-            log.warning(String.valueOf(e));
+            log.info(e.getMessage(), e);
             rollback();
         }
         return 0;
@@ -90,7 +95,7 @@ public class ItemServiceImpl extends AbstractService implements ItemService {
             commit();
         } catch (SQLException e) {
             rollback();
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         }
         return list;
     }
@@ -104,7 +109,7 @@ public class ItemServiceImpl extends AbstractService implements ItemService {
             commit();
         } catch (SQLException e) {
             rollback();
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         }
         return list;
     }

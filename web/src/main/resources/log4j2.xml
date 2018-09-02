@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Configurration status = "Debug">
+<Configurration status = "DEBUG">
     <Appenders>
-        <Console name = "Console" target = "SYSTEM>OUT">
+        <Console name = "Console" target = "SYSTEM_OUT">
             <PatternLayout pattern = "%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n"/>
         </Console>
-        <RollingFile name ="RollingFile" filename = "logs/application.log">
+        <RollingFile name ="RollingFile" filename = "logs/logs.log" filePattern = "logs/logs-%i.log">
             <Policies>
-
+                <SizeBaseTriggeringPolicity size = "12 MB"/>
             </Policies>
+            <DefaultRollingStrategy max = "20"/>
         </RollingFile>
     </Appenders>
+    <Loggers>
+        <Root level = "INFO">
+            <AppenderRed ref = "Console"/>
+            <AppenderRed ref = "RollingFile"/>
+        </Root>
+    </Loggers>
 </Configurration>

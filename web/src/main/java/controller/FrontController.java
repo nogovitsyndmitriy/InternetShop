@@ -1,7 +1,10 @@
 package controller;
 
 import command.enums.ControllerType;
+import entities.Comment;
 import handler.RequestHandler;
+import service.CommentService;
+import service.impl.CommentServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +16,11 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
     private RequestHandler requestHandler = new RequestHandler();
 
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ControllerType controllerType = RequestHandler.getCommand(req);
         controllerType.getController().execute(req, resp);
+
     }
 }

@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.UserDao;
 import entities.User;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -138,5 +139,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         }
         close(rs);
         return list;
+    }
+
+    @Override
+    public Session getCurrentSession() {
+        return null;
     }
 }

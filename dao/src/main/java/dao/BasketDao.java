@@ -8,6 +8,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface BasketDao extends DAO<Basket> {
-    List<Basket> getAll() throws SQLException;
+
     List<Basket> getByUserId (Serializable id) throws SQLException;
 }
