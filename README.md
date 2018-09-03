@@ -1,2 +1,2 @@
 # InternetShop
-Simple InternetShop
+Simple InternetShop (in developing)
