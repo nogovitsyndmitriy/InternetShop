@@ -1,10 +1,5 @@
 package command.impl;
 
-import entities.Order;
-import entities.Product;
-import entities.User;
-import service.OrderService;
-import service.impl.OrderServiceImpl;
 import command.Controller;
 
 import javax.servlet.RequestDispatcher;

@@ -1,116 +1,136 @@
 package service.impl;
 
-import dao.ItemDao;
-import dao.impl.ItemDaoImpl;
-import entities.Item;
+import com.gmail.nogovitsyndmitriy.dao.ItemDao;
+import com.gmail.nogovitsyndmitriy.dao.entities.Item;
+import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.AbstractService;
+import org.hibernate.Session;
 import service.ItemService;
+import service.converter.impl.dto.ItemDtoConverter;
+import service.converter.impl.entity.ItemConverter;
+import service.model.ItemDto;
 
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import org.hibernate.Transaction;
 import java.util.List;
 
+public class ItemServiceImpl implements ItemService {
+    private final static Logger log = LogManager.getLogger(ItemServiceImpl.class);
+    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+    private ItemConverter itemConverter = new ItemConverter();
+    private ItemDao itemDao = new ItemDaoImpl(Item.class);
+    private ItemDto itemDto = new ItemDto();
+    private Item item = new Item();
 
-
-public class ItemServiceImpl extends AbstractService implements ItemService {
-    private static final Logger log = LogManager.getLogger(ItemServiceImpl.class);
-    private static volatile ItemService INSTANCE = null;
-    private ItemDao itemDao = ItemDaoImpl.getINSTANCE();
-    Item item = new Item();
-
-    public static ItemService getINSTANCE(){
-        ItemService itemService = INSTANCE;
-        if(itemService == null){
-            synchronized (ItemServiceImpl.class){
-                itemService = INSTANCE;
-                if(itemService == null){
-                    INSTANCE = itemService = new ItemServiceImpl();
-                }
+    @Override
+    public ItemDto get(long id) {
+        Session session = itemDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
             }
-        }
-        return itemService;
-    }
-
-    @Override
-    public Item save(Item item) {
-        try {
-            startTransaction();
-            item = itemDao.save(item);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return item;
-    }
-
-    @Override
-    public Item get(Serializable id) {
-        try {
-            startTransaction();
             item = itemDao.get(id);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            itemDto = itemDtoConverter.toDTO(item);
+            transaction.commit();
+            log.info("Get item by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Get item by Id failed!", e);
         }
-        return item;
+        return itemDto;
     }
 
     @Override
-    public void update(Item item) {
+    public ItemDto save(ItemDto dto) {
+        Session session = itemDao.getCurrentSession();
         try {
-            startTransaction();
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            item = itemConverter.toEntity(dto);
+            itemDao.save(item);
+            itemDto = itemDtoConverter.toDTO(item);
+            transaction.commit();
+            log.info("Saving item successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Saving item failed!", e);
+        }
+        return itemDto;
+    }
+
+    @Override
+    public ItemDto update(ItemDto dto) {
+        Session session = itemDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            item = itemConverter.toEntity(dto);
             itemDao.update(item);
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            itemDto = itemDtoConverter.toDTO(item);
+            transaction.commit();
+            log.info("Update item successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Update item failed!", e);
+        }
+        return itemDto;
+    }
+
+    @Override
+    public void delete(ItemDto dto) {
+        Session session = itemDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            item = itemConverter.toEntity(dto);
+            itemDao.delete(item);
+            transaction.commit();
+            log.info("Delete item successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Delete item failed!", e);
         }
     }
 
     @Override
-    public int delete(Serializable id) {
+    public void deleteById(long id) {
+        Session session = itemDao.getCurrentSession();
         try {
-            startTransaction();
-            itemDao.delete(id);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            item = itemDao.get(id);
+            itemDao.delete(item);
+            transaction.commit();
+            log.info("Delete item by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Delete item by Id failed!", e);
         }
-        return 0;
     }
 
     @Override
-    public List<Item> getAll() {
-        List<Item> list = new ArrayList<>();
-        try {
-            startTransaction();
-            list = itemDao.getAll();
-            commit();
-        } catch (SQLException e) {
-            rollback();
-            log.info(e.getMessage(), e);
-        }
-        return list;
-    }
-
-    @Override
-    public List<Item> getAllByUserId(Serializable id) {
-        List<Item> list = new LinkedList<>();
-        try {
-            startTransaction();
-            list = itemDao.getAllByUserId(id);
-            commit();
-        } catch (SQLException e) {
-            rollback();
-            log.info(e.getMessage(), e);
-        }
-        return list;
+    public List<ItemDto> getAll() {
+        return null;
     }
 }

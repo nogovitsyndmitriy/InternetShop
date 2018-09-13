@@ -1,10 +1,5 @@
 package command.impl;
 
-import entities.Basket;
-import entities.Item;
-import entities.User;
-import service.ItemService;
-import service.impl.ItemServiceImpl;
 import command.Controller;
 
 import javax.servlet.RequestDispatcher;
@@ -12,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 public class BasketController implements Controller {
     ItemService itemService = ItemServiceImpl.getINSTANCE();

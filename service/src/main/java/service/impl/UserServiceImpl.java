@@ -1,115 +1,156 @@
 package service.impl;
 
-import dao.UserDao;
-import dao.impl.UserDaoImpl;
-import entities.User;
-
+import com.gmail.nogovitsyndmitriy.dao.UserDao;
+import com.gmail.nogovitsyndmitriy.dao.impl.UserDaoImpl;
+import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.AbstractService;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import service.UserService;
+import service.converter.impl.dto.UserDtoConverter;
+import service.converter.impl.entity.UserConverter;
+import service.model.UserDto;
 
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
-public class UserServiceImpl extends AbstractService implements UserService {
-    private static volatile UserService INSTANCE = null;
-    private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
-    private UserDao userDao = UserDaoImpl.getINSTANCE();
-    User user = new User();
+public class UserServiceImpl implements UserService {
+    private final static Logger log = LogManager.getLogger(UserServiceImpl.class);
+    private UserDtoConverter userDtoConverter = new UserDtoConverter();
+    private UserConverter userConverter = new UserConverter();
+    private UserDao userDao = new UserDaoImpl(User.class);
+    private User user = new User();
 
-    public static UserService getINSTANCE() {
-        UserService userService = INSTANCE;
-        if (userService == null) {
-            synchronized (UserServiceImpl.class) {
-                userService = INSTANCE;
-                if (userService == null) {
-                    INSTANCE = userService = new UserServiceImpl();
-                }
+    @Override
+    public UserDto get(long id) {
+        Session session = userDao.getCurrentSession();
+        UserDto userDto = new UserDto();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
             }
-        }
-        return userService;
-    }
-
-    @Override
-    public User getUserByAccount(String login) {
-
-        try {
-            startTransaction();
-            user = userDao.getUserByAccount(login);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return user;
-    }
-
-    @Override
-    public User get(Serializable id) {
-        try {
-            startTransaction();
             user = userDao.get(id);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            userDto = userDtoConverter.toDTO(user);
+            transaction.commit();
+            log.info("Get user successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Get user failed!", e);
         }
-        return user;
+        return userDto;
     }
 
     @Override
-    public void update(User user) {
+    public UserDto save(UserDto userDto) {
+        Session session = userDao.getCurrentSession();
         try {
-            startTransaction();
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            user = userConverter.toEntity(userDto);
+            userDao.save(user);
+            userDto = userDtoConverter.toDTO(user);
+            transaction.commit();
+            log.info("Saving user successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Saving user failed!", e);
+        }
+        return userDto;
+    }
+
+    @Override
+    public UserDto update(UserDto userDto) {
+        Session session = userDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            user = userConverter.toEntity(userDto);
             userDao.update(user);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            userDto = userDtoConverter.toDTO(user);
+            transaction.commit();
+            log.info("Update user successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Update user failed!", e);
+        }
+        return userDto;
+    }
+
+    @Override
+    public void delete(UserDto userDto) {
+        Session session = userDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            user = userConverter.toEntity(userDto);
+            userDao.delete(user);
+            transaction.commit();
+            log.info("Delete user successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Delete user failed!", e);
         }
     }
 
     @Override
-    public int delete(Serializable id) {
+    public void deleteById(long id) {
+        Session session = userDao.getCurrentSession();
         try {
-            startTransaction();
-            userDao.delete(id);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            user = userDao.get(id);
+            userDao.delete(user);
+            transaction.commit();
+            log.info("Delete user by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Delete user by Id failed!", e);
         }
-        return 0;
     }
 
     @Override
-    public User save(User user) {
-        try {
-            startTransaction();
-            User newuser = new User(user.getLogin(), user.getPassword(), user.getName(), user.getLastName(), user.getAge(), user.getEmail());
-            userDao.save(newuser);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return user;
+    public List<UserDto> getAll() {
+        return null;
     }
 
     @Override
-    public List<User> getAll() {
-        List<User> list = new LinkedList<>();
+    public UserDto findByEmail(String email) {
+        Session session = userDao.getCurrentSession();
+        UserDto userDto = new UserDto();
         try {
-            startTransaction();
-            list = userDao.getAll();
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            user = userDao.findByEmail(email);
+            userDto = userDtoConverter.toDTO(user);
+            transaction.commit();
+            log.info("Find user by email successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Find user by email failed!", e);
         }
-        return list;
+        return userDto;
     }
 }

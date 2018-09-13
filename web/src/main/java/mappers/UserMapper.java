@@ -1,6 +1,5 @@
 package mappers;
 
-import entities.User;
 import auth.Encoder;
 
 import javax.servlet.http.HttpServletRequest;

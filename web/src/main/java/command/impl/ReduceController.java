@@ -1,16 +1,11 @@
 package command.impl;
 
-import com.google.gson.Gson;
-import entities.Basket;
 import command.Controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReduceController implements Controller {
     @Override

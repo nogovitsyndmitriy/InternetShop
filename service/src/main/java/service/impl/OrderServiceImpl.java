@@ -1,141 +1,134 @@
 package service.impl;
 
-import dao.ItemDao;
-import dao.OrderDao;
-import dao.ProductDao;
-import dao.impl.ItemDaoImpl;
-import dao.impl.OrderDaoImpl;
-import dao.impl.ProductDaoImpl;
-import entities.Order;
-import entities.Product;
+import com.gmail.nogovitsyndmitriy.dao.OrderDao;
+import com.gmail.nogovitsyndmitriy.dao.impl.OrderDaoImpl;
+import com.gmail.nogovitsyndmitriy.dao.entities.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.AbstractService;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import service.OrderService;
+import service.converter.impl.dto.OrderDtoConverter;
+import service.converter.impl.entity.OrderConverter;
+import service.model.OrderDto;
 
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
-public class OrderServiceImpl extends AbstractService implements OrderService {
-    private static volatile OrderService INSTANCE = null;
-    private static final Logger log = LogManager.getLogger(OrderServiceImpl.class);
-    private OrderDao orderDao = OrderDaoImpl.getINSTANCE();
-    private ProductDao productDao = ProductDaoImpl.getINSTANCE();
-    private ItemDao itemDao = ItemDaoImpl.getINSTANCE();
-    Order order = new Order();
+public class OrderServiceImpl implements OrderService {
+    private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
+    private OrderDtoConverter orderDtoConverter = new OrderDtoConverter();
+    private OrderConverter orderConverter = new OrderConverter();
+    private OrderDao orderDao = new OrderDaoImpl(Order.class);
+    private OrderDto orderDto = new OrderDto();
+    private Order order = new Order();
 
-
-
-    public static OrderService getINSTANCE() {
-        OrderService orderService = INSTANCE;
-        if (orderService == null) {
-            synchronized (OrderServiceImpl.class) {
-                orderService = INSTANCE;
-                if (orderService == null) {
-                    INSTANCE = orderService = new OrderServiceImpl();
-                }
+    @Override
+    public OrderDto get(long id) {
+        Session session = orderDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
             }
+            orderDao.get(id);
+            orderDto = orderDtoConverter.toDTO(order);
+            transaction.commit();
+            log.info("Get order successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Get order failed!", e);
         }
-        return orderService;
+        return orderDto;
     }
 
     @Override
-    public List<Order> getAll() {
-        List<Order> list = new LinkedList<>();
+    public OrderDto save(OrderDto dto) {
+        Session session = orderDao.getCurrentSession();
         try {
-            startTransaction();
-            list = orderDao.getAll();
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return list;
-    }
-
-    @Override
-    public Order getByUserId(Serializable id) {
-        try {
-            startTransaction();
-            order = orderDao.getByUserId(id);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return order;
-    }
-
-    @Override
-    public Order save(Order order) {
-        try {
-            startTransaction();
-            order = orderDao.save(order);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return order;
-    }
-
-    @Override
-    public Order get(Serializable id) {
-        try {
-            startTransaction();
-            order = orderDao.get(id);
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return order;
-    }
-
-    @Override
-    public void update(Order order) {
-        try {
-            startTransaction();
-            orderDao.update(order);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-    }
-
-    @Override
-    public int delete(Serializable id) {
-        try {
-            startTransaction();
-            orderDao.delete(id);
-            commit();
-        } catch (SQLException e) {
-            log.info(e.getMessage(), e);
-            rollback();
-        }
-        return 0;
-    }
-
-    @Override
-    public Order createOrder(long userId, long productId, int quantity) {
-        try {
-            startTransaction();
-            order.setUserId(userId);
-
-            Product product = productDao.get(productId);
-
-            order.setTotal(product.getPrice() * quantity);
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            order = orderConverter.toEntity(dto);
             orderDao.save(order);
-
-//            Item item = new Item(product.getName(), productId, quantity, order.getId(), userId);
-//            itemDao.save(item);
-            commit();
-        } catch (SQLException e) {
-            rollback();
-            log.info(e.getMessage(), e);
+            orderDto = orderDtoConverter.toDTO(order);
+            transaction.commit();
+            log.info("Saving order successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Saving order failed!", e);
         }
-        return order;
+        return orderDto;
+    }
+
+    @Override
+    public OrderDto update(OrderDto dto) {
+        Session session = orderDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            order = orderConverter.toEntity(dto);
+            orderDao.update(order);
+            orderDto = orderDtoConverter.toDTO(order);
+            transaction.commit();
+            log.info("Update order successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Update order failed!", e);
+        }
+        return orderDto;
+    }
+
+    @Override
+    public void delete(OrderDto dto) {
+        Session session = orderDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            order = orderConverter.toEntity(dto);
+            orderDao.delete(order);
+            transaction.commit();
+            log.info("Delete order successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Delete order failed!", e);
+        }
+    }
+
+    @Override
+    public void deleteById(long id) {
+        Session session = orderDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            order = orderDao.get(id);
+            orderDao.save(order);
+            transaction.commit();
+            log.info("Delete order by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Delete order by Id failed!", e);
+        }
+    }
+
+    @Override
+    public List<OrderDto> getAll() {
+        return null;
     }
 }

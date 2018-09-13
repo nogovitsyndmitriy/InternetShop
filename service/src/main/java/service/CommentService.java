@@ -1,20 +1,6 @@
 package service;
 
-import entities.Comment;
+import service.model.CommentDto;
 
-import java.util.List;
-
-
-public interface CommentService {
-    Comment get(final long entityId);
-
-    Comment save(final Comment entity);
-
-    void update(final Comment entity);
-
-    void delete(final Comment entity);
-
-    void deleteById(final long entityId);
-
-    List<Comment> getAll();
+public interface CommentService extends GenericService<CommentDto> {
 }

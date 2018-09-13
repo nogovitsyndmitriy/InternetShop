@@ -1,7 +1,5 @@
 package command.impl;
 
-import service.ProductService;
-import service.impl.ProductServiceImpl;
 import command.Controller;
 
 import javax.servlet.RequestDispatcher;

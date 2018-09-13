@@ -1,10 +1,7 @@
 package controller;
 
 import command.enums.ControllerType;
-import entities.Comment;
 import handler.RequestHandler;
-import service.CommentService;
-import service.impl.CommentServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,8 +1,5 @@
 package command.impl;
 
-import entities.User;
-import service.UserService;
-import service.impl.UserServiceImpl;
 import auth.Encoder;
 import command.Controller;
 
