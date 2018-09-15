@@ -30,10 +30,15 @@ public class Order implements Serializable {
     private LocalDateTime created;
     @Column(name = "F_QUANTITY")
     private int quantity;
-
+    //Items
     @ManyToOne
     @JoinColumn(name = "F_ITEM_ID")
     private Item item;
+    //Users
+    @ManyToOne
+    @JoinColumn(name = "F_USER_ID")
+    private User user;
+
 
     @Override
     public boolean equals(Object o) {

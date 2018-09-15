@@ -2,6 +2,10 @@ package com.gmail.nogovitsyndmitriy.dao.util;
 
 import com.gmail.nogovitsyndmitriy.dao.connection.ConnectionManager;
 import com.gmail.nogovitsyndmitriy.dao.entities.*;
+import com.gmail.nogovitsyndmitriy.dao.preparation.RecordBook;
+import com.gmail.nogovitsyndmitriy.dao.preparation.Student;
+import com.gmail.nogovitsyndmitriy.dao.preparation.Subject;
+import com.gmail.nogovitsyndmitriy.dao.preparation.University;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.boot.Metadata;
@@ -55,6 +59,11 @@ public class HibernateUtil {
                 sources.addAnnotatedClass(Item.class);
                 sources.addAnnotatedClass(Role.class);
                 sources.addAnnotatedClass(Permission.class);
+                sources.addAnnotatedClass(Student.class);
+                sources.addAnnotatedClass(RecordBook.class);
+                sources.addAnnotatedClass(University.class);
+                sources.addAnnotatedClass(Subject.class);
+                sources.addAnnotatedClass(Discount.class);
 
 
                 Metadata metadata = sources.getMetadataBuilder().build();

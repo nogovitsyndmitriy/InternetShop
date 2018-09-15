@@ -14,6 +14,10 @@ import service.converter.impl.entity.ItemConverter;
 import service.model.ItemDto;
 
 import org.hibernate.Transaction;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ItemServiceImpl implements ItemService {
@@ -127,6 +131,52 @@ public class ItemServiceImpl implements ItemService {
             }
             log.error("Delete item by Id failed!", e);
         }
+    }
+
+    @Override
+    public List<ItemDto> findItemInRangeOfPrice(BigDecimal above, BigDecimal below) {
+        Session session = itemDao.getCurrentSession();
+        List<ItemDto> itemDtoList = new ArrayList<>();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            List<Item> items = itemDao.findItemInRangeOfPrice(above, below);
+            for (Item item : items) {
+                ItemDto itemDto = itemDtoConverter.toDTO(item);
+                itemDtoList.add(itemDto);
+            }
+            transaction.commit();
+            log.info("Find items by price in range successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Find items by price in range failed!", e);
+        }
+        return itemDtoList;
+    }
+
+    @Override
+    public long count(BigDecimal above, BigDecimal below) {
+        Session session = itemDao.getCurrentSession();
+        Long number = Long.valueOf(0);
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            number = itemDao.count(above, below);
+            transaction.commit();
+            log.info("Count get successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Count get failed!", e);
+        }
+        return number;
     }
 
     @Override

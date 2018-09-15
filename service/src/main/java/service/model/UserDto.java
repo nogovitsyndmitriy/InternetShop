@@ -21,9 +21,9 @@ public class UserDto {
     private String password;
     private ProfileDto profileDto;
     private Set<NewsDto> newsDtoSet = new HashSet<>();
-    private Set<OrderDto> orderDtoSet = new HashSet<>();
     private Set<AuditDto> auditDtoSet = new HashSet<>();
     private RoleDto roleDto;
+    private DiscountDto discountDto;
 
     @Override
     public boolean equals(Object o) {

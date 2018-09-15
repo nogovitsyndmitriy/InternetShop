@@ -34,11 +34,6 @@ public class Item implements Serializable {
     @Column(name = "F_PRICE")
     private BigDecimal price;
 
-    //  Order
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "F_ITEM_ID")
-//    private Set<Order> orders = new HashSet<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,5 +50,16 @@ public class Item implements Serializable {
     public int hashCode() {
 
         return Objects.hash(id, name, description, uniqueNumber, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", uniqueNumber='" + uniqueNumber + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

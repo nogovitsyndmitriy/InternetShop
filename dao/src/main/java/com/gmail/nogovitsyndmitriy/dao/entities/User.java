@@ -35,19 +35,19 @@ public class User implements Serializable {
     @Column(name = "F_ID", nullable = false, updatable = false)
     private long id;
     @Column(name = "F_EMAIL")
-    @Email
-    @NotNull
-    @Min(7)
+//    @Email
+//    @NotNull
+//    @Min(7)
     private String email;
     @Column(name = "F_NAME")
-    @Size(min = 2, max = 10)
+//    @Size(min = 2, max = 10)
     private String name;
     @Column(name = "F_SURNAME")
-    @Size(min = 2, max = 15)
+//    @Size(min = 2, max = 15)
     private String surname;
     @Column(name = "F_PASSWORD")
-    @Size(min = 6, max = 15)
-    @NotNull
+//    @Size(min = 6, max = 15)
+//    @NotNull
     private String password;
     //  Profile
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
@@ -60,14 +60,14 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "F_USER_ID")
     private Set<Audit> audits = new HashSet<>();
-    //  Orders
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_USER_ID")
-    private Set<Order> orders = new HashSet<>();
     //    Roles
     @ManyToOne
     @JoinColumn(name = "F_ROLE_ID")
     private Role role;
+    //    Discount
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_DISCOUNT_ID", unique = true)
+    private Discount discount;
 
     @Override
     public boolean equals(Object o) {
@@ -85,5 +85,20 @@ public class User implements Serializable {
     public int hashCode() {
 
         return Objects.hash(id, email, name, surname, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", password='" + password + '\'' +
+                ", profile=" + profile +
+                ", news=" + news +
+                ", audits=" + audits +
+                ", role=" + role +
+                '}';
     }
 }

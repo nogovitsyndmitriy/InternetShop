@@ -29,13 +29,6 @@ public class UserDtoConverter implements DTOConverter<UserDto, User> {
             ProfileDto profileDto = profileDtoConverter.toDTO(entity.getProfile());
             userDto.setProfileDto(profileDto);
         }
-        //  Add Orders
-        OrderDtoConverter orderDtoConverter = new OrderDtoConverter();
-        Set<OrderDto> orderDtoSet = new HashSet<>();
-        for (Order orders : entity.getOrders()) {
-            orderDtoSet.add(orderDtoConverter.toDTO(orders));
-        }
-        userDto.setOrderDtoSet(orderDtoSet);
         //  Add Audit
         AuditDtoConverter auditDtoConverter = new AuditDtoConverter();
         Set<AuditDto> auditDtoSet = new HashSet<>();
@@ -55,6 +48,12 @@ public class UserDtoConverter implements DTOConverter<UserDto, User> {
         if (entity.getRole() != null) {
             RoleDto roleDto = roleDtoConverter.toDTO(entity.getRole());
             userDto.setRoleDto(roleDto);
+        }
+        //  Discount
+        DiscountDtoConverter discountDtoConverter = new DiscountDtoConverter();
+        if (entity.getDiscount() != null) {
+            DiscountDto discountDto = discountDtoConverter.toDTO(entity.getDiscount());
+            userDto.setDiscountDto(discountDto);
         }
         return userDto;
     }

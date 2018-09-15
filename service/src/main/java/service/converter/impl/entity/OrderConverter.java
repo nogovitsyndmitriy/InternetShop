@@ -2,6 +2,7 @@ package service.converter.impl.entity;
 
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.dao.entities.Order;
+import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import service.converter.Converter;
 import service.model.OrderDto;
 
@@ -23,6 +24,13 @@ public class OrderConverter implements Converter<Order, OrderDto> {
             Item item = itemConverter.toEntity(dto.getItemDto());
             order.setItem(item);
         }
+        //  User
+        UserConverter userConverter = new UserConverter();
+        if (dto.getUserDto() != null) {
+            User user = userConverter.toEntity(dto.getUserDto());
+            order.setUser(user);
+        }
+
         return order;
     }
 

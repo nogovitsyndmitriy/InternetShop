@@ -1,5 +1,6 @@
 package service.model;
 
+import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class OrderDto {
     private LocalDateTime created;
     private int quantity;
     private ItemDto itemDto;
+    private UserDto userDto;
 
     @Override
     public boolean equals(Object o) {

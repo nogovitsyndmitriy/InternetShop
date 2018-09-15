@@ -1,7 +1,9 @@
 package service.converter.impl.dto;
 
+import com.gmail.nogovitsyndmitriy.dao.entities.Permission;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import service.converter.DTOConverter;
+import service.model.PermissionDto;
 import service.model.RoleDto;
 import service.model.UserDto;
 
@@ -18,9 +20,13 @@ public class RoleDtoConverter implements DTOConverter<RoleDto, Role> {
         RoleDto roleDto = new RoleDto();
         roleDto.setId(entity.getId());
         roleDto.setName(entity.getName());
-        //  Add Users
-        Set<UserDto> userDtoSet = new HashSet<>();
-
+//        Add Permissions
+        PermissionDtoConverter permissionDtoConverter = new PermissionDtoConverter();
+        Set<PermissionDto> permissionDtoSet = new HashSet<>();
+        for (Permission permission : entity.getPermissions()) {
+            PermissionDto permissionDto = permissionDtoConverter.toDTO(permission);
+        }
+        roleDto.setPermissionDtoSet(permissionDtoSet);
 
         return roleDto;
     }

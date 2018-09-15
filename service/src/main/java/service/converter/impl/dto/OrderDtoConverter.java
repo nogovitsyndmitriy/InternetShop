@@ -4,6 +4,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Order;
 import service.converter.DTOConverter;
 import service.model.ItemDto;
 import service.model.OrderDto;
+import service.model.UserDto;
 
 import java.util.List;
 
@@ -23,6 +24,13 @@ public class OrderDtoConverter implements DTOConverter<OrderDto, Order> {
             ItemDto itemDto = itemDtoConverter.toDTO(entity.getItem());
             orderDto.setItemDto(itemDto);
         }
+//       Users
+        UserDtoConverter userDtoConverter = new UserDtoConverter();
+        if (entity.getUser() != null) {
+            UserDto userDto = userDtoConverter.toDTO(entity.getUser());
+            orderDto.setUserDto(userDto);
+        }
+
         return orderDto;
     }
 

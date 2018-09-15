@@ -34,13 +34,6 @@ public class UserConverter implements Converter<User, UserDto> {
             news.add(newsConverter.toEntity(newsDto));
         }
         user.setNews(news);
-        //  Add Orders
-        OrderConverter orderConverter = new OrderConverter();
-        Set<Order> orders = new HashSet<>();
-        for (OrderDto orderDto : dto.getOrderDtoSet()) {
-            orders.add(orderConverter.toEntity(orderDto));
-        }
-        user.setOrders(orders);
         //  Add Audits
         AuditConverter auditConverter = new AuditConverter();
         Set<Audit> audits = new HashSet<>();
@@ -53,6 +46,12 @@ public class UserConverter implements Converter<User, UserDto> {
         if (dto.getRoleDto() != null) {
             Role role = roleConverter.toEntity(dto.getRoleDto());
             user.setRole(role);
+        }
+        //  Discount
+        DiscountConverter discountConverter = new DiscountConverter();
+        if (dto.getDiscountDto() != null) {
+            Discount discount = discountConverter.toEntity(dto.getDiscountDto());
+            user.setDiscount(discount);
         }
 
         return user;

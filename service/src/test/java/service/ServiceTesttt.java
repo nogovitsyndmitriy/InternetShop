@@ -1,5 +1,6 @@
 package service;
 
+import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import org.junit.Test;
 import service.impl.*;
 import service.model.*;
@@ -7,7 +8,7 @@ import service.model.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class ServiceTest {
+public class ServiceTesttt {
     private UserService userService = new UserServiceImpl();
     private UserDto userDto = new UserDto();
     private ProfileDto profileDto = new ProfileDto();
@@ -15,6 +16,7 @@ public class ServiceTest {
     private ItemService itemService = new ItemServiceImpl();
     private CommentService commentService = new CommentServiceImpl();
     private NewsService newsService = new NewsServiceImpl();
+    OrderService orderService = new OrderServiceImpl();
 
 
     @Test
@@ -72,7 +74,6 @@ public class ServiceTest {
         NewsDto news2 = newsService.get(1L);
         commentDto.setUserDto(userCommentator);
         commentDto.setNewsDto(news2);
-
         commentService.save(commentDto);
         /*Orders and Items for User*/
         ItemDto newItem = new ItemDto();
@@ -82,17 +83,16 @@ public class ServiceTest {
         newItem.setPrice(BigDecimal.valueOf(3.55));
         itemService.save(newItem);
         ItemDto newItem2 = itemService.get(1L);
+        UserDto userAgain = userService.get(1L);
         OrderDto orderDto = new OrderDto();
         orderDto.setQuantity(6);
         orderDto.setCreated(LocalDateTime.now());
         orderDto.setItemDto(newItem2);
-
-        UserDto userAgain = userService.get(1L);
+        orderDto.setUserDto(userAgain);
+        orderService.save(orderDto);
         NewsDto newsToUser = newsService.get(1L);
         userAgain.getNewsDtoSet().add(newsToUser);
-        userAgain.getOrderDtoSet().add(orderDto);
         userService.update(userAgain);
 
     }
-
 }
