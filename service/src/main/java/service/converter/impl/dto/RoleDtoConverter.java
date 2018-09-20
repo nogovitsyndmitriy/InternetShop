@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 public class RoleDtoConverter implements DTOConverter<RoleDto, Role> {
+    private PermissionDtoConverter permissionDtoConverter = new PermissionDtoConverter();
+
     @Override
     public RoleDto toDTO(Role entity) {
         if (entity == null) {
@@ -21,7 +23,6 @@ public class RoleDtoConverter implements DTOConverter<RoleDto, Role> {
         roleDto.setId(entity.getId());
         roleDto.setName(entity.getName());
 //        Add Permissions
-        PermissionDtoConverter permissionDtoConverter = new PermissionDtoConverter();
         Set<PermissionDto> permissionDtoSet = new HashSet<>();
         for (Permission permission : entity.getPermissions()) {
             PermissionDto permissionDto = permissionDtoConverter.toDTO(permission);

@@ -26,14 +26,7 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return query.list();
     }
 
-    public List<Item> findByAmountOfDiscount(BigDecimal percent) {
-        String hql = "SELECT I.discount FROM Item AS I WHERE I.percent=:percent";
-        Query query = getCurrentSession().createQuery(hql);
-        query.setParameter("percent", percent);
-        return query.list();
-    }
-
-    public long count(BigDecimal above, BigDecimal below){
+    public long count(BigDecimal above, BigDecimal below) {
         String hql = "SELECT COUNT (*) FROM Item AS I WHERE I.price>:above And I.price<:below";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("below", below);

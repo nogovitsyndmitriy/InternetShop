@@ -9,6 +9,9 @@ import service.model.UserDto;
 import java.util.List;
 
 public class OrderDtoConverter implements DTOConverter<OrderDto, Order> {
+    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+    private UserDtoConverter userDtoConverter = new UserDtoConverter();
+
     @Override
     public OrderDto toDTO(Order entity) {
         if (entity == null) {
@@ -19,13 +22,11 @@ public class OrderDtoConverter implements DTOConverter<OrderDto, Order> {
         orderDto.setCreated(entity.getCreated());
         orderDto.setQuantity(entity.getQuantity());
 //      Item
-        ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
         if (entity.getItem() != null) {
             ItemDto itemDto = itemDtoConverter.toDTO(entity.getItem());
             orderDto.setItemDto(itemDto);
         }
 //       Users
-        UserDtoConverter userDtoConverter = new UserDtoConverter();
         if (entity.getUser() != null) {
             UserDto userDto = userDtoConverter.toDTO(entity.getUser());
             orderDto.setUserDto(userDto);

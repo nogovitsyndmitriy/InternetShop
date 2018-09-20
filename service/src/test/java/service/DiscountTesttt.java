@@ -1,6 +1,5 @@
 package service;
 
-import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import org.junit.Test;
 import service.impl.DiscountServiceImpl;
 import service.impl.ItemServiceImpl;
@@ -22,19 +21,18 @@ public class DiscountTesttt {
     private ItemService itemService = new ItemServiceImpl();
     private DiscountService discountService = new DiscountServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
-    private DiscountDto discountDto = new DiscountDto();
     private Random random = new Random();
 
 
     @Test
     public void createItems() {
 //        Create 30 Items (tusk 2)
-        for (int i = 1; i < 31; i++) {
+        for (int i = 1; i <= 30; i++) {
             ItemDto itemDto = new ItemDto();
             itemDto.setName("item_" + i);
             itemDto.setUniqueNumber("Unique" + String.valueOf(i + 4));
             itemDto.setDescription("Some description_" + i);
-            itemDto.setPrice(BigDecimal.valueOf(random.nextInt(500) + 200));
+            itemDto.setPrice(BigDecimal.valueOf(random.nextInt(400) + 100));
             itemService.save(itemDto);
         }
     }
@@ -42,14 +40,12 @@ public class DiscountTesttt {
     @Test
     public void createDiscounts() {
 //        Create Discounts (tusk 3)
-        for (int i = 0; i < 31; i++) {
-            if (i == 10 || i == 20 || i == 30) {
-                DiscountDto discountDto = new DiscountDto();
-                discountDto.setName("Discount_" + i + "%");
-                discountDto.setPercent(BigDecimal.valueOf(i));
-                discountDto.setValid(LocalDateTime.now());
-                discountService.save(discountDto);
-            }
+        for (int i = 1; i <= 3; i++) {
+            DiscountDto discountDto = new DiscountDto();
+            discountDto.setName("Discount_" + i * 10 + "%");
+            discountDto.setPercent(BigDecimal.valueOf(i));
+            discountDto.setValid(LocalDateTime.now().plusDays(30));
+            discountService.save(discountDto);
         }
     }
 
@@ -57,19 +53,13 @@ public class DiscountTesttt {
     public void DiscountForItems() {
 //        10% Discount (tusk 3)
         DiscountDto discountDto = discountService.get(1L);
-        List<ItemDto> items = itemService.findItemInRangeOfPrice(BigDecimal.valueOf(200), BigDecimal.valueOf(299));
-        items.forEach(item -> discountDto.getItemDtoSet().add(item));
-        discountService.update(discountDto);
+        discountService.addDiscountByItemPrice(discountDto, BigDecimal.valueOf(200), BigDecimal.valueOf(299));
 //        20% Discount
         DiscountDto discountDto2 = discountService.get(2L);
-        List<ItemDto> items2 = itemService.findItemInRangeOfPrice(BigDecimal.valueOf(300), BigDecimal.valueOf(399));
-        items2.forEach(item -> discountDto2.getItemDtoSet().add(item));
-        discountService.update(discountDto2);
+        discountService.addDiscountByItemPrice(discountDto2, BigDecimal.valueOf(300), BigDecimal.valueOf(399));
 //        30% Discount
         DiscountDto discountDto3 = discountService.get(3L);
-        List<ItemDto> items3 = itemService.findItemInRangeOfPrice(BigDecimal.valueOf(400), BigDecimal.valueOf(500));
-        items3.forEach(item -> discountDto3.getItemDtoSet().add(item));
-        discountService.update(discountDto3);
+        discountService.addDiscountByItemPrice(discountDto3, BigDecimal.valueOf(400), BigDecimal.valueOf(500));
     }
 
     @Test
@@ -97,16 +87,16 @@ public class DiscountTesttt {
     @Test
     public void fourOrdersForUser() {
 //        (tusk 8)
-        UserDto homer = userService.get(2L);
-        for (int i = 0; i < 4; i++) {
+        UserDto homer = userService.get(1L);
+        for (int i = 0; i <= 4; i++) {
             OrderDto orderDto = new OrderDto();
-           List<ItemDto> itemDtoList = itemService.findItemInRangeOfPrice(BigDecimal.valueOf(250),BigDecimal.valueOf(450));
-           ItemDto itemDto =  itemDtoList.get(random.nextInt(itemDtoList.size()-1));
-           orderDto.setItemDto(itemDto);
-           orderDto.setUserDto(homer);
-           orderDto.setQuantity(Math.toIntExact(itemService.count(BigDecimal.valueOf(250), BigDecimal.valueOf(450))));
-           orderDto.setCreated(LocalDateTime.now());
-           orderService.update(orderDto);
+            List<ItemDto> itemDtoList = itemService.findItemInRangeOfPrice(BigDecimal.valueOf(250), BigDecimal.valueOf(450));
+            ItemDto itemDto = itemDtoList.get(random.nextInt(itemDtoList.size() - 1));
+            orderDto.setItemDto(itemDto);
+            orderDto.setUserDto(homer);
+            orderDto.setQuantity(Math.toIntExact(itemService.count(BigDecimal.valueOf(250), BigDecimal.valueOf(450))));
+            orderDto.setCreated(LocalDateTime.now());
+            orderService.update(orderDto);
         }
     }
 }

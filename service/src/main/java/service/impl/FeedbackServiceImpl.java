@@ -28,39 +28,104 @@ public class FeedbackServiceImpl implements FeedbackService {
         Session session = feedbackDao.getCurrentSession();
         try {
             Transaction transaction = session.getTransaction();
-            if(!transaction.isActive()){
+            if (!transaction.isActive()) {
                 transaction.begin();
             }
-
-
+            feedback = feedbackDao.get(id);
+            feedbackDto = feedbackDtoConverter.toDTO(feedback);
             transaction.commit();
             log.info("Get feedback by Id successful!");
-        }catch (Exception e){
-            if(session.getTransaction().isActive()){
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
                 log.error("Failed to get feedback by Id!");
             }
         }
-        return null;
+        return feedbackDto;
     }
 
     @Override
-    public FeedbackDto save(FeedbackDto dto) {
-        return null;
+    public FeedbackDto save(FeedbackDto feedbackDto) {
+        Session session = feedbackDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            feedback = feedbackConverter.toEntity(this.feedbackDto);
+            feedbackDao.save(feedback);
+            this.feedbackDto = feedbackDtoConverter.toDTO(feedback);
+            transaction.commit();
+            log.info("Feedback save successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.error("Failed to save feedback!");
+            }
+        }
+        return this.feedbackDto;
     }
 
     @Override
-    public FeedbackDto update(FeedbackDto dto) {
-        return null;
+    public FeedbackDto update(FeedbackDto feedbackDto) {
+        Session session = feedbackDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            feedback = feedbackConverter.toEntity(feedbackDto);
+            feedbackDao.update(feedback);
+            feedbackDto = feedbackDtoConverter.toDTO(feedback);
+            transaction.commit();
+            log.info("Feedback update successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.error("Failed to update feedback!");
+            }
+        }
+        return feedbackDto;
     }
 
     @Override
-    public void delete(FeedbackDto dto) {
-
+    public void delete(FeedbackDto feedbackDto) {
+        Session session = feedbackDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            feedback = feedbackConverter.toEntity(feedbackDto);
+            feedbackDao.delete(feedback);
+            transaction.commit();
+            log.info("Delete feedback successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.error("Failed to delete feedback!");
+            }
+        }
     }
 
     @Override
     public void deleteById(long id) {
+        Session session = feedbackDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            feedback = feedbackDao.get(id);
+            feedbackDao.delete(feedback);
+            transaction.commit();
+            log.info("Delete by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.error("Failed to delete feedback by Id!");
+            }
+        }
 
     }
 

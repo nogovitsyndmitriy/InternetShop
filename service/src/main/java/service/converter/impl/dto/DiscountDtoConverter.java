@@ -2,17 +2,17 @@ package service.converter.impl.dto;
 
 import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
-import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import service.converter.DTOConverter;
 import service.model.DiscountDto;
 import service.model.ItemDto;
-import service.model.UserDto;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class DiscountDtoConverter implements DTOConverter<DiscountDto, Discount> {
+    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+
     @Override
     public DiscountDto toDTO(Discount entity) {
         if (entity == null) {
@@ -24,7 +24,6 @@ public class DiscountDtoConverter implements DTOConverter<DiscountDto, Discount>
         discountDto.setPercent(entity.getPercent());
         discountDto.setValid(entity.getValid());
 //        Add Item
-        ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
         Set<ItemDto> itemDtoSet = new HashSet<>();
         for (Item items : entity.getItems()) {
             itemDtoSet.add(itemDtoConverter.toDTO(items));

@@ -9,6 +9,9 @@ import service.model.UserDto;
 import java.util.List;
 
 public class FeedbackDtoConverter implements DTOConverter<FeedbackDto, Feedback> {
+    private UserDtoConverter userDtoConverter = new UserDtoConverter();
+    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+
     @Override
     public FeedbackDto toDTO(Feedback entity) {
         if (entity == null) {
@@ -19,13 +22,11 @@ public class FeedbackDtoConverter implements DTOConverter<FeedbackDto, Feedback>
         feedbackDto.setContent(entity.getContent());
         feedbackDto.setCreated(entity.getCreated());
 //        User
-        UserDtoConverter userDtoConverter = new UserDtoConverter();
         if (entity.getUser() != null) {
             UserDto userDto = userDtoConverter.toDTO(entity.getUser());
             feedbackDto.setUserDto(userDto);
         }
 //        Item
-        ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
         if (entity.getItem() != null) {
             ItemDto itemDto = itemDtoConverter.toDTO(entity.getItem());
             feedbackDto.setItemDto(itemDto);

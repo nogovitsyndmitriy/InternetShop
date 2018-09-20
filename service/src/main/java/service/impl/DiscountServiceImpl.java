@@ -1,9 +1,11 @@
 package service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.DiscountDao;
+import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.dao.impl.DiscountDaoImpl;
+import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -27,6 +29,7 @@ public class DiscountServiceImpl implements DiscountService {
     private DiscountDao discountDao = new DiscountDaoImpl(Discount.class);
     private Discount discount = new Discount();
     private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+    private ItemDao itemDao = new ItemDaoImpl(Item.class);
 
 
     @Override
@@ -106,29 +109,81 @@ public class DiscountServiceImpl implements DiscountService {
                 transaction.begin();
             }
             List<Item> items = discountDao.findByAmountOfDiscount(percent);
-            for(Item item : items){
+            for (Item item : items) {
                 ItemDto itemDto = itemDtoConverter.toDTO(item);
                 itemDtoList.add(itemDto);
             }
-                transaction.commit();
-                log.info("Find by amount discount Successful!");
-            } catch (Exception e) {
-                if (session.getTransaction().isActive()) {
-                    session.getTransaction().rollback();
-                }
-                log.error("Failed to Find by amount Discount!", e);
+            transaction.commit();
+            log.info("Find by amount discount Successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
             }
-            return itemDtoList;
+            log.error("Failed to Find by amount Discount!", e);
+        }
+        return itemDtoList;
     }
 
     @Override
-    public void delete(DiscountDto dto) {
+    public void addDiscountByItemPrice(DiscountDto discountDto, BigDecimal above, BigDecimal below) {
+        Session session = discountDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            List<Item> items = itemDao.findItemInRangeOfPrice(above, below);
+            items.forEach(item -> discountDto.getItemDtoSet().add(itemDtoConverter.toDTO(item)));
+            discount = discountConverter.toEntity(discountDto);
+            discountDao.update(discount);
+            transaction.commit();
+            log.info("Add discount by item price successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            log.error("Failed to add discount by item price!", e);
+        }
+    }
 
+    @Override
+    public void delete(DiscountDto discountDto) {
+        Session session = discountDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            discount = discountConverter.toEntity(discountDto);
+            discountDao.delete(discount);
+            transaction.commit();
+            log.info("Discount delete successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.error("Failed to delete discount!");
+            }
+        }
     }
 
     @Override
     public void deleteById(long id) {
-
+        Session session = discountDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            discount = discountDao.get(id);
+            discountDao.delete(discount);
+            transaction.commit();
+            log.info("Get feedback by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.error("Failed to get feedback by Id!");
+            }
+        }
     }
 
     @Override

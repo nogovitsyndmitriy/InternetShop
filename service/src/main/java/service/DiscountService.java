@@ -10,4 +10,6 @@ public interface DiscountService extends GenericService<DiscountDto> {
 
     List<ItemDto> findByAmountOfDiscount(BigDecimal percent);
 
+    void addDiscountByItemPrice(DiscountDto discountDto, BigDecimal above, BigDecimal below);
+
 }

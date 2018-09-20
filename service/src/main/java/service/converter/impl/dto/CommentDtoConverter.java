@@ -9,6 +9,9 @@ import service.model.UserDto;
 import java.util.List;
 
 public class CommentDtoConverter implements DTOConverter<CommentDto, Comment> {
+    private NewsDtoConverter newsDtoConverter = new NewsDtoConverter();
+    private UserDtoConverter userDtoConverter = new UserDtoConverter();
+
     @Override
     public CommentDto toDTO(Comment entity) {
         if (entity == null) {
@@ -18,18 +21,16 @@ public class CommentDtoConverter implements DTOConverter<CommentDto, Comment> {
         commentDto.setId(entity.getId());
         commentDto.setContent(entity.getContent());
         commentDto.setCreated(entity.getCreated());
-
 //        News
-        NewsDtoConverter newsDtoConverter = new NewsDtoConverter();
         if (entity.getNews() != null) {
             NewsDto newsDto = newsDtoConverter.toDTO(entity.getNews());
             commentDto.setNewsDto(newsDto);
         }
 //        User
-        UserDtoConverter userDtoConverter = new UserDtoConverter();
-        UserDto userDto = userDtoConverter.toDTO(entity.getUser());
-        commentDto.setUserDto(userDto);
-
+        if (entity.getUser() != null) {
+            UserDto userDto = userDtoConverter.toDTO(entity.getUser());
+            commentDto.setUserDto(userDto);
+        }
         return commentDto;
     }
 
