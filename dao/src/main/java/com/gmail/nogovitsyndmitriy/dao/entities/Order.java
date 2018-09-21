@@ -30,6 +30,8 @@ public class Order implements Serializable {
     private LocalDateTime created;
     @Column(name = "F_QUANTITY")
     private int quantity;
+    @Column(name = "F_STATUS")
+    private String status;
     //Items
     @ManyToOne
     @JoinColumn(name = "F_ITEM_ID")
@@ -47,12 +49,13 @@ public class Order implements Serializable {
         Order order = (Order) o;
         return id == order.id &&
                 quantity == order.quantity &&
-                Objects.equals(created, order.created);
+                Objects.equals(created, order.created) &&
+                Objects.equals(status, order.status);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, created, quantity);
+        return Objects.hash(id, created, quantity, status);
     }
 }

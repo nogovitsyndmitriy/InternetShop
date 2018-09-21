@@ -19,6 +19,7 @@ public class UserDto {
     private String name;
     private String surname;
     private String password;
+    private Boolean disabled;
     private ProfileDto profileDto;
     private Set<NewsDto> newsDtoSet = new HashSet<>();
     private Set<AuditDto> auditDtoSet = new HashSet<>();
@@ -34,12 +35,13 @@ public class UserDto {
                 Objects.equals(email, userDto.email) &&
                 Objects.equals(name, userDto.name) &&
                 Objects.equals(surname, userDto.surname) &&
-                Objects.equals(password, userDto.password);
+                Objects.equals(password, userDto.password) &&
+                Objects.equals(disabled, userDto.disabled);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, email, name, surname, password);
+        return Objects.hash(id, email, name, surname, password, disabled);
     }
 }

@@ -28,6 +28,7 @@ public class UserDtoConverter implements DTOConverter<UserDto, User> {
         userDto.setName(entity.getName());
         userDto.setSurname(entity.getSurname());
         userDto.setPassword(entity.getPassword());
+        userDto.setDisabled(entity.getDisabled());
         // Add Profile
         if (entity.getProfile() != null) {
             ProfileDto profileDto = profileDtoConverter.toDTO(entity.getProfile());

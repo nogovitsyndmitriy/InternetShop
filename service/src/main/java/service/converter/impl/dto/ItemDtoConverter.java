@@ -18,6 +18,7 @@ public class ItemDtoConverter implements DTOConverter<ItemDto, Item> {
         itemDto.setDescription(entity.getDescription());
         itemDto.setUniqueNumber(entity.getUniqueNumber());
         itemDto.setPrice(entity.getPrice());
+        itemDto.setDeleted(entity.getDeleted());
 
         return itemDto;
     }

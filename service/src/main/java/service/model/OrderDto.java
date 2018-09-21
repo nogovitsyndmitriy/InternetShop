@@ -1,15 +1,12 @@
 package service.model;
 
-import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +17,7 @@ public class OrderDto {
     private long id;
     private LocalDateTime created;
     private int quantity;
+    private String status;
     private ItemDto itemDto;
     private UserDto userDto;
 
@@ -30,12 +28,13 @@ public class OrderDto {
         OrderDto orderDto = (OrderDto) o;
         return id == orderDto.id &&
                 quantity == orderDto.quantity &&
-                Objects.equals(created, orderDto.created);
+                Objects.equals(created, orderDto.created) &&
+                Objects.equals(status, orderDto.status);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, created, quantity);
+        return Objects.hash(id, created, quantity, status);
     }
 }

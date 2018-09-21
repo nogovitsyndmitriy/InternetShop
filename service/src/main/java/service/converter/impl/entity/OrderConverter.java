@@ -18,6 +18,7 @@ public class OrderConverter implements Converter<Order, OrderDto> {
         order.setId(dto.getId());
         order.setCreated(dto.getCreated());
         order.setQuantity(dto.getQuantity());
+        order.setStatus(dto.getStatus());
         //  Item
         ItemConverter itemConverter = new ItemConverter();
         if (dto.getItemDto() != null) {

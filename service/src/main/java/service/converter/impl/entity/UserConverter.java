@@ -20,6 +20,7 @@ public class UserConverter implements Converter<User, UserDto> {
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
         user.setPassword(dto.getPassword());
+        user.setDisabled(dto.getDisabled());
         //  Add Profile
         ProfileConverter converter = new ProfileConverter();
         if (dto.getProfileDto() != null) {

@@ -33,6 +33,8 @@ public class Item implements Serializable {
     private String uniqueNumber;
     @Column(name = "F_PRICE")
     private BigDecimal price;
+    @Column(name = "F_DELETED")
+    private Boolean deleted;
 
     @Override
     public boolean equals(Object o) {
@@ -43,13 +45,14 @@ public class Item implements Serializable {
                 Objects.equals(name, item.name) &&
                 Objects.equals(description, item.description) &&
                 Objects.equals(uniqueNumber, item.uniqueNumber) &&
-                Objects.equals(price, item.price);
+                Objects.equals(price, item.price) &&
+                Objects.equals(deleted, item.deleted);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, uniqueNumber, price);
+        return Objects.hash(id, name, description, uniqueNumber, price, deleted);
     }
 
     @Override

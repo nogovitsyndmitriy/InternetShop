@@ -49,6 +49,8 @@ public class User implements Serializable {
 //    @Size(min = 6, max = 15)
 //    @NotNull
     private String password;
+    @Column (name = "F_DISABLED")
+    private Boolean disabled;
     //  Profile
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
     private Profile profile;
@@ -78,13 +80,14 @@ public class User implements Serializable {
                 Objects.equals(email, user.email) &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                Objects.equals(disabled, user.disabled);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, email, name, surname, password);
+        return Objects.hash(id, email, name, surname, password, disabled);
     }
 
     @Override

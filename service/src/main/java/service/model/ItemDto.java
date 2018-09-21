@@ -22,6 +22,7 @@ public class ItemDto {
     private String description;
     private String uniqueNumber;
     private BigDecimal price;
+    private Boolean deleted;
 
 
     @Override
@@ -33,13 +34,14 @@ public class ItemDto {
                 Objects.equals(name, itemDto.name) &&
                 Objects.equals(description, itemDto.description) &&
                 Objects.equals(uniqueNumber, itemDto.uniqueNumber) &&
-                Objects.equals(price, itemDto.price);
+                Objects.equals(price, itemDto.price) &&
+                Objects.equals(deleted, itemDto.deleted);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, uniqueNumber, price);
+        return Objects.hash(id, name, description, uniqueNumber, price, deleted);
     }
 
     @Override

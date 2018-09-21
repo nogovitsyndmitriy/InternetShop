@@ -18,6 +18,7 @@ public class ItemConverter implements Converter<Item, ItemDto> {
         item.setDescription(dto.getDescription());
         item.setUniqueNumber(dto.getUniqueNumber());
         item.setPrice(dto.getPrice());
+        item.setDeleted(dto.getDeleted());
 
         return item;
     }

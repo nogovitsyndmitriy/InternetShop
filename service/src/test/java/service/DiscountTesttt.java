@@ -96,6 +96,7 @@ public class DiscountTesttt {
             orderDto.setUserDto(homer);
             orderDto.setQuantity(Math.toIntExact(itemService.count(BigDecimal.valueOf(250), BigDecimal.valueOf(450))));
             orderDto.setCreated(LocalDateTime.now());
+            orderDto.setStatus("NEW");
             orderService.update(orderDto);
         }
     }
