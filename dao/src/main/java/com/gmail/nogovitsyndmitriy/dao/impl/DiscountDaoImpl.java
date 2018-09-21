@@ -4,14 +4,15 @@ import com.gmail.nogovitsyndmitriy.dao.DiscountDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@Repository
 public class DiscountDaoImpl extends GenericDaoImpl<Discount> implements DiscountDao {
-    public DiscountDaoImpl(Class<Discount> clazz) {
-        super(clazz);
+    public DiscountDaoImpl() {
+        super(Discount.class);
     }
 
 

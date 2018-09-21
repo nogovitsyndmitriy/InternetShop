@@ -9,12 +9,13 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.gmail.nogovitsyndmitriy.dao.connection.ConnectionManager.*;
-
+@Component
 public class HibernateUtil {
 
     private static final Logger log = LogManager.getLogger(HibernateUtil.class);
@@ -56,6 +57,7 @@ public class HibernateUtil {
                 sources.addAnnotatedClass(Role.class);
                 sources.addAnnotatedClass(Permission.class);
                 sources.addAnnotatedClass(Discount.class);
+                sources.addAnnotatedClass(Feedback.class);
 
 
                 Metadata metadata = sources.getMetadataBuilder().build();

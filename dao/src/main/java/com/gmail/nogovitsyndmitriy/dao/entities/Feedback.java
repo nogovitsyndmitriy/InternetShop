@@ -23,7 +23,7 @@ public class Feedback implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID")
     private long id;
-    @Column(name = "F_NAME")
+    @Column(name = "F_CONTENT")
     private String content;
     @Column(name = "F_CREATED")
     private LocalDateTime created;

@@ -49,4 +49,14 @@ public class News implements Serializable {
 
         return Objects.hash(id, title, content, created);
     }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", created=" + created +
+                '}';
+    }
 }

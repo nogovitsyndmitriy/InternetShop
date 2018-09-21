@@ -58,4 +58,16 @@ public class Order implements Serializable {
 
         return Objects.hash(id, created, quantity, status);
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", created=" + created +
+                ", quantity=" + quantity +
+                ", status='" + status + '\'' +
+                ", item=" + item +
+                ", user=" + user +
+                '}';
+    }
 }

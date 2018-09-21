@@ -1,7 +1,9 @@
 package com.gmail.nogovitsyndmitriy.dao.connection;
 
-import java.util.ResourceBundle;
+import org.springframework.stereotype.Component;
 
+import java.util.ResourceBundle;
+@Component
 public class ConnectionManager {
 
     private static ConnectionManager instance;
