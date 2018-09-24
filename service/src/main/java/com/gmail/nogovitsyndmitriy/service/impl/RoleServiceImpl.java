@@ -11,16 +11,24 @@ import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
 import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
     private final static Logger log = LogManager.getLogger(RoleServiceImpl.class);
-    private RoleDtoConverter roleDtoConverter = new RoleDtoConverter();
-    private RoleConverter roleConverter = new RoleConverter();
+    private final RoleDtoConverter roleDtoConverter;
+    private final RoleConverter roleConverter;
     private RoleDao roleDao = new RoleDaoImpl();
     private Role role = new Role();
+
+    @Autowired
+    public RoleServiceImpl(@Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter) {
+        this.roleDtoConverter = roleDtoConverter;
+        this.roleConverter = roleConverter;
+    }
 
     @Override
     public RoleDto get(long id) {

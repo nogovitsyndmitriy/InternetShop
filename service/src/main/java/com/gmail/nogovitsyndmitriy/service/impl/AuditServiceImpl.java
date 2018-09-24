@@ -11,17 +11,26 @@ import com.gmail.nogovitsyndmitriy.service.AuditService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.AuditDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.AuditConverter;
 import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class AuditServiceImpl implements AuditService {
     private final static Logger log = LogManager.getLogger(AuditServiceImpl.class);
-    private AuditConverter auditConverter = new AuditConverter();
-    private AuditDtoConverter auditDtoConverter = new AuditDtoConverter();
+    private final AuditDao auditDao;
     private AuditDto auditDto = new AuditDto();
-    private AuditDao auditDao = new AuditDaoImpl();
     private Audit audit = new Audit();
+    private final AuditConverter auditConverter;
+    private final AuditDtoConverter auditDtoConverter;
+
+    @Autowired
+    public AuditServiceImpl(@Qualifier("auditConverter") AuditConverter auditConverter, @Qualifier("auditDtoConverter") AuditDtoConverter auditDtoConverter, AuditDao auditDao) {
+        this.auditConverter = auditConverter;
+        this.auditDtoConverter = auditDtoConverter;
+        this.auditDao = auditDao;
+    }
 
 
     @Override

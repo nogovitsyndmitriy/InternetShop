@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("")
 public class AuditDaoImpl extends GenericDaoImpl<Audit> implements AuditDao {
 
     private final static Logger log = LogManager.getLogger(AuditDaoImpl.class);

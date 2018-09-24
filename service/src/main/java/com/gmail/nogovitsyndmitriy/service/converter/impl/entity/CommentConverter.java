@@ -5,11 +5,23 @@ import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+
+@Component("commentConverter")
 public class CommentConverter implements Converter<Comment, CommentDto> {
+    private final UserConverter userConverter;
+    private final NewsConverter newsConverter;
+
+    @Autowired
+    public CommentConverter(@Qualifier("userConverter") UserConverter userConverter, @Qualifier("newsConverter") NewsConverter newsConverter) {
+        this.userConverter = userConverter;
+        this.newsConverter = newsConverter;
+    }
+
     @Override
     public Comment toEntity(CommentDto dto) {
         if (dto == null) {
@@ -20,13 +32,11 @@ public class CommentConverter implements Converter<Comment, CommentDto> {
         comment.setContent(dto.getContent());
         comment.setCreated(dto.getCreated());
         //  User
-        UserConverter userConverter = new UserConverter();
         if (dto.getUserDto() != null) {
             User user = userConverter.toEntity(dto.getUserDto());
             comment.setUser(user);
         }
         //  News
-        NewsConverter newsConverter = new NewsConverter();
         if (dto.getNewsDto() != null) {
             News news = newsConverter.toEntity(dto.getNewsDto());
             comment.setNews(news);

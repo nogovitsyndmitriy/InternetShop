@@ -36,9 +36,7 @@ public class HibernateUtil {
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, ConnectionManager.getInstance().getProperty(CURRENT_SESSION_CONTEXT_CLASS));
                 settings.put(Environment.USE_SECOND_LEVEL_CACHE, ConnectionManager.getInstance().getProperty(USE_SECOND_LEVEL_CACHE));
                 settings.put(Environment.CACHE_REGION_FACTORY, ConnectionManager.getInstance().getProperty(CACHE_REGION_FACTORY));
-/*
-                settings.put(MISSING_CACHE_STRATEGY, ConnectionManager.getInstance().getProperty(MISSING_CACHE_STRATEGY));
-*/
+
 
 
                 registryBuilder.applySettings(settings);

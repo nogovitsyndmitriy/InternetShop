@@ -6,7 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+@Component("auditDtoConverter")
 public class AuditDtoConverter implements DTOConverter<AuditDto, Audit> {
     @Override
     public AuditDto toDTO(Audit entity) {

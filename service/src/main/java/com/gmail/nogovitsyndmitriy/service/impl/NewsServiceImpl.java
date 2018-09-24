@@ -11,17 +11,25 @@ import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.NewsDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class NewsServiceImpl implements NewsService {
     private final static Logger log = LogManager.getLogger(NewsServiceImpl.class);
-    private NewsDtoConverter newsDtoConverter = new NewsDtoConverter();
-    private NewsConverter newsConverter = new NewsConverter();
+    private final NewsDtoConverter newsDtoConverter;
+    private final NewsConverter newsConverter;
     private NewsDao newsDao = new NewsDaoImpl();
     private NewsDto newsDto = new NewsDto();
     private News news = new News();
+
+    @Autowired
+    public NewsServiceImpl(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("newsConverter") NewsConverter newsConverter) {
+        this.newsDtoConverter = newsDtoConverter;
+        this.newsConverter = newsConverter;
+    }
 
     @Override
     public NewsDto get(long id) {

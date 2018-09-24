@@ -5,13 +5,21 @@ import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+@Component("orderDtoConverter")
 public class OrderDtoConverter implements DTOConverter<OrderDto, Order> {
-    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
-    private UserDtoConverter userDtoConverter = new UserDtoConverter();
+    private final ItemDtoConverter itemDtoConverter;
+    private final UserDtoConverter userDtoConverter;
+
+    @Autowired
+    public OrderDtoConverter(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter, @Qualifier("userDtoConverter") UserDtoConverter userDtoConverter) {
+        this.itemDtoConverter = itemDtoConverter;
+        this.userDtoConverter = userDtoConverter;
+    }
 
     @Override
     public OrderDto toDTO(Order entity) {

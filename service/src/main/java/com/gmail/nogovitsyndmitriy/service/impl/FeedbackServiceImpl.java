@@ -11,17 +11,26 @@ import com.gmail.nogovitsyndmitriy.service.FeedbackService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.FeedbackDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.FeedbackConverter;
 import com.gmail.nogovitsyndmitriy.service.model.FeedbackDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
     private final static Logger log = LogManager.getLogger(FeedbackServiceImpl.class);
     private FeedbackDao feedbackDao = new FeedbackDaoImpl();
-    private FeedbackDtoConverter feedbackDtoConverter = new FeedbackDtoConverter();
-    private FeedbackConverter feedbackConverter = new FeedbackConverter();
     private FeedbackDto feedbackDto = new FeedbackDto();
     private Feedback feedback = new Feedback();
+    private final FeedbackConverter feedbackConverter;
+    private final FeedbackDtoConverter feedbackDtoConverter;
+
+    @Autowired
+    public FeedbackServiceImpl(@Qualifier("feedbackConverter") FeedbackConverter feedbackConverter, @Qualifier("feedbackDtoConverter") FeedbackDtoConverter feedbackDtoConverter) {
+        this.feedbackConverter = feedbackConverter;
+        this.feedbackDtoConverter = feedbackDtoConverter;
+    }
 
 
     @Override

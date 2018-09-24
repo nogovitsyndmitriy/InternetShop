@@ -20,7 +20,7 @@ public class ConnectionManager {
     public static final String CURRENT_SESSION_CONTEXT_CLASS = "hibernate.current_session_context_class";
     public static final String USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
     public static final String CACHE_REGION_FACTORY = "hibernate.cache.region.factory_class";
-//    public static final String MISSING_CACHE_STRATEGY = "hibernate.cache.ehcache.missing_cache_strategy";
+
 
     public static ConnectionManager getInstance() {
         if (instance == null) {

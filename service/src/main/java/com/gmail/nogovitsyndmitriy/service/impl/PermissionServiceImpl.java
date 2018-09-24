@@ -11,17 +11,26 @@ import com.gmail.nogovitsyndmitriy.service.PermissionService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.PermissionDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.PermissionConverter;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class PermissionServiceImpl implements PermissionService {
     private final static Logger log = LogManager.getLogger(PermissionServiceImpl.class);
-    private PermissionDtoConverter permissionDtoConverter = new PermissionDtoConverter();
-    private PermissionConverter permissionConverter = new PermissionConverter();
+    private final PermissionDtoConverter permissionDtoConverter;
+    private final PermissionConverter permissionConverter;
     private PermissionDao permissionDao = new PermissionDaoImpl();
     private PermissionDto permissionDto = new PermissionDto();
     private Permission permission = new Permission();
+
+    @Autowired
+    public PermissionServiceImpl(@Qualifier("permissionDtoConverter") PermissionDtoConverter permissionDtoConverter, @Qualifier("permissionConverter") PermissionConverter permissionConverter) {
+        this.permissionDtoConverter = permissionDtoConverter;
+        this.permissionConverter = permissionConverter;
+    }
 
     @Override
     public PermissionDto get(long id) {

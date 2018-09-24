@@ -6,31 +6,42 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.dao.impl.DiscountDaoImpl;
 import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
-import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.DiscountDtoConverter;
+import com.gmail.nogovitsyndmitriy.service.converter.Converter;
+import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.DiscountConverter;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class DiscountServiceImpl implements DiscountService {
     private final static Logger log = LogManager.getLogger(DiscountServiceImpl.class);
-    private DiscountDtoConverter discountDtoConverter = new DiscountDtoConverter();
-    private DiscountConverter discountConverter = new DiscountConverter();
+    private final DTOConverter<DiscountDto, Discount> discountDtoConverter;
+    private final Converter<Discount, DiscountDto> discountConverter;
+    private final DTOConverter<ItemDto, Item> itemDtoConverter;
     private DiscountDto discountDto = new DiscountDto();
     private DiscountDao discountDao = new DiscountDaoImpl();
     private Discount discount = new Discount();
-    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
     private ItemDao itemDao = new ItemDaoImpl();
+
+    @Autowired
+    public DiscountServiceImpl(@Qualifier("discountDtoConverter") DTOConverter<DiscountDto, Discount> discountDtoConverter, @Qualifier("discountConverter") Converter<Discount, DiscountDto> discountConverter, @Qualifier("itemDtoConverter") DTOConverter<ItemDto, Item> itemDtoConverter) {
+        this.discountDtoConverter = discountDtoConverter;
+        this.discountConverter = discountConverter;
+        this.itemDtoConverter = itemDtoConverter;
+    }
 
 
     @Override

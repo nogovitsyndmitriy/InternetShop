@@ -6,7 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+@Component("newsDtoConverter")
 public class NewsDtoConverter implements DTOConverter<NewsDto, News> {
     @Override
     public NewsDto toDTO(News entity) {

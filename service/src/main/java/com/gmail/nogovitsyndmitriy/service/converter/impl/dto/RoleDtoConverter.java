@@ -6,14 +6,21 @@ import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-@Component
+@Component("roleDtoConverter")
 public class RoleDtoConverter implements DTOConverter<RoleDto, Role> {
-    private PermissionDtoConverter permissionDtoConverter = new PermissionDtoConverter();
+    private final PermissionDtoConverter permissionDtoConverter;
+
+    @Autowired
+    public RoleDtoConverter(@Qualifier("permissionDtoConverter") PermissionDtoConverter permissionDtoConverter) {
+        this.permissionDtoConverter = permissionDtoConverter;
+    }
 
     @Override
     public RoleDto toDTO(Role entity) {

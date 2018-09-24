@@ -11,17 +11,26 @@ import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.CommentDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.CommentConverter;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
     private final static Logger log = LogManager.getLogger(CommentServiceImpl.class);
-    private CommentConverter commentConverter = new CommentConverter();
-    private CommentDtoConverter commentDtoConverter = new CommentDtoConverter();
+    private final CommentConverter commentConverter;
+    private final CommentDtoConverter commentDtoConverter;
     private CommentDao commentDao = new CommentDaoImpl();
     private CommentDto commentDto = new CommentDto();
     private Comment comment = new Comment();
+
+    @Autowired
+    public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter, @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter) {
+        this.commentConverter = commentConverter;
+        this.commentDtoConverter = commentDtoConverter;
+    }
 
     @Override
     public CommentDto get(long id) {

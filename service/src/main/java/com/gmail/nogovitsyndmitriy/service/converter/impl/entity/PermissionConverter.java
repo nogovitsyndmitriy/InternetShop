@@ -6,7 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+@Component("permissionConverter")
 public class PermissionConverter implements Converter<Permission, PermissionDto> {
     @Override
     public Permission toEntity(PermissionDto dto) {

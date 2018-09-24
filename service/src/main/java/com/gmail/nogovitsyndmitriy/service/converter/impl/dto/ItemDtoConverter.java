@@ -6,7 +6,8 @@ import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+
+@Component("itemDtoConverter")
 public class ItemDtoConverter implements DTOConverter<ItemDto, Item> {
     @Override
     public ItemDto toDTO(Item entity) {

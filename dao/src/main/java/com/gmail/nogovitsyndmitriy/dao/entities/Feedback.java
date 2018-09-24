@@ -16,6 +16,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Cacheable
 @Table(name = "T_FEEDBACK")
 public class Feedback implements Serializable {
 

@@ -7,13 +7,23 @@ import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-@Component
+
+@Component("discountConverter")
 public class DiscountConverter implements Converter<Discount, DiscountDto> {
+    private final ItemConverter itemConverter;
+
+    @Autowired
+    public DiscountConverter(@Qualifier("itemConverter") ItemConverter itemConverter) {
+        this.itemConverter = itemConverter;
+    }
+
     @Override
     public Discount toEntity(DiscountDto dto) {
         if (dto == null) {
@@ -25,7 +35,6 @@ public class DiscountConverter implements Converter<Discount, DiscountDto> {
         discount.setPercent(dto.getPercent());
         discount.setValid(dto.getValid());
 //        Add Items
-        ItemConverter itemConverter = new ItemConverter();
         Set<Item> items = new HashSet<>();
         for (ItemDto itemsDto : dto.getItemDtoSet()) {
             items.add(itemConverter.toEntity(itemsDto));

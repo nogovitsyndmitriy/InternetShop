@@ -6,7 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+@Component("profileConverter")
 public class ProfileConverter implements Converter<Profile, ProfileDto> {
     @Override
     public Profile toEntity(ProfileDto dto) {

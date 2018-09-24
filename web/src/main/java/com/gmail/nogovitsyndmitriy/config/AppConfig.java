@@ -1,11 +1,13 @@
 package com.gmail.nogovitsyndmitriy.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@PropertySource({"classpath:db.properties"})
+@PropertySource({"classpath:config.properties"})
 @ComponentScan(basePackages = {
         "com.gmail.nogovitsyndmitriy.service",
         "com.gmail.nogovitsyndmitriy.dao",
@@ -13,6 +15,10 @@ import org.springframework.context.annotation.PropertySource;
         "com.gmail.nogovitsyndmitriy.controllers"})
 public class AppConfig {
 
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer configurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
 }
 

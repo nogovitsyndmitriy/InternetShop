@@ -5,14 +5,21 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-@Component
+@Component("discountDtoConverter")
 public class DiscountDtoConverter implements DTOConverter<DiscountDto, Discount> {
-    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+    private final ItemDtoConverter itemDtoConverter;
+
+    @Autowired
+    public DiscountDtoConverter(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter) {
+        this.itemDtoConverter = itemDtoConverter;
+    }
 
     @Override
     public DiscountDto toDTO(Discount entity) {

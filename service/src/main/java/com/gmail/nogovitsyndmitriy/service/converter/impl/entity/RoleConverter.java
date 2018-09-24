@@ -5,13 +5,23 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-@Component
+
+@Component("roleConverter")
 public class RoleConverter implements Converter<Role, RoleDto> {
+    private final PermissionConverter permissionConverter;
+
+    @Autowired
+    public RoleConverter(@Qualifier("permissionConverter") PermissionConverter permissionConverter) {
+        this.permissionConverter = permissionConverter;
+    }
+
     @Override
     public Role toEntity(RoleDto dto) {
         if (dto == null) {
@@ -21,7 +31,6 @@ public class RoleConverter implements Converter<Role, RoleDto> {
         role.setId(dto.getId());
         role.setName(dto.getName());
         //  Permissions
-        PermissionConverter permissionConverter = new PermissionConverter();
         Set<Permission> permissions = new HashSet<>();
         for (PermissionDto permissionDto : dto.getPermissionDtoSet()) {
             permissions.add(permissionConverter.toEntity(permissionDto));

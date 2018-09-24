@@ -5,18 +5,30 @@ import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-@Component
+
+@Component("userDtoConverter")
 public class UserDtoConverter implements DTOConverter<UserDto, User> {
-    private ProfileDtoConverter profileDtoConverter = new ProfileDtoConverter();
-    private AuditDtoConverter auditDtoConverter = new AuditDtoConverter();
-    private NewsDtoConverter newsDtoConverter = new NewsDtoConverter();
-    private RoleDtoConverter roleDtoConverter = new RoleDtoConverter();
-    private DiscountDtoConverter discountDtoConverter = new DiscountDtoConverter();
+    private final ProfileDtoConverter profileDtoConverter;
+    private final AuditDtoConverter auditDtoConverter;
+    private final NewsDtoConverter newsDtoConverter;
+    private final RoleDtoConverter roleDtoConverter;
+    private final DiscountDtoConverter discountDtoConverter;
+
+    @Autowired
+    public UserDtoConverter(@Qualifier("profileDtoConverter") ProfileDtoConverter profileDtoConverter, @Qualifier("auditDtoConverter") AuditDtoConverter auditDtoConverter, @Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("discountDtoConverter") DiscountDtoConverter discountDtoConverter) {
+        this.profileDtoConverter = profileDtoConverter;
+        this.auditDtoConverter = auditDtoConverter;
+        this.newsDtoConverter = newsDtoConverter;
+        this.roleDtoConverter = roleDtoConverter;
+        this.discountDtoConverter = discountDtoConverter;
+    }
 
     @Override
     public UserDto toDTO(User entity) {

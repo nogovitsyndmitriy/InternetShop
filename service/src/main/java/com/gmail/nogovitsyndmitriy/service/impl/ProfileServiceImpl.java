@@ -11,17 +11,25 @@ import com.gmail.nogovitsyndmitriy.service.ProfileService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ProfileDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ProfileConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class ProfileServiceImpl implements ProfileService {
     private final static Logger log = LogManager.getLogger(ProfileServiceImpl.class);
-    private ProfileDtoConverter profileDtoConverter = new ProfileDtoConverter();
-    private ProfileConverter profileConverter = new ProfileConverter();
+    private final ProfileDtoConverter profileDtoConverter;
+    private final ProfileConverter profileConverter;
     private ProfileDao profileDao = new ProfileDaoImpl();
     private ProfileDto profileDto = new ProfileDto();
     private Profile profile = new Profile();
+
+    @Autowired
+    public ProfileServiceImpl(@Qualifier("profileDtoConverter") ProfileDtoConverter profileDtoConverter, @Qualifier("profileConverter") ProfileConverter profileConverter) {
+        this.profileDtoConverter = profileDtoConverter;
+        this.profileConverter = profileConverter;
+    }
 
     @Override
     public ProfileDto get(long id) {

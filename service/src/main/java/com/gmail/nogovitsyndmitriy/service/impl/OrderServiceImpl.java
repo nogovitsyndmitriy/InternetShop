@@ -1,27 +1,36 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.OrderDao;
-import com.gmail.nogovitsyndmitriy.dao.impl.OrderDaoImpl;
 import com.gmail.nogovitsyndmitriy.dao.entities.Order;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import com.gmail.nogovitsyndmitriy.dao.impl.OrderDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.OrderDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.OrderConverter;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
-    private OrderDtoConverter orderDtoConverter = new OrderDtoConverter();
-    private OrderConverter orderConverter = new OrderConverter();
+    private final OrderDtoConverter orderDtoConverter;
+    private final OrderConverter orderConverter;
     private OrderDao orderDao = new OrderDaoImpl();
     private OrderDto orderDto = new OrderDto();
     private Order order = new Order();
+
+    @Autowired
+    public OrderServiceImpl(@Qualifier("orderDtoConverter") OrderDtoConverter orderDtoConverter, @Qualifier("orderConverter") OrderConverter orderConverter) {
+        this.orderDtoConverter = orderDtoConverter;
+        this.orderConverter = orderConverter;
+    }
 
     @Override
     public OrderDto get(long id) {

@@ -5,13 +5,22 @@ import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.FeedbackDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+
+@Component("feedbackDtoConverter")
 public class FeedbackDtoConverter implements DTOConverter<FeedbackDto, Feedback> {
-    private UserDtoConverter userDtoConverter = new UserDtoConverter();
-    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
+    private final UserDtoConverter userDtoConverter;
+    private final ItemDtoConverter itemDtoConverter;
+
+    @Autowired
+    public FeedbackDtoConverter(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter) {
+        this.userDtoConverter = userDtoConverter;
+        this.itemDtoConverter = itemDtoConverter;
+    }
 
     @Override
     public FeedbackDto toDTO(Feedback entity) {

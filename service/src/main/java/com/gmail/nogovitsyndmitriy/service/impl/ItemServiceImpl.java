@@ -3,31 +3,36 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
-
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ItemConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+
 @Service
 public class ItemServiceImpl implements ItemService {
     private final static Logger log = LogManager.getLogger(ItemServiceImpl.class);
-    private ItemDtoConverter itemDtoConverter = new ItemDtoConverter();
-    private ItemConverter itemConverter = new ItemConverter();
+    private final ItemDtoConverter itemDtoConverter;
+    private final ItemConverter itemConverter;
     private ItemDao itemDao = new ItemDaoImpl();
     private ItemDto itemDto = new ItemDto();
     private Item item = new Item();
+
+    @Autowired
+    public ItemServiceImpl(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter, @Qualifier("itemConverter") ItemConverter itemConverter) {
+        this.itemDtoConverter = itemDtoConverter;
+        this.itemConverter = itemConverter;
+    }
 
     @Override
     public ItemDto get(long id) {
