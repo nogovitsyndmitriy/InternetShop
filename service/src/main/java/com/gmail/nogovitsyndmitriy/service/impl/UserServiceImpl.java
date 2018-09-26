@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,13 +23,14 @@ public class UserServiceImpl implements UserService {
     private final static Logger log = LogManager.getLogger(UserServiceImpl.class);
     private final UserDtoConverter userDtoConverter;
     private final UserConverter userConverter;
-    private UserDao userDao = new UserDaoImpl();
+    private final UserDao userDao;
     private User user = new User();
 
     @Autowired
-    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter) {
+    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter, UserDao userDao) {
         this.userDtoConverter = userDtoConverter;
         this.userConverter = userConverter;
+        this.userDao = userDao;
     }
 
     @Override
@@ -139,8 +141,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAll() {
-        return null;
+        List<UserDto> users = new ArrayList<>();
+        Session session = userDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            users = userDtoConverter.toDtoList(userDao.getAll());
+            transaction.commit();
+            log.info("Delete user by Id successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+        }
+        return users;
     }
+
 
     @Override
     public UserDto findByEmail(String email) {

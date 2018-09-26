@@ -1,6 +1,5 @@
 package com.gmail.nogovitsyndmitriy.config.initializer;
 
-import com.gmail.nogovitsyndmitriy.config.WebConfig;
 import com.gmail.nogovitsyndmitriy.config.AppConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -12,7 +11,7 @@ public class AppWebApplicationInitializer extends AbstractAnnotationConfigDispat
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebConfig.class};
+        return new Class[]{};
     }
 
     @Override

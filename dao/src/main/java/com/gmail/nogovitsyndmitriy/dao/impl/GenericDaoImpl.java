@@ -2,11 +2,9 @@ package com.gmail.nogovitsyndmitriy.dao.impl;
 
 
 import com.gmail.nogovitsyndmitriy.dao.GenericDao;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import com.gmail.nogovitsyndmitriy.dao.util.HibernateUtil;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;

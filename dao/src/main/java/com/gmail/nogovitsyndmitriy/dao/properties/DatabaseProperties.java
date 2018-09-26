@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Getter
-@Setter
 @Component
-public class Properties {
+public class DatabaseProperties {
     @Autowired
     private Environment environment;
 
@@ -22,6 +23,7 @@ public class Properties {
     private String sessionContext;
     private String hbm2ddl;
 
+    @PostConstruct
     public void initialize() {
         this.name = environment.getProperty("database.driver.name");
         this.url = environment.getProperty("database.url");
