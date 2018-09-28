@@ -24,14 +24,15 @@ public class ItemServiceImpl implements ItemService {
     private final static Logger log = LogManager.getLogger(ItemServiceImpl.class);
     private final ItemDtoConverter itemDtoConverter;
     private final ItemConverter itemConverter;
-    private ItemDao itemDao = new ItemDaoImpl();
+    private final ItemDao itemDao;
     private ItemDto itemDto = new ItemDto();
     private Item item = new Item();
 
     @Autowired
-    public ItemServiceImpl(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter, @Qualifier("itemConverter") ItemConverter itemConverter) {
+    public ItemServiceImpl(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter, @Qualifier("itemConverter") ItemConverter itemConverter, ItemDao itemDao) {
         this.itemDtoConverter = itemDtoConverter;
         this.itemConverter = itemConverter;
+        this.itemDao = itemDao;
     }
 
     @Override
@@ -187,6 +188,22 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getAll() {
-        return null;
+        List<ItemDto> items = new ArrayList<>();
+        Session session = itemDao.getCurrentSession();
+        try {
+            Transaction transaction = session.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            items = itemDtoConverter.toDtoList(itemDao.getAll());
+            transaction.commit();
+            log.info("Get all items successful!");
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                log.info("Get all items failed!");
+            }
+        }
+        return items;
     }
 }

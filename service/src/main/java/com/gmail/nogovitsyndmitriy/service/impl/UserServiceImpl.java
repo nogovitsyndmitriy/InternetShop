@@ -150,10 +150,11 @@ public class UserServiceImpl implements UserService {
             }
             users = userDtoConverter.toDtoList(userDao.getAll());
             transaction.commit();
-            log.info("Delete user by Id successful!");
+            log.info("Get all users successful!");
         } catch (Exception e) {
             if (session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
+                log.info("Get all users failed!");
             }
         }
         return users;

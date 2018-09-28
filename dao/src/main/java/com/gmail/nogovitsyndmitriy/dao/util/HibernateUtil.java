@@ -69,7 +69,7 @@ public class HibernateUtil {
 
                 Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
-                log.info("SessionFactory created!");
+                log.info("S essionFactory created!");
             } catch (Exception e) {
                 log.error("SessionFactory creation error");
                 log.error(e.getMessage(), e);

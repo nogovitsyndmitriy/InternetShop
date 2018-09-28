@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 @Component("itemConverter")
 public class ItemConverter implements Converter<Item, ItemDto> {
@@ -26,6 +27,10 @@ public class ItemConverter implements Converter<Item, ItemDto> {
 
     @Override
     public List<Item> toEntityList(List<ItemDto> list) {
-        return null;
+        List<Item> items = new ArrayList<>();
+        for (ItemDto itemDto : list) {
+            items.add(toEntity(itemDto));
+        }
+        return items;
     }
 }

@@ -11,13 +11,19 @@ import javax.annotation.PostConstruct;
 @Getter
 public class PageProperties {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
     private String loginPagePath;
     private String usersPagePath;
     private String errorsPagePath;
     private String itemsPagePath;
+    private String registrationPagePath;
+    private String updateUserPagePath;
+
+    @Autowired
+    public PageProperties(Environment environment) {
+        this.environment = environment;
+    }
 
     @PostConstruct
     public void initialize() {
@@ -25,6 +31,8 @@ public class PageProperties {
         this.usersPagePath = environment.getProperty("users.page.path");
         this.errorsPagePath = environment.getProperty("errors.page.path");
         this.itemsPagePath = environment.getProperty("items.page.path");
+        this.registrationPagePath = environment.getProperty("registration.page.path");
+        this.updateUserPagePath =environment.getProperty("update.user.page.path");
     }
 
 

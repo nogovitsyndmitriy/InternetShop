@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("itemDtoConverter")
@@ -27,6 +28,10 @@ public class ItemDtoConverter implements DTOConverter<ItemDto, Item> {
 
     @Override
     public List<ItemDto> toDtoList(List<Item> list) {
-        return null;
+        List<ItemDto> items = new ArrayList<>();
+        for (Item item : list) {
+            items.add(toDTO(item));
+        }
+        return items;
     }
 }

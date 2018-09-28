@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -32,8 +32,14 @@
             bottom: 0;
             left: 0;
         }
+
+        .table {
+            margin-top: 150px;
+
+
+        }
     </style>
-    <title>Users page</title>
+    <title>Items</title>
 </head>
 <body class="body">
 <header>
@@ -42,7 +48,6 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -61,7 +66,9 @@
             <a href="${pageContext.request.contextPath}/registration">
                 <button class="btn btn-primary">Registration</button>
             </a>
-            <button class="btn btn-primary">Login</button>
+            <a href="${pageContext.request.contextPath}/login">
+                <button class="btn btn-primary">Login</button>
+            </a>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -69,53 +76,33 @@
         </div>
     </nav>
 </header>
-<div class="container">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <form action="${pageContext.request.contextPath}/" method="post">
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="${pageContext.request.contextPath}/registration" class="btn btn-primary" aria-pressed="true"
-                           role="button">ADD</a>
-                        <a href="${pageContext.request.contextPath}/users/delete/"><button type="submit" class="btn btn-primary">DELETE</button></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">FirstName</th>
-                                <th scope="col">LastName</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${users}" var="user">
-                                <tr>
-                                    <th scope="row"><input type="checkbox" name="ids" value="${user.id}"></th>
-                                    <td>${user.email}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.surname}</td>
-                                    <td>
-                                        <a href="${pageContext.request.contextPath}/users/${user.id}" class="btn btn-primary"
-                                           aria-pressed="true"
-                                           role="button">UPDATE</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-</div>
+<table class="table table-striped table-dark">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Description</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Unique Number</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${items}" var="item">
+        <tr>
+            <th scope="row"><input type="checkbox" name="ids" value="${item.id}"></th>
+            <td>${item.description}</td>
+            <td>${item.name}</td>
+            <td>${item.price}$</td>
+            <td>${item.uniqueNumber}</td>
+            <td>
+            <a href="${pageContext.request.contextPath}/items" class="btn btn-primary" aria-pressed="true"
+               role="button">UPDATE</a>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 <footer class="footer">
     <div class="footer__text">&copy; 2018. Created by Dmitriy</div>
 </footer>

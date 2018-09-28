@@ -30,6 +30,8 @@
         <javax-el.version>3.0.0</javax-el.version>
         <glassfish.version>3.0.0</glassfish.version>
         <spring.versiom>5.0.9.RELEASE</spring.versiom>
+        <hikari.version>3.2.0</hikari.version>
+        <spring-orm.version>5.0.9.RELEASE</spring-orm.version>
     </properties>
     <dependencies>
         <dependency>

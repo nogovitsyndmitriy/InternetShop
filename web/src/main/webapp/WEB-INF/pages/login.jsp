@@ -56,10 +56,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/users">Users<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Items</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/items">Items</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">News</a>
@@ -68,7 +68,7 @@
                 <a class="nav-link disabled" href="#">Promo</a>
             </li>
             </ul>
-            <button class="btn btn-primary">Registration</button>
+            <a href="${pageContext.request.contextPath}/registration"><button class="btn btn-primary">Registration</button></a>
             <button class="btn btn-primary">Login</button>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -80,7 +80,7 @@
 <div class="login">
     <form method="post">
         <b>Login</b>
-        <input class="login" type="text" name="login" maxlength="30"/>
+        <input class="log" type="text" name="login" maxlength="30"/>
         <b>Password</b>
         <input class="password" type="password" name="password" maxlength="20"/><br/>
         <br>

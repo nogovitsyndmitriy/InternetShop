@@ -1,7 +1,6 @@
 package com.gmail.nogovitsyndmitriy.config;
 
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry
                 .jsp()
-                .prefix("WEB-INF/pages/")
+                .prefix("/WEB-INF/pages/")
                 .suffix(".jsp");
     }
 
