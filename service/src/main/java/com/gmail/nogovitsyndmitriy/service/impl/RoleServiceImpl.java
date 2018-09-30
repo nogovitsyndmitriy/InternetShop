@@ -1,21 +1,23 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.RoleDao;
-import com.gmail.nogovitsyndmitriy.dao.impl.RoleDaoImpl;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import com.gmail.nogovitsyndmitriy.dao.impl.RoleDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
 import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService {
     private final static Logger log = LogManager.getLogger(RoleServiceImpl.class);
@@ -31,112 +33,73 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public RoleDto get(long id) {
-        Session session = roleDao.getCurrentSession();
         RoleDto roleDto = new RoleDto();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             role = roleDao.get(id);
             roleDto = roleDtoConverter.toDTO(role);
-            transaction.commit();
             log.info("Get role successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Get role failed!", e);
         }
         return roleDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public RoleDto save(RoleDto roleDto) {
-        Session session = roleDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             role = roleConverter.toEntity(roleDto);
             roleDao.save(role);
             roleDto = roleDtoConverter.toDTO(role);
-            transaction.commit();
             log.info("Saving role successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Saving role failed!", e);
         }
         return roleDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public RoleDto update(RoleDto roleDto) {
-        Session session = roleDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             role = roleConverter.toEntity(roleDto);
             roleDao.update(role);
             roleDto = roleDtoConverter.toDTO(role);
-            transaction.commit();
             log.info("Update role successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Update role failed!", e);
         }
         return roleDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(RoleDto roleDto) {
-        Session session = roleDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             role = roleConverter.toEntity(roleDto);
             roleDao.delete(role);
-            transaction.commit();
             log.info("Delete role successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Delete role failed!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
-        Session session = roleDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             role = roleDao.get(id);
             roleDao.delete(role);
-            transaction.commit();
             log.info("Delete role by Id successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Delete role by Id failed!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<RoleDto> getAll() {
         return null;
     }

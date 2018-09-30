@@ -14,6 +14,9 @@ import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,111 +36,72 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public PermissionDto get(long id) {
-        Session session = permissionDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             permission = permissionDao.get(id);
             permissionDto = permissionDtoConverter.toDTO(permission);
-            transaction.commit();
             log.info("Get permission successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Get permission failed!", e);
         }
         return permissionDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public PermissionDto save(PermissionDto dto) {
-        Session session = permissionDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             permission = permissionConverter.toEntity(dto);
             permissionDao.save(permission);
             permissionDto = permissionDtoConverter.toDTO(permission);
-            transaction.commit();
             log.info("Saving permission successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Saving permission failed!", e);
         }
         return permissionDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public PermissionDto update(PermissionDto dto) {
-        Session session = permissionDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             permission = permissionConverter.toEntity(dto);
             permissionDao.update(permission);
             permissionDto = permissionDtoConverter.toDTO(permission);
-            transaction.commit();
             log.info("Update permission successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Update permission failed!", e);
         }
         return permissionDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(PermissionDto dto) {
-        Session session = permissionDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             permission = permissionConverter.toEntity(dto);
             permissionDao.delete(permission);
-            transaction.commit();
             log.info("Delete permission successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Delete permission failed!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
-        Session session = permissionDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             permission = permissionDao.get(id);
             permissionDao.delete(permission);
-            transaction.commit();
             log.info("Delete permission by Id successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Delete permission by Id failed!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<PermissionDto> getAll() {
         return null;
     }

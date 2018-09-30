@@ -9,17 +9,16 @@ import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
-import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
-import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.DiscountConverter;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,160 +44,104 @@ public class DiscountServiceImpl implements DiscountService {
 
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public DiscountDto get(long id) {
-        Session session = discountDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
-
             discount = discountDao.get(id);
             discountDto = discountDtoConverter.toDTO(discount);
-            transaction.commit();
             log.info("Get Discount successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Failed to get Discount!", e);
         }
         return discountDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public DiscountDto save(DiscountDto discountDto) {
-        Session session = discountDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
-
             discount = discountConverter.toEntity(discountDto);
             discountDao.save(discount);
             discountDto = discountDtoConverter.toDTO(discount);
-            transaction.commit();
             log.info("Discount save successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Failed to save Discount!", e);
         }
         return discountDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public DiscountDto update(DiscountDto discountDto) {
-        Session session = discountDao.getCurrentSession();
+
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             discount = discountConverter.toEntity(discountDto);
             discountDao.update(discount);
             discountDto = discountDtoConverter.toDTO(discount);
-            transaction.commit();
             log.info("Discount Update Successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Failed to Update Discount!", e);
         }
         return discountDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<ItemDto> findByAmountOfDiscount(BigDecimal percent) {
-        Session session = discountDao.getCurrentSession();
         List<ItemDto> itemDtoList = new ArrayList<>();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             List<Item> items = discountDao.findByAmountOfDiscount(percent);
             for (Item item : items) {
                 ItemDto itemDto = itemDtoConverter.toDTO(item);
                 itemDtoList.add(itemDto);
             }
-            transaction.commit();
             log.info("Find by amount discount Successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Failed to Find by amount Discount!", e);
         }
         return itemDtoList;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void addDiscountByItemPrice(DiscountDto discountDto, BigDecimal above, BigDecimal below) {
-        Session session = discountDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             List<Item> items = itemDao.findItemInRangeOfPrice(above, below);
             items.forEach(item -> discountDto.getItemDtoSet().add(itemDtoConverter.toDTO(item)));
             discount = discountConverter.toEntity(discountDto);
             discountDao.update(discount);
-            transaction.commit();
             log.info("Add discount by item price successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Failed to add discount by item price!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(DiscountDto discountDto) {
-        Session session = discountDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             discount = discountConverter.toEntity(discountDto);
             discountDao.delete(discount);
-            transaction.commit();
             log.info("Discount delete successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-                log.error("Failed to delete discount!");
-            }
+            log.error("Failed to delete discount!");
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
-        Session session = discountDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             discount = discountDao.get(id);
             discountDao.delete(discount);
-            transaction.commit();
             log.info("Get feedback by Id successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-                log.error("Failed to get feedback by Id!");
-            }
+            log.error("Failed to get feedback by Id!");
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<DiscountDto> getAll() {
         return null;
     }

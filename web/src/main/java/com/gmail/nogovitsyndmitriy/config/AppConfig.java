@@ -13,7 +13,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
         "com.gmail.nogovitsyndmitriy.dao",
         "com.gmail.nogovitsyndmitriy.config",
         "com.gmail.nogovitsyndmitriy.controllers",
-        "com.gmail.nogovitsyndmitriy.validators"})
+        "com.gmail.nogovitsyndmitriy.validators",
+        "com.gmail.nogovitsyndmitriy.dao.properties"})
 public class AppConfig {
 
     @Bean

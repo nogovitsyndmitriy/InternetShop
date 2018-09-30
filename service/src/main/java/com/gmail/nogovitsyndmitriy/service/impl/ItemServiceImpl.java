@@ -2,18 +2,18 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
-import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ItemConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -36,173 +36,109 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public ItemDto get(long id) {
-        Session session = itemDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             item = itemDao.get(id);
             itemDto = itemDtoConverter.toDTO(item);
-            transaction.commit();
             log.info("Get item by Id successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Get item by Id failed!", e);
         }
         return itemDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public ItemDto save(ItemDto dto) {
-        Session session = itemDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             item = itemConverter.toEntity(dto);
             itemDao.save(item);
             itemDto = itemDtoConverter.toDTO(item);
-            transaction.commit();
             log.info("Saving item successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Saving item failed!", e);
         }
         return itemDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public ItemDto update(ItemDto dto) {
-        Session session = itemDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             item = itemConverter.toEntity(dto);
             itemDao.update(item);
             itemDto = itemDtoConverter.toDTO(item);
-            transaction.commit();
             log.info("Update item successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Update item failed!", e);
         }
         return itemDto;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(ItemDto dto) {
-        Session session = itemDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             item = itemConverter.toEntity(dto);
             itemDao.delete(item);
-            transaction.commit();
             log.info("Delete item successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Delete item failed!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
-        Session session = itemDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             item = itemDao.get(id);
             itemDao.delete(item);
-            transaction.commit();
             log.info("Delete item by Id successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Delete item by Id failed!", e);
         }
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<ItemDto> findItemInRangeOfPrice(BigDecimal above, BigDecimal below) {
-        Session session = itemDao.getCurrentSession();
         List<ItemDto> itemDtoList = new ArrayList<>();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             List<Item> items = itemDao.findItemInRangeOfPrice(above, below);
             for (Item item : items) {
                 ItemDto itemDto = itemDtoConverter.toDTO(item);
                 itemDtoList.add(itemDto);
             }
-            transaction.commit();
             log.info("Find items by price in range successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Find items by price in range failed!", e);
         }
         return itemDtoList;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public long count(BigDecimal above, BigDecimal below) {
-        Session session = itemDao.getCurrentSession();
         Long number = Long.valueOf(0);
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             number = itemDao.count(above, below);
-            transaction.commit();
             log.info("Count get successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
             log.error("Count get failed!", e);
         }
         return number;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<ItemDto> getAll() {
         List<ItemDto> items = new ArrayList<>();
-        Session session = itemDao.getCurrentSession();
         try {
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
             items = itemDtoConverter.toDtoList(itemDao.getAll());
-            transaction.commit();
             log.info("Get all items successful!");
         } catch (Exception e) {
-            if (session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-                log.info("Get all items failed!");
-            }
+            log.info("Get all items failed!");
         }
         return items;
     }
