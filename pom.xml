@@ -32,6 +32,7 @@
         <spring.versiom>5.0.9.RELEASE</spring.versiom>
         <hikari.version>3.2.0</hikari.version>
         <spring-orm.version>5.0.9.RELEASE</spring-orm.version>
+        <liquibase.version>3.6.2</liquibase.version>
     </properties>
     <dependencies>
         <dependency>

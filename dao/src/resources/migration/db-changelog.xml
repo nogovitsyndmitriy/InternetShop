@@ -1,0 +1,247 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Дмитрий (generated)" id="1538416744535-1">
+        <createTable tableName="t_audit">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_CREATED" type="datetime"/>
+            <column name="F_EVENT_TYPE" type="VARCHAR(255)"/>
+            <column name="F_USER_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-2">
+        <createTable tableName="t_comment">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_CONTENT" type="VARCHAR(255)"/>
+            <column name="F_CREATED" type="datetime"/>
+            <column name="F_NEWS_ID" type="BIGINT"/>
+            <column name="F_USER_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-3">
+        <createTable tableName="t_discount">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_NAME" type="VARCHAR(255)"/>
+            <column name="F_PERCENT" type="DECIMAL(19, 2)"/>
+            <column name="F_VALID" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-4">
+        <createTable tableName="t_feedback">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_CONTENT" type="VARCHAR(255)"/>
+            <column name="F_CREATED" type="datetime"/>
+            <column name="F_ITEM_ID" type="BIGINT"/>
+            <column name="F_USER_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-5">
+        <createTable tableName="t_item">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_DELETED" type="BIT(1)"/>
+            <column name="F_DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="F_NAME" type="VARCHAR(255)"/>
+            <column name="F_PRICE" type="DECIMAL(19, 2)"/>
+            <column name="F_UNIQUE_NUMBER" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-6">
+        <createTable tableName="t_item_discount">
+            <column name="F_DISCOUNT_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_ITEM_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-7">
+        <createTable tableName="t_news">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_CONTENT" type="VARCHAR(255)"/>
+            <column name="F_CREATED" type="datetime"/>
+            <column name="F_TITLE" type="VARCHAR(255)"/>
+            <column name="F_USER_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-8">
+        <createTable tableName="t_order">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_CREATED" type="datetime"/>
+            <column name="F_QUANTITY" type="INT"/>
+            <column name="F_STATUS" type="VARCHAR(255)"/>
+            <column name="F_ITEM_ID" type="BIGINT"/>
+            <column name="F_USER_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-9">
+        <createTable tableName="t_permission">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_NAME" type="VARCHAR(255)"/>
+            <column name="F_ROLE_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-10">
+        <createTable tableName="t_profile">
+            <column name="F_USER_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_ADDRESS" type="VARCHAR(255)"/>
+            <column name="F_TELEPHONE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-11">
+        <createTable tableName="t_role">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-12">
+        <createTable tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_ROLE_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-13">
+        <createTable tableName="t_user">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_DISABLED" type="BIT(1)"/>
+            <column name="F_EMAIL" type="VARCHAR(255)"/>
+            <column name="F_NAME" type="VARCHAR(255)"/>
+            <column name="F_PASSWORD" type="VARCHAR(255)"/>
+            <column name="F_SURNAME" type="VARCHAR(255)"/>
+            <column name="F_DISCOUNT_ID" type="BIGINT">
+                <constraints unique="true"/>
+            </column>
+            <column name="F_ROLE_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-14">
+        <createIndex indexName="FK1bnfdhs2ffsgb7twwqxbgj1wp" tableName="t_order">
+            <column name="F_ITEM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-15">
+        <createIndex indexName="FK1dpyp0hr6159qy32fho9na0ya" tableName="t_order">
+            <column name="F_USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-16">
+        <createIndex indexName="FK6507v43ylmbe4fj6j1hs65805" tableName="t_user">
+            <column name="F_ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-17">
+        <createIndex indexName="FK69f1mwwtl496hlkamfm6tk03f" tableName="t_permission">
+            <column name="F_ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-18">
+        <createIndex indexName="FK6aewqbl0w835evljnko8d0g0r" tableName="t_feedback">
+            <column name="F_USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-19">
+        <createIndex indexName="FK9speg4snajkaso90efvjxanh6" tableName="t_role_permission">
+            <column name="F_ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-20">
+        <createIndex indexName="FKcfbf0l1eevllclglveejvg6sp" tableName="t_item_discount">
+            <column name="F_ITEM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-21">
+        <createIndex indexName="FKd5y4mg1tcpsyi2dcla37gka5m" tableName="t_news">
+            <column name="F_USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-22">
+        <createIndex indexName="FKeniu19lguym67ac3regewvpcw" tableName="t_comment">
+            <column name="F_NEWS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-23">
+        <createIndex indexName="FKj08s3lhgtgxc5tricii8ic6h8" tableName="t_comment">
+            <column name="F_USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-24">
+        <createIndex indexName="FKjrn3ioy0oylsyml20ai8qe3qc" tableName="t_audit">
+            <column name="F_USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-25">
+        <createIndex indexName="FKrejunxvpehi6ba3smysk5sity" tableName="t_feedback">
+            <column name="F_ITEM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-26">
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_order" constraintName="FK1bnfdhs2ffsgb7twwqxbgj1wp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-27">
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_order" constraintName="FK1dpyp0hr6159qy32fho9na0ya" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-28">
+        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_user" constraintName="FK6507v43ylmbe4fj6j1hs65805" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-29">
+        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_permission" constraintName="FK69f1mwwtl496hlkamfm6tk03f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-30">
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_feedback" constraintName="FK6aewqbl0w835evljnko8d0g0r" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-31">
+        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_role_permission" constraintName="FK9speg4snajkaso90efvjxanh6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-32">
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_item_discount" constraintName="FKcfbf0l1eevllclglveejvg6sp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-33">
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_news" constraintName="FKd5y4mg1tcpsyi2dcla37gka5m" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-34">
+        <addForeignKeyConstraint baseColumnNames="F_NEWS_ID" baseTableName="t_comment" constraintName="FKeniu19lguym67ac3regewvpcw" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_news" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-35">
+        <addForeignKeyConstraint baseColumnNames="F_PERMISSION_ID" baseTableName="t_role_permission" constraintName="FKf61q3xlakcblsli22q700aqe6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_permission" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-36">
+        <addForeignKeyConstraint baseColumnNames="F_DISCOUNT_ID" baseTableName="t_user" constraintName="FKh9g9cfe2h36vut30ur2c674jt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_discount" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-37">
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_comment" constraintName="FKj08s3lhgtgxc5tricii8ic6h8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-38">
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_audit" constraintName="FKjrn3ioy0oylsyml20ai8qe3qc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-39">
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_feedback" constraintName="FKrejunxvpehi6ba3smysk5sity" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-40">
+        <addForeignKeyConstraint baseColumnNames="F_DISCOUNT_ID" baseTableName="t_item_discount" constraintName="FKs3p1qne019xp45aeruaus5cok" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_discount" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
