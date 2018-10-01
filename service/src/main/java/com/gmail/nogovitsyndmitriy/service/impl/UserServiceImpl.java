@@ -126,4 +126,33 @@ public class UserServiceImpl implements UserService {
         }
         return userDto;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public long quantityOfUsers() {
+        long quantity = 0;
+        try {
+            quantity = userDao.quantityOfUsers();
+            log.info("Quantity find successful!");
+        } catch (Exception e) {
+            log.error("Failed to count quantity!", e);
+        }
+        return quantity;
+    }
+
+    @Override
+    public List<UserDto> usersPangination(long page, int maxResult) {
+        List<UserDto> usersDto = new ArrayList<>();
+        List<User> users;
+        try {
+            users = userDao.usersPangination(page, maxResult);
+            for (User user : users) {
+                usersDto.add(userDtoConverter.toDTO(user));
+            }
+            log.info("User pangination successful!");
+        } catch (Exception e) {
+            log.error("Failed to get users pangination");
+        }
+        return usersDto;
+    }
 }

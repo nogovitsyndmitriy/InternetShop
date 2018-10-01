@@ -73,12 +73,12 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <form action="${pageContext.request.contextPath}/" method="post">
+            <form action="${pageContext.request.contextPath}/users/delete" method="post">
                 <div class="row">
                     <div class="col-md-12">
                         <a href="${pageContext.request.contextPath}/registration" class="btn btn-primary" aria-pressed="true"
                            role="button">ADD</a>
-                        <a href="${pageContext.request.contextPath}/users/delete/"><button type="submit" class="btn btn-primary">DELETE</button></a>
+                       <button type="submit" class="btn btn-primary">DELETE</button>
                     </div>
                 </div>
                 <div class="row">
@@ -107,6 +107,7 @@
                                     </td>
                                 </tr>
                             </c:forEach>
+
                             </tbody>
                         </table>
                     </div>
@@ -116,6 +117,11 @@
         <div class="col-md-2"></div>
     </div>
 </div>
+<ul class="pagination justify-content-center">
+    <c:forEach var="page" begin="1" end="${pages}">
+        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/users?${page}">${page}</a></li>
+    </c:forEach>
+</ul>
 <footer class="footer">
     <div class="footer__text">&copy; 2018. Created by Dmitriy</div>
 </footer>
