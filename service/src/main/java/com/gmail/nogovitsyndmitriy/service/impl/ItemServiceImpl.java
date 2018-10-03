@@ -142,4 +142,34 @@ public class ItemServiceImpl implements ItemService {
         }
         return items;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public List<ItemDto> itemPagination(long page, int maxResult) {
+        List<ItemDto> itemDtoList = new ArrayList<>();
+        List<Item> items;
+        try{
+            items = itemDao.itemPagination(page, maxResult);
+            for (Item item : items){
+                itemDtoList.add(itemDtoConverter.toDTO(item));
+            }
+            log.info("Successful getting items pagination!");
+        } catch (Exception e){
+            log.error("Items pagination failed!", e);
+        }
+        return itemDtoList;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public long quantityOfItems() {
+        long quantity = 0;
+        try {
+            quantity = itemDao.quantityOfItems();
+            log.info("Quantity of items getting successful!");
+        } catch (Exception e) {
+            log.error("Failed to get items quantity!", e);
+        }
+        return quantity;
+    }
 }

@@ -38,7 +38,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     public List<User> usersPangination(long page, int maxResult) {
         String hql = "FROM User AS U";
         Query query = getCurrentSession().createQuery(hql);
-        int startPosition = (int) ((page - 1) * maxResult);
+        int startPosition = (int) ((page * maxResult) - maxResult);
         query.setFirstResult(startPosition);
         query.setMaxResults(maxResult);
         return query.list();

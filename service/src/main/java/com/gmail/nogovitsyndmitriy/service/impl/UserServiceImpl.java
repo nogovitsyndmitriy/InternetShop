@@ -141,6 +141,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT    )
     public List<UserDto> usersPangination(long page, int maxResult) {
         List<UserDto> usersDto = new ArrayList<>();
         List<User> users;
@@ -155,4 +156,5 @@ public class UserServiceImpl implements UserService {
         }
         return usersDto;
     }
+
 }

@@ -90,18 +90,4 @@ public class User implements Serializable {
         return Objects.hash(id, email, name, surname, password, disabled);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", password='" + password + '\'' +
-                ", profile=" + profile +
-                ", news=" + news +
-                ", audits=" + audits +
-                ", role=" + role +
-                '}';
-    }
 }

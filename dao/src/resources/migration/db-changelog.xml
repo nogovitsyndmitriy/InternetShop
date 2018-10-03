@@ -1,5 +1,11 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+                   http://www.liquibase.org/xml/ns/dbchangelog 
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="Дмитрий (generated)" id="1538416744535-1">
         <createTable tableName="t_audit">
             <column autoIncrement="true" name="F_ID" type="BIGINT">
@@ -200,48 +206,152 @@
         </createIndex>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-26">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_order" constraintName="FK1bnfdhs2ffsgb7twwqxbgj1wp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_order"
+                                 constraintName="FK1bnfdhs2ffsgb7twwqxbgj1wp" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-27">
-        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_order" constraintName="FK1dpyp0hr6159qy32fho9na0ya" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_order"
+                                 constraintName="FK1dpyp0hr6159qy32fho9na0ya" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-28">
-        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_user" constraintName="FK6507v43ylmbe4fj6j1hs65805" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_user"
+                                 constraintName="FK6507v43ylmbe4fj6j1hs65805" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-29">
-        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_permission" constraintName="FK69f1mwwtl496hlkamfm6tk03f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_permission"
+                                 constraintName="FK69f1mwwtl496hlkamfm6tk03f" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-30">
-        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_feedback" constraintName="FK6aewqbl0w835evljnko8d0g0r" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_feedback"
+                                 constraintName="FK6aewqbl0w835evljnko8d0g0r" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-31">
-        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_role_permission" constraintName="FK9speg4snajkaso90efvjxanh6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ROLE_ID" baseTableName="t_role_permission"
+                                 constraintName="FK9speg4snajkaso90efvjxanh6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_role" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-32">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_item_discount" constraintName="FKcfbf0l1eevllclglveejvg6sp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_item_discount"
+                                 constraintName="FKcfbf0l1eevllclglveejvg6sp" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-33">
-        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_news" constraintName="FKd5y4mg1tcpsyi2dcla37gka5m" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_news"
+                                 constraintName="FKd5y4mg1tcpsyi2dcla37gka5m" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-34">
-        <addForeignKeyConstraint baseColumnNames="F_NEWS_ID" baseTableName="t_comment" constraintName="FKeniu19lguym67ac3regewvpcw" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_news" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_NEWS_ID" baseTableName="t_comment"
+                                 constraintName="FKeniu19lguym67ac3regewvpcw" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_news" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-35">
-        <addForeignKeyConstraint baseColumnNames="F_PERMISSION_ID" baseTableName="t_role_permission" constraintName="FKf61q3xlakcblsli22q700aqe6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_permission" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_PERMISSION_ID" baseTableName="t_role_permission"
+                                 constraintName="FKf61q3xlakcblsli22q700aqe6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_permission" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-36">
-        <addForeignKeyConstraint baseColumnNames="F_DISCOUNT_ID" baseTableName="t_user" constraintName="FKh9g9cfe2h36vut30ur2c674jt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_discount" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_DISCOUNT_ID" baseTableName="t_user"
+                                 constraintName="FKh9g9cfe2h36vut30ur2c674jt" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_discount" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-37">
-        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_comment" constraintName="FKj08s3lhgtgxc5tricii8ic6h8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_comment"
+                                 constraintName="FKj08s3lhgtgxc5tricii8ic6h8" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-38">
-        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_audit" constraintName="FKjrn3ioy0oylsyml20ai8qe3qc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_audit"
+                                 constraintName="FKjrn3ioy0oylsyml20ai8qe3qc" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-39">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_feedback" constraintName="FKrejunxvpehi6ba3smysk5sity" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="t_feedback"
+                                 constraintName="FKrejunxvpehi6ba3smysk5sity" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_item" validate="true"/>
     </changeSet>
     <changeSet author="Дмитрий (generated)" id="1538416744535-40">
-        <addForeignKeyConstraint baseColumnNames="F_DISCOUNT_ID" baseTableName="t_item_discount" constraintName="FKs3p1qne019xp45aeruaus5cok" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="F_ID" referencedTableName="t_discount" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_DISCOUNT_ID" baseTableName="t_item_discount"
+                                 constraintName="FKs3p1qne019xp45aeruaus5cok" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_discount" validate="true"/>
+    </changeSet>
+    <changeSet id="1538416744535-41" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role">
+            <column name="F_ID" value="1"/>
+            <column name="F_NAME" value="ADMIN"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-42" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role">
+            <column name="F_ID" value="2"/>
+            <column name="F_NAME" value="SALE_USER"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-43" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role">
+            <column name="F_ID" value="3"/>
+            <column name="F_NAME" value="CUSTOMER_USER"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-44" author="com.gmail.nogovitsyndmitriy">
+    <insert tableName="t_role">
+        <column name="F_ID" value="4"/>
+        <column name="F_NAME" value="API_USER"/>
+    </insert>
+</changeSet>
+    <changeSet id="1538416744535-45" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_discount">
+            <column name="F_ID" value="1"/>
+            <column name="F_NAME" value="Promo"/>
+            <column name="F_PERCENT" value="10.0"/>
+            <column name="F_VALID" value="now()"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-46" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_user">
+            <column name="F_ID" value="1"/>
+            <column name="F_EMAIL" value="simpsons@gmail.com"/>
+            <column name="F_NAME" value="Homer"/>
+            <column name="F_PASSWORD" value="qwerty"/>
+            <column name="F_SURNAME" value="Simpson"/>
+            <column name="F_DISCOUNT_ID" value="1"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-47" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_profile">
+            <column name="F_USER_ID" value="1"/>
+            <column name="F_ADDRESS" value="Springfield"/>
+            <column name="F_TELEPHONE" value="375-55-55"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-48" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_item">
+            <column name="F_ID" value="1"/>
+            <column name="F_DESCRIPTION" value="motor oils"/>
+            <column name="F_NAME" value="Total Quartz 9000"/>
+            <column name="F_PRICE" value="56.68"/>
+            <column name="F_UNIQUE_NUMBER" value="MoTo95668"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>

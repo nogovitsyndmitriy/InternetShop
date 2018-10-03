@@ -9,4 +9,8 @@ public interface ItemDao extends GenericDao<Item> {
     List<Item> findItemInRangeOfPrice(BigDecimal above, BigDecimal below);
 
     long count(BigDecimal above, BigDecimal below);
+
+    List<Item> itemPagination(long page, int maxResult);
+
+    long quantityOfItems();
 }

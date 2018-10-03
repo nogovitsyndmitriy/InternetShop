@@ -43,4 +43,20 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         query.setParameter("itemId", itemId);
         return query.list();
     }
+
+    public List<Item> itemPagination(long page, int maxResult) {
+        String hql = "FROM Item AS I";
+        Query query = getCurrentSession().createQuery(hql);
+        int startPosition = (int) ((page * maxResult) - maxResult);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maxResult);
+        return query.list();
+    }
+
+    @Override
+    public long quantityOfItems() {
+        String hql = "SELECT COUNT (*) FROM Item AS I";
+        Query query = getCurrentSession().createQuery(hql);
+        return (long) query.uniqueResult();
+    }
 }

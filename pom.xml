@@ -33,6 +33,9 @@
         <hikari.version>3.2.0</hikari.version>
         <spring-orm.version>5.0.9.RELEASE</spring-orm.version>
         <liquibase.version>3.6.2</liquibase.version>
+        <spring-security-web.version>5.0.7.RELEASE</spring-security-web.version>
+        <spring-security-config.version>5.0.7.RELEASE</spring-security-config.version>
+        <spring-security-taglibs.version>5.0.7.RELEASE</spring-security-taglibs.version>
     </properties>
     <dependencies>
         <dependency>
@@ -44,6 +47,21 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security-web.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security-config.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security-taglibs.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -54,4 +54,14 @@ public class Profile implements Serializable {
 
         return Objects.hash(userId, address, telephone);
     }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "userId=" + userId +
+                ", address='" + address + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -1,4 +1,4 @@
-package com.gmail.nogovitsyndmitriy.service.utils;
+package com.gmail.nogovitsyndmitriy.utils;
 
 
 import org.apache.logging.log4j.LogManager;
