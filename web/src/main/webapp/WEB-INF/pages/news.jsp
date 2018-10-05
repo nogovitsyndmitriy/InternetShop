@@ -13,6 +13,7 @@
         <tr align="center">
             <th>#</th>
             <th>Title</th>
+            <th>Author</th>
             <th>Created</th>
             <th>Actions</th>
         </tr>
@@ -22,6 +23,7 @@
             <tr align="center">
                 <th scope="row"><input type="checkbox" name="ids" value="${news.id}"></th>
                 <td>${news.title}</td>
+                <td>${news.user.name} ${news.user.surname}</td>
                 <td>${news.created.dayOfMonth}-${news.created.monthValue}-${news.created.year}
                         ${news.created.hour}:${news.created.minute}</td>
                 <td>

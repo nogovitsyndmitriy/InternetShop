@@ -18,15 +18,13 @@ import java.util.Set;
 public class UserDtoConverter implements DTOConverter<UserDto, User> {
     private final ProfileDtoConverter profileDtoConverter;
     private final AuditDtoConverter auditDtoConverter;
-    private final NewsDtoConverter newsDtoConverter;
     private final RoleDtoConverter roleDtoConverter;
     private final DiscountDtoConverter discountDtoConverter;
 
     @Autowired
-    public UserDtoConverter(@Qualifier("profileDtoConverter") ProfileDtoConverter profileDtoConverter, @Qualifier("auditDtoConverter") AuditDtoConverter auditDtoConverter, @Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("discountDtoConverter") DiscountDtoConverter discountDtoConverter) {
+    public UserDtoConverter(@Qualifier("profileDtoConverter") ProfileDtoConverter profileDtoConverter, @Qualifier("auditDtoConverter") AuditDtoConverter auditDtoConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("discountDtoConverter") DiscountDtoConverter discountDtoConverter) {
         this.profileDtoConverter = profileDtoConverter;
         this.auditDtoConverter = auditDtoConverter;
-        this.newsDtoConverter = newsDtoConverter;
         this.roleDtoConverter = roleDtoConverter;
         this.discountDtoConverter = discountDtoConverter;
     }
@@ -54,12 +52,6 @@ public class UserDtoConverter implements DTOConverter<UserDto, User> {
             auditDtoSet.add(auditDtoConverter.toDTO(audits));
         }
         userDto.setAuditDtoSet(auditDtoSet);
-        //  Add News
-        Set<NewsDto> newsDtoSet = new HashSet<>();
-        for (News news : entity.getNews()) {
-            newsDtoSet.add(newsDtoConverter.toDTO(news));
-        }
-        userDto.setNewsDtoSet(newsDtoSet);
         //  Role
         if (entity.getRole() != null) {
             RoleDto roleDto = roleDtoConverter.toDTO(entity.getRole());

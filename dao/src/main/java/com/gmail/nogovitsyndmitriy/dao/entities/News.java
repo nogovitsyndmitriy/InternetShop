@@ -33,6 +33,10 @@ public class News implements Serializable {
     @Column(name = "F_CREATED")
     private LocalDateTime created;
 
+    @ManyToOne
+    @JoinColumn(name = "F_USER_ID")
+    private User user;
+
 
     @Override
     public boolean equals(Object o) {

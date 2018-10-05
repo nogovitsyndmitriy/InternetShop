@@ -54,10 +54,6 @@ public class User implements Serializable {
     //  Profile
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
     private Profile profile;
-    //  News
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "F_USER_ID")
-    private Set<News> news = new HashSet<>();
     //  Audit
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "F_USER_ID")

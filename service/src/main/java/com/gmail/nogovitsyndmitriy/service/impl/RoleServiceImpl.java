@@ -2,6 +2,7 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.RoleDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
+import com.gmail.nogovitsyndmitriy.dao.enums.Roles;
 import com.gmail.nogovitsyndmitriy.dao.impl.RoleDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
@@ -103,4 +104,20 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDto> getAll() {
         return null;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public RoleDto findByName(Roles name) {
+        RoleDto roleDto = new RoleDto();
+        try {
+            role = roleDao.findByName(name);
+            roleDto = roleDtoConverter.toDTO(role);
+            log.info("Get role by name successful!");
+        } catch (Exception e) {
+            log.error("Get role by name failed!", e);
+        }
+        return roleDto;
+
+    }
 }
+

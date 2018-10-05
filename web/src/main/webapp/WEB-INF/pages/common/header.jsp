@@ -26,8 +26,9 @@
                 </li>
                 <security:authorize access="isAuthenticated()">
                 <li class="nav-item">
-                   authenticated as  <security:authentication property="principal.username"/><a class="nav-link disabled" href="#">Promo</a>
+                   <a class="nav-link disabled" href="#">Promo</a>
                 </li>
+                    <li>Hi, <security:authentication property="principal.username"/>!</li>
                 </security:authorize>
             </ul>
             <a href="${pageContext.request.contextPath}/registration">

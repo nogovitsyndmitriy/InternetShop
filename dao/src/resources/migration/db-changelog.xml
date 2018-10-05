@@ -332,7 +332,7 @@
             <column name="F_ID" value="1"/>
             <column name="F_EMAIL" value="simpsons@gmail.com"/>
             <column name="F_NAME" value="Homer"/>
-            <column name="F_PASSWORD" value="qwerty"/>
+            <column name="F_PASSWORD" value="$2a$04$LRkIJdvOwnHolUo78BEuhujUjNO4MU3zzUMa.pnXlNTzhMkzdDIsC"/>
             <column name="F_SURNAME" value="Simpson"/>
             <column name="F_DISCOUNT_ID" value="1"/>
             <column name="F_ROLE_ID" value="1"/>

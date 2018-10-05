@@ -24,7 +24,8 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-
+handle(httpServletRequest, httpServletResponse, authentication);
+clearAuthenticationAttributes(httpServletRequest);
     }
 
     private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {

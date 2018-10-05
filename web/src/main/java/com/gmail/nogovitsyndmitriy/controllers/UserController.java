@@ -82,7 +82,6 @@ public class UserController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
         long quantityOfUsers = userService.quantityOfUsers();
         long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);

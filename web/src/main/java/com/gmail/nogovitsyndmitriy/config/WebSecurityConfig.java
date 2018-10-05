@@ -1,7 +1,6 @@
 package com.gmail.nogovitsyndmitriy.config;
 
 import com.gmail.nogovitsyndmitriy.handlers.AppSuccessHandler;
-import com.gmail.nogovitsyndmitriy.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,22 +29,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)/*.passwordEncoder(passwordEncoder())*/;
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login**").permitAll()
-                .antMatchers("/resources").permitAll()
-                .antMatchers("/news**").permitAll()
-                .antMatchers("/single_news**").permitAll()
+                .antMatchers("/resources/** ").permitAll()
+                .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .successHandler(appSuccessHandler)
                 .failureUrl("/registration")
                 .permitAll()

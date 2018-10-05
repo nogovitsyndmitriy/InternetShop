@@ -10,7 +10,7 @@
 <div class="reg_form text-center">
     <div class="col-md-3">${news.title}</div>
     <div class="col-md-3">${news.content}</div>
-    <div class="col-md-3">${news.userId}</div>
+    <div class="col-md-3">${news.user.name}</div>
 </div>
 </body>
 <jsp:include page="common/footer.jsp"/>

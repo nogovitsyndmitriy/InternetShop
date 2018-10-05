@@ -21,7 +21,6 @@ public class UserDto {
     private String password;
     private Boolean disabled;
     private ProfileDto profileDto;
-    private Set<NewsDto> newsDtoSet = new HashSet<>();
     private Set<AuditDto> auditDtoSet = new HashSet<>();
     private RoleDto roleDto;
     private DiscountDto discountDto;
