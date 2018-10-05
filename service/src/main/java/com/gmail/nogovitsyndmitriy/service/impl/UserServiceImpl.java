@@ -1,6 +1,8 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
+import com.gmail.nogovitsyndmitriy.dao.RoleDao;
 import com.gmail.nogovitsyndmitriy.dao.UserDao;
+import com.gmail.nogovitsyndmitriy.dao.entities.Profile;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.dao.enums.Roles;
@@ -23,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gmail.nogovitsyndmitriy.dao.enums.Roles.CUSTOMER_USER;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final static Logger log = LogManager.getLogger(UserServiceImpl.class);
@@ -32,16 +36,18 @@ public class UserServiceImpl implements UserService {
     private final RoleConverter roleConverter;
     private final RoleService roleService;
     private final UserDao userDao;
+    private RoleDao roleDao;
     private User user = new User();
 
     @Autowired
-    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleService roleService, UserDao userDao) {
+    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleService roleService, UserDao userDao, RoleDao roleDao) {
         this.userDtoConverter = userDtoConverter;
         this.userConverter = userConverter;
         this.roleDtoConverter = roleDtoConverter;
         this.roleConverter = roleConverter;
         this.roleService = roleService;
         this.userDao = userDao;
+        this.roleDao = roleDao;
     }
 
     @Override
@@ -63,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public UserDto save(UserDto userDto) {
         try {
             user = userConverter.toEntity(userDto);
-            Role role = roleConverter.toEntity(roleService.findByName(Roles.CUSTOMER_USER));
+            Role role = roleDao.findByName("CUSTOMER_USER");
             user.setRole(role);
             userDao.save(user);
             userDto = userDtoConverter.toDTO(user);

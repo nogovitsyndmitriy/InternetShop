@@ -1,7 +1,6 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
-import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -26,16 +26,18 @@ public class UserController {
     private final PageProperties pageProperties;
     private final UserService userService;
     private final UserValidator userValidator;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static int QUANTITY_ON_PAGE = 5;
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserPrincipal userPrincipal =  authentication == null ? null : (UserPrincipal) authentication.getPrincipal();
 
     @Autowired
-    public UserController(PageProperties pageProperties, UserService userService, UserValidator userValidator) {
+    public UserController(PageProperties pageProperties, UserService userService, UserValidator userValidator, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.pageProperties = pageProperties;
         this.userService = userService;
         this.userValidator = userValidator;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping(value = "/{id}")
@@ -52,10 +54,10 @@ public class UserController {
         if (result.hasErrors()) {
             return pageProperties.getUsersPagePath();
         } else {
-
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user = userService.save(user);
             modelMap.addAttribute("user", user);
-            return "redirect:/users";
+            return "redirect:/items";
         }
     }
 
@@ -82,6 +84,7 @@ public class UserController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAnyAuthority('VIEW_USERS')")
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
         long quantityOfUsers = userService.quantityOfUsers();
         long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);

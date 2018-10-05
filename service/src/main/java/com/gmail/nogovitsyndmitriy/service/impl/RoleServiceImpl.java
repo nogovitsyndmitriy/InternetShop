@@ -107,11 +107,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public RoleDto findByName(Roles name) {
-        RoleDto roleDto = new RoleDto();
+    public RoleDto findByName(String name) {
+        RoleDto roleDto = null;
         try {
             role = roleDao.findByName(name);
-            roleDto = roleDtoConverter.toDTO(role);
+             roleDto = roleDtoConverter.toDTO(role);
             log.info("Get role by name successful!");
         } catch (Exception e) {
             log.error("Get role by name failed!", e);
