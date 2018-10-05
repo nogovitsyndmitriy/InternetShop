@@ -51,9 +51,9 @@ clearAuthenticationAttributes(httpServletRequest);
             }
         }
         if (isUser) {
-            return "/items";
+            return "/web/login";
         } else if (isAdmin) {
-            return "/users";
+            return "/web/users";
         } else {
             throw new IllegalStateException();
         }

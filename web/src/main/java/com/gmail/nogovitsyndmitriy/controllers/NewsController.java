@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/news")
+@RequestMapping("/web/news")
 public class NewsController {
     private final PageProperties pageProperties;
     private final NewsService newsService;

@@ -13,7 +13,7 @@ import java.util.List;
 import static com.gmail.nogovitsyndmitriy.utils.PanginationUtil.quantityOfPages;
 
 @Controller
-@RequestMapping("/items")
+@RequestMapping("/web/items")
 public class ItemController {
 
     private final PageProperties pageProperties;

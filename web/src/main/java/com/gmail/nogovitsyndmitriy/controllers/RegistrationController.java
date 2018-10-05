@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/registration")
+@RequestMapping("/web/registration")
 public class RegistrationController {
     private final PageProperties pageProperties;
 

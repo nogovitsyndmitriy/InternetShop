@@ -7,7 +7,7 @@
 <body class="body">
 <jsp:include page="common/header.jsp"/>
 <div class="login">
-    <form:form method="post" action="${pageContext.request.contextPath}/login">
+    <form:form method="post" action="${pageContext.request.contextPath}/web/login">
         <b>Email</b>
         <input class="log" type="text" name="email" maxlength="30"/>
         <b>Password</b>

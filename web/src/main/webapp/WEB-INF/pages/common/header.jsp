@@ -16,13 +16,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/users">Users<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/web/users">Users<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/items">Items</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/web/items">Items</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/news">News</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/web/news">News</a>
                 </li>
                 <security:authorize access="isAuthenticated()">
                 <li class="nav-item">
@@ -31,10 +31,10 @@
                     <li>Hi, <security:authentication property="principal.username"/>!</li>
                 </security:authorize>
             </ul>
-            <a href="${pageContext.request.contextPath}/registration">
+            <a href="${pageContext.request.contextPath}/web/registration">
                 <button class="btn btn-primary">Registration</button>
             </a>
-            <a href="${pageContext.request.contextPath}/login">
+            <a href="${pageContext.request.contextPath}/web/login">
                 <button class="btn btn-primary">Login</button>
             </a>
             <form class="form-inline my-2 my-lg-0">

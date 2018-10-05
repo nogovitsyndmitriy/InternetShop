@@ -36,6 +36,7 @@
         <spring-security-web.version>5.0.7.RELEASE</spring-security-web.version>
         <spring-security-config.version>5.0.7.RELEASE</spring-security-config.version>
         <spring-security-taglibs.version>5.0.7.RELEASE</spring-security-taglibs.version>
+        <jackson.version>2.9.7</jackson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,6 +63,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring-security-taglibs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 </project>

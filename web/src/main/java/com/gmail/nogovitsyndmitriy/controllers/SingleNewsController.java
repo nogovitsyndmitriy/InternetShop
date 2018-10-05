@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/single_news")
+@RequestMapping("/web/single_news")
 public class SingleNewsController {
     @Autowired
     private final PageProperties pageProperties;

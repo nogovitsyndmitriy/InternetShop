@@ -22,6 +22,7 @@ public class UserUpdateController {
 
     @GetMapping
     public String updateUser(@ModelAttribute UserDto user, ModelMap modelMap) {
+
         modelMap.addAttribute("user", user);
         return pageProperties.getUpdateUserPagePath();
     }

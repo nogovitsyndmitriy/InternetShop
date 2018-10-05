@@ -10,7 +10,7 @@
 <h1 align="center">Update User</h1>
 <form:errors path="*"/>
 <div class="reg_form text-center">
-    <form:form action="${pageContext.request.contextPath}/users/${user.id}" modelAttribute="user" method="post"
+    <form:form action="${pageContext.request.contextPath}/web/users/${user.id}" modelAttribute="user" method="post"
                cssClass="form">
         <div>
             <div class="form group">
@@ -23,7 +23,7 @@
             </div>
             <div class="form group">
                 <form:label path="password">Password</form:label>
-                <form:input path="password" placeholder="Password"/>
+                <form:input path="password" placeholder="Password" type="password"/>
             </div>
             <div class="form group">
                 <form:label path="email">Email</form:label>
@@ -35,7 +35,7 @@
             </div>
             <div class="form group">
                 <form:label path="profileDto.telephone">Telephone</form:label>
-                <form:input path="profileDto.telephone" placeholder="Telephone"/>
+                <form:input path="profileDto.telephone" placeholder="Telephone" />
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

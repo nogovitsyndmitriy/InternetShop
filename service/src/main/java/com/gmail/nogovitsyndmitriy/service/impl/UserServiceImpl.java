@@ -1,17 +1,18 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
+import com.gmail.nogovitsyndmitriy.dao.ProfileDao;
 import com.gmail.nogovitsyndmitriy.dao.RoleDao;
 import com.gmail.nogovitsyndmitriy.dao.UserDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Profile;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
-import com.gmail.nogovitsyndmitriy.dao.enums.Roles;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.UserDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.UserConverter;
+import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gmail.nogovitsyndmitriy.dao.enums.Roles.CUSTOMER_USER;
-
 @Service
 public class UserServiceImpl implements UserService {
     private final static Logger log = LogManager.getLogger(UserServiceImpl.class);
@@ -37,10 +36,11 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final UserDao userDao;
     private RoleDao roleDao;
+    private ProfileDao profileDao;
     private User user = new User();
 
     @Autowired
-    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleService roleService, UserDao userDao, RoleDao roleDao) {
+    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleService roleService, UserDao userDao, RoleDao roleDao, ProfileDao profileDao) {
         this.userDtoConverter = userDtoConverter;
         this.userConverter = userConverter;
         this.roleDtoConverter = roleDtoConverter;
@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
         this.userDao = userDao;
         this.roleDao = roleDao;
+        this.profileDao = profileDao;
     }
 
     @Override

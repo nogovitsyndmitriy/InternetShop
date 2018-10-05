@@ -10,7 +10,7 @@
 <body class="body">
 <form:errors path="*"/>
 <div class="reg_form text-center">
-    <form:form action="${pageContext.request.contextPath}/users" modelAttribute="user" method="post" cssClass="form">
+    <form:form action="${pageContext.request.contextPath}/web/users" modelAttribute="user" method="post" cssClass="form">
         <div class="form group">
             <form:label path="name">Name</form:label>
             <form:input path="name" placeholder="Name"/>
@@ -21,15 +21,13 @@
         </div>
         <div class="form group">
             <form:label path="password">Password</form:label>
-            <form:input path="password" placeholder="Password"/>
+            <form:input path="password" placeholder="Password" type="password"/>
         </div>
         <div class="form group">
             <form:label path="email">Email</form:label>
             <form:input path="email" placeholder="Email"/>
         </div>
-        <a href="${pageContext.request.contextPath}/users/${user.id}">
             <button type="submit" class="btn btn-primary">Create User</button>
-        </a>
     </form:form>
 </div>
 <jsp:include page="common/footer.jsp"/>

@@ -27,7 +27,7 @@
                 <td>${news.created.dayOfMonth}-${news.created.monthValue}-${news.created.year}
                         ${news.created.hour}:${news.created.minute}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/news/${news.id}" class="btn btn-primary" aria-pressed="true"
+                    <a href="${pageContext.request.contextPath}/web/news/${news.id}" class="btn btn-primary" aria-pressed="true"
                        role="button">Read</a>
                 </td>
             </tr>
@@ -37,7 +37,7 @@
     <ul class="pagination justify-content-center">
         <c:forEach var="page" begin="1" end="${pages}">
             <li class="page-item"><a class="page-link"
-                                     href="${pageContext.request.contextPath}/news?page=${page}">${page}</a></li>
+                                     href="${pageContext.request.contextPath}/web/news?page=${page}">${page}</a></li>
         </c:forEach>
     </ul>
 </div>

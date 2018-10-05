@@ -27,7 +27,7 @@
             <td>${item.price}$</td>
             <td>${item.uniqueNumber}</td>
             <td>
-            <a href="${pageContext.request.contextPath}/items" class="btn btn-primary" aria-pressed="true"
+            <a href="${pageContext.request.contextPath}/web/items" class="btn btn-primary" aria-pressed="true"
                role="button">Add To Basket</a>
             </td>
         </tr>
@@ -37,7 +37,7 @@
 </div>
 <ul class="pagination justify-content-center">
     <c:forEach var="page" begin="1" end="${pages}">
-        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/items?page=${page}">${page}</a></li>
+        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/web/items?page=${page}">${page}</a></li>
     </c:forEach>
 </ul>
 <jsp:include page="common/footer.jsp"/>

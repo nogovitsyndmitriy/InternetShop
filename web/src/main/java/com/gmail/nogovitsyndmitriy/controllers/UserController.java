@@ -20,7 +20,7 @@ import java.util.List;
 import static com.gmail.nogovitsyndmitriy.utils.PanginationUtil.quantityOfPages;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/web/users")
 public class UserController {
 
     private final PageProperties pageProperties;
@@ -57,7 +57,7 @@ public class UserController {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user = userService.save(user);
             modelMap.addAttribute("user", user);
-            return "redirect:/items";
+            return "redirect:/web/login";
         }
     }
 
@@ -72,7 +72,7 @@ public class UserController {
             user = userService.update(user);
             modelMap.addAttribute("user", user);
         }
-        return "redirect:/users";
+        return "redirect:/web/users";
     }
 
     @PostMapping("/delete")
@@ -80,7 +80,7 @@ public class UserController {
         for (long id : ids) {
             userService.deleteById(id);
         }
-        return "redirect:/users";
+        return "redirect:/web/users";
     }
 
     @GetMapping()
