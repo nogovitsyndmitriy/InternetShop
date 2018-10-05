@@ -380,4 +380,22 @@
             <column name="F_ROLE_ID" value="1"/>
         </insert>
     </changeSet>
+    <changeSet id="1538416744535-53" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_news">
+            <column name="F_ID" value="1"/>
+            <column name="F_CONTENT" value="Госпошлину на допуск к дорожному движению не будут включать в стоимость топлива. Об этом рассказал 5 октября в Палате представителей премьер-министр Беларуси Сергей Румас."/>
+            <column name="F_CREATED" value="now()"/>
+            <column name="F_TITLE" value="Румас: Транспортный налог отвяжут от техосмотра. Платить можно будет через ЕРИП."/>
+            <column name="F_USER_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-54" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_comment">
+            <column name="F_ID" value="1"/>
+            <column name="F_CONTENT" value="Ой, чёй-то я вам не верю... А введёте, наверное к 2059г.)))"/>
+            <column name="F_CREATED" value="now()"/>
+            <column name="F_NEWS_ID" value="1"/>
+            <column name="F_USER_ID" value="1"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

@@ -34,4 +34,5 @@ public class NewsDaoImpl extends GenericDaoImpl<News> implements NewsDao {
         Query query = getCurrentSession().createQuery(hql);
         return (long) query.uniqueResult();
     }
+
 }

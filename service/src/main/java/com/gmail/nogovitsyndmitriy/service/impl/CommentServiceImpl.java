@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -103,5 +104,16 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<CommentDto> getAll() {
         return null;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public List<CommentDto> findCommentsByNewsId(long id) {
+        List<CommentDto> commentDtoList = new ArrayList<>();
+        List<Comment> comments = commentDao.findCommentsByNewsId(id);
+        for(Comment comment: comments){
+            commentDtoList.add(commentDtoConverter.toDTO(comment));
+        }
+        return commentDtoList;
     }
 }
