@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,6 +24,7 @@ public class NewsDto {
     private String content;
     private long userId;
     private LocalDateTime created;
+    private UserDto user;
 
 
     @Override

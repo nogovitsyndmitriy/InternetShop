@@ -6,6 +6,7 @@
 </head>
 <body class="body">
 <jsp:include page="common/header.jsp"/>
+<div class="col-md-12">
 <table class="table table-striped table-dark">
     <thead>
     <tr>
@@ -33,6 +34,7 @@
     </c:forEach>
     </tbody>
 </table>
+</div>
 <ul class="pagination justify-content-center">
     <c:forEach var="page" begin="1" end="${pages}">
         <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/items?page=${page}">${page}</a></li>

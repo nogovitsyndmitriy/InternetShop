@@ -12,9 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
+
     private final UserDao userDao;
 
+    @Autowired
     public UserDetailsServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -31,4 +32,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return userPrincipal;
     }
+
+
 }

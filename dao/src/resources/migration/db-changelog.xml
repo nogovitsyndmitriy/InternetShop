@@ -335,7 +335,7 @@
             <column name="F_PASSWORD" value="qwerty"/>
             <column name="F_SURNAME" value="Simpson"/>
             <column name="F_DISCOUNT_ID" value="1"/>
-            <column name="F_ROLE_ID" value="3"/>
+            <column name="F_ROLE_ID" value="1"/>
         </insert>
     </changeSet>
     <changeSet id="1538416744535-47" author="com.gmail.nogovitsyndmitriy">
@@ -352,6 +352,32 @@
             <column name="F_NAME" value="Total Quartz 9000"/>
             <column name="F_PRICE" value="56.68"/>
             <column name="F_UNIQUE_NUMBER" value="MoTo95668"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-49" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="1"/>
+            <column name="F_Name" value="VIEW_DOCUMENTS"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-50" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="2"/>
+            <column name="F_Name" value="VIEW_USERS"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-51" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="1"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-52" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="2"/>
+            <column name="F_ROLE_ID" value="1"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

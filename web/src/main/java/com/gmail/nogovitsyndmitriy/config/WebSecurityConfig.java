@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService)/*.passwordEncoder(passwordEncoder())*/;
     }
 
     @Override
@@ -38,14 +38,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login**").permitAll()
                 .antMatchers("/resources").permitAll()
+                .antMatchers("/news**").permitAll()
+                .antMatchers("/single_news**").permitAll()
                 .and()
                 .formLogin()
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
                 .successHandler(appSuccessHandler)
-                .failureUrl("/login?error=true")
+                .failureUrl("/registration")
                 .permitAll()
                 .and()
                 .logout()

@@ -50,7 +50,7 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
             }
         }
         if (isUser) {
-            return "/documents";
+            return "/items";
         } else if (isAdmin) {
             return "/users";
         } else {

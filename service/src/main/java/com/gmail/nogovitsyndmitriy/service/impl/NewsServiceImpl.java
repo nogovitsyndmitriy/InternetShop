@@ -2,7 +2,6 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.NewsDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.News;
-import com.gmail.nogovitsyndmitriy.dao.impl.NewsDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.NewsDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,14 +23,16 @@ public class NewsServiceImpl implements NewsService {
     private final static Logger log = LogManager.getLogger(NewsServiceImpl.class);
     private final NewsDtoConverter newsDtoConverter;
     private final NewsConverter newsConverter;
-    private NewsDao newsDao = new NewsDaoImpl();
+    @Autowired
+    private final NewsDao newsDao;
     private NewsDto newsDto = new NewsDto();
     private News news = new News();
 
     @Autowired
-    public NewsServiceImpl(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("newsConverter") NewsConverter newsConverter) {
+    public NewsServiceImpl(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("newsConverter") NewsConverter newsConverter, NewsDao newsDao) {
         this.newsDtoConverter = newsDtoConverter;
         this.newsConverter = newsConverter;
+        this.newsDao = newsDao;
     }
 
     @Override
@@ -103,4 +105,37 @@ public class NewsServiceImpl implements NewsService {
     public List<NewsDto> getAll() {
         return null;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public List<NewsDto> newsPagination(long page, int maxResult) {
+        List<NewsDto> newsDtoList = new ArrayList<>();
+        List<News> newss;
+        try {
+            newss = newsDao.newsPagination(page, maxResult);
+            for (News news : newss) {
+                newsDtoList.add(newsDtoConverter.toDTO(news));
+            }
+            log.info("Successful getting news pagination!");
+        } catch (Exception e) {
+            log.error("News pagination failed!", e);
+        }
+        return newsDtoList;
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public long quantityOfNews() {
+        long quantity = 0;
+        try {
+            quantity = newsDao.quantityOfNews();
+            log.info("Quantity of news getting successful!");
+        } catch (Exception e) {
+            log.error("Failed to get news quantity!", e);
+        }
+        return quantity;
+    }
+
 }
+

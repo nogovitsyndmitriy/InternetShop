@@ -4,7 +4,10 @@ import com.gmail.nogovitsyndmitriy.dao.NewsDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class NewsDaoImpl extends GenericDaoImpl<News> implements NewsDao {
@@ -15,4 +18,20 @@ public class NewsDaoImpl extends GenericDaoImpl<News> implements NewsDao {
         super(News.class);
     }
 
+
+    public List<News> newsPagination(long page, int maxResult) {
+        String hql = "FROM News AS N ORDER BY N.created DESC";
+        Query query= getCurrentSession().createQuery(hql);
+        int startPosition = (int) ((page * maxResult) - maxResult);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maxResult);
+        return query.list();
+    }
+
+    @Override
+    public long quantityOfNews() {
+        String hql = "SELECT COUNT (*) FROM News AS N";
+        Query query = getCurrentSession().createQuery(hql);
+        return (long) query.uniqueResult();
+    }
 }

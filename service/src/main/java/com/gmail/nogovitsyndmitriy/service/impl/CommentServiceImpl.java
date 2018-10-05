@@ -23,14 +23,15 @@ public class CommentServiceImpl implements CommentService {
     private final static Logger log = LogManager.getLogger(CommentServiceImpl.class);
     private final CommentConverter commentConverter;
     private final CommentDtoConverter commentDtoConverter;
-    private CommentDao commentDao = new CommentDaoImpl();
+    private final CommentDao commentDao;
     private CommentDto commentDto = new CommentDto();
     private Comment comment = new Comment();
 
     @Autowired
-    public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter, @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter) {
+    public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter, @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter, CommentDao commentDao) {
         this.commentConverter = commentConverter;
         this.commentDtoConverter = commentDtoConverter;
+        this.commentDao = commentDao;
     }
 
     @Override

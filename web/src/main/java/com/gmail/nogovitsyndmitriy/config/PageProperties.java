@@ -19,6 +19,8 @@ public class PageProperties {
     private String itemsPagePath;
     private String registrationPagePath;
     private String updateUserPagePath;
+    private String newsPage;
+    private String singleNewsPagePath;
 
     @Autowired
     public PageProperties(Environment environment) {
@@ -32,7 +34,9 @@ public class PageProperties {
         this.errorsPagePath = environment.getProperty("errors.page.path");
         this.itemsPagePath = environment.getProperty("items.page.path");
         this.registrationPagePath = environment.getProperty("registration.page.path");
-        this.updateUserPagePath =environment.getProperty("update.user.page.path");
+        this.updateUserPagePath = environment.getProperty("update.user.page.path");
+        this.newsPage = environment.getProperty("news.page.path");
+        this.singleNewsPagePath = environment.getProperty("single.news.page.path");
     }
 
 

@@ -1,12 +1,15 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
-import com.gmail.nogovitsyndmitriy.service.ProfileService;
+import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
-import com.gmail.nogovitsyndmitriy.utils.PanginationUtil;
+import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
 import com.gmail.nogovitsyndmitriy.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,15 +25,16 @@ public class UserController {
 
     private final PageProperties pageProperties;
     private final UserService userService;
-    private final ProfileService profileService;
     private final UserValidator userValidator;
     private final static int QUANTITY_ON_PAGE = 5;
 
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserPrincipal userPrincipal =  authentication == null ? null : (UserPrincipal) authentication.getPrincipal();
+
     @Autowired
-    public UserController(PageProperties pageProperties, UserService userService, ProfileService profileService, UserValidator userValidator) {
+    public UserController(PageProperties pageProperties, UserService userService, UserValidator userValidator) {
         this.pageProperties = pageProperties;
         this.userService = userService;
-        this.profileService = profileService;
         this.userValidator = userValidator;
     }
 
@@ -48,6 +52,7 @@ public class UserController {
         if (result.hasErrors()) {
             return pageProperties.getUsersPagePath();
         } else {
+
             user = userService.save(user);
             modelMap.addAttribute("user", user);
             return "redirect:/users";
@@ -77,6 +82,7 @@ public class UserController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
         long quantityOfUsers = userService.quantityOfUsers();
         long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);

@@ -29,7 +29,7 @@ public class Role implements Serializable {
     @Column(name = "F_NAME")
     private String name;
 
-    //  User
+    //  Permissions
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "roles")
     private Set<Permission> permissions = new HashSet<>();
 

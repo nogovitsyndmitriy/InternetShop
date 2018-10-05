@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <style>
@@ -21,11 +22,13 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/items">Items</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">News</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/news">News</a>
                 </li>
+                <security:authorize access="isAuthenticated()">
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Promo</a>
+                   authenticated as  <security:authentication property="principal.username"/><a class="nav-link disabled" href="#">Promo</a>
                 </li>
+                </security:authorize>
             </ul>
             <a href="${pageContext.request.contextPath}/registration">
                 <button class="btn btn-primary">Registration</button>
