@@ -27,7 +27,7 @@
             <td>${item.price}$</td>
             <td>${item.uniqueNumber}</td>
             <td>
-            <a href="${pageContext.request.contextPath}/web/items" class="btn btn-primary" aria-pressed="true"
+            <a href="${pageContext.request.contextPath}/web/orders/createOrder/${item.id}" class="btn btn-primary" aria-pressed="true"
                role="button">Add To Basket</a>
             </td>
         </tr>

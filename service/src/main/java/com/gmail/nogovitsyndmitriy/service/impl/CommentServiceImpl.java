@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -25,8 +26,8 @@ public class CommentServiceImpl implements CommentService {
     private final CommentConverter commentConverter;
     private final CommentDtoConverter commentDtoConverter;
     private final CommentDao commentDao;
-    private CommentDto commentDto = new CommentDto();
     private Comment comment = new Comment();
+
 
     @Autowired
     public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter, @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter, CommentDao commentDao) {
@@ -38,8 +39,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public CommentDto get(long id) {
+        CommentDto commentDto = new CommentDto();
         try {
-            comment = commentDao.get(id);
+           Comment comment = commentDao.get(id);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Getting comment by Id successful!");
         } catch (Exception e) {
@@ -52,21 +54,22 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public CommentDto save(CommentDto dto) {
         try {
-            comment = commentConverter.toEntity(dto);
+           comment = commentConverter.toEntity(dto);
             commentDao.save(comment);
-            commentDto = commentDtoConverter.toDTO(comment);
+            dto= commentDtoConverter.toDTO(comment);
             log.info("Saving comment successful!");
         } catch (Exception e) {
             log.error("Saving comment failed!", e);
         }
-        return commentDto;
+        return dto;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public CommentDto update(CommentDto dto) {
+        CommentDto commentDto = new CommentDto();
         try {
-            comment = commentConverter.toEntity(dto);
+          Comment  comment = commentConverter.toEntity(dto);
             commentDao.update(comment);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Update comment successful!");
@@ -80,7 +83,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(CommentDto dto) {
         try {
-            comment = commentConverter.toEntity(dto);
+           Comment comment = commentConverter.toEntity(dto);
             commentDao.delete(comment);
             log.info("Saving comment successful!");
         } catch (Exception e) {
@@ -92,7 +95,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
         try {
-            comment = commentDao.get(id);
+           Comment comment = commentDao.get(id);
             commentDao.delete(comment);
             log.info("Delete comment successful!");
         } catch (Exception e) {
@@ -103,7 +106,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<CommentDto> getAll() {
-        return null;
+        return new LinkedList<>();
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.OrderDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Order;
-import com.gmail.nogovitsyndmitriy.dao.impl.OrderDaoImpl;
+import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.OrderDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.OrderConverter;
@@ -16,21 +16,26 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
     private final OrderDtoConverter orderDtoConverter;
     private final OrderConverter orderConverter;
-    private OrderDao orderDao = new OrderDaoImpl();
+    private final OrderDao orderDao;
     private OrderDto orderDto = new OrderDto();
     private Order order = new Order();
 
     @Autowired
-    public OrderServiceImpl(@Qualifier("orderDtoConverter") OrderDtoConverter orderDtoConverter, @Qualifier("orderConverter") OrderConverter orderConverter) {
+    public OrderServiceImpl(@Qualifier("orderDtoConverter") OrderDtoConverter orderDtoConverter, @Qualifier("orderConverter") OrderConverter orderConverter, OrderDao orderDao) {
         this.orderDtoConverter = orderDtoConverter;
         this.orderConverter = orderConverter;
+        this.orderDao = orderDao;
     }
 
     @Override
@@ -51,6 +56,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto save(OrderDto dto) {
         try {
             order = orderConverter.toEntity(dto);
+            order.setStatus(Status.NEW);
+            order.setCreated(LocalDateTime.now());
             orderDao.save(order);
             orderDto = orderDtoConverter.toDTO(order);
             log.info("Saving order successful!");
@@ -100,7 +107,45 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public List<OrderDto> ordersPagination(long page, int maxResult) {
+        List<OrderDto> ordersDto = new ArrayList<>();
+        List<Order> orders;
+        try {
+            orders = orderDao.ordersPangination(page, maxResult);
+            for (Order order : orders) {
+                ordersDto.add(orderDtoConverter.toDTO(order));
+            }
+            log.info("Order pangination successful!");
+        } catch (Exception e) {
+            log.error("Failed to get orders pangination");
+        }
+        return ordersDto;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public long quantityOfOrders() {
+        long quantity = 0;
+        try {
+            quantity = orderDao.quantityOfOrders();
+            log.info("Quantity find successful!");
+        } catch (Exception e) {
+            log.error("Failed to count quantity!", e);
+        }
+        return quantity;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public List<OrderDto> findOrdersByUserId(long id) {
+        List<Order> list = orderDao.findOrdersByUserId(id);
+        List<OrderDto> orders = list.stream().map(orderDtoConverter::toDTO).collect(Collectors.toCollection(LinkedList::new));
+        return orders;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<OrderDto> getAll() {
-        return null;
+        return new LinkedList<>();
     }
 }

@@ -1,5 +1,6 @@
 package com.gmail.nogovitsyndmitriy.service.model;
 
+import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class OrderDto {
     private long id;
     private LocalDateTime created;
     private int quantity;
-    private String status;
+    private Status status;
     private ItemDto itemDto;
     private UserDto userDto;
 

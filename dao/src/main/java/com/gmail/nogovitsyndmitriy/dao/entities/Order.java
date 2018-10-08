@@ -1,5 +1,6 @@
 package com.gmail.nogovitsyndmitriy.dao.entities;
 
+import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,8 @@ public class Order implements Serializable {
     @Column(name = "F_QUANTITY")
     private int quantity;
     @Column(name = "F_STATUS")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     //Items
     @ManyToOne
     @JoinColumn(name = "F_ITEM_ID")

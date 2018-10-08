@@ -1,10 +1,10 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="icon" href="../../utils/favicon%20.ico" type="image/x-icon">
 <style>
-<%@include file="../../utils/styles.css"%>
+    <%@include file="../../utils/styles.css"%>
 </style>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,9 +25,13 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/web/news">News</a>
                 </li>
                 <security:authorize access="isAuthenticated()">
-                <li class="nav-item">
-                   <a class="nav-link disabled" href="#">Promo</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/web/orders">Orders</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Promo</a>
+                    </li>
                     <li>Hi, <security:authentication property="principal.username"/>!</li>
                 </security:authorize>
             </ul>

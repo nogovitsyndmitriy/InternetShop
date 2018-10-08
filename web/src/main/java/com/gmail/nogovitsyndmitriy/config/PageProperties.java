@@ -21,6 +21,7 @@ public class PageProperties {
     private String updateUserPagePath;
     private String newsPage;
     private String singleNewsPagePath;
+    private String ordersPagePath;
 
     @Autowired
     public PageProperties(Environment environment) {
@@ -37,6 +38,7 @@ public class PageProperties {
         this.updateUserPagePath = environment.getProperty("update.user.page.path");
         this.newsPage = environment.getProperty("news.page.path");
         this.singleNewsPagePath = environment.getProperty("single.news.page.path");
+        this.ordersPagePath = environment.getProperty("orders.page.path");
     }
 
 

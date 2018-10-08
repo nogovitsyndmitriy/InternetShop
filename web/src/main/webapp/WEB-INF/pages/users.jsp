@@ -13,9 +13,10 @@
             <form action="${pageContext.request.contextPath}/web/users/delete" method="post">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="${pageContext.request.contextPath}/web/registration" class="btn btn-primary" aria-pressed="true"
+                        <a href="${pageContext.request.contextPath}/web/registration" class="btn btn-primary"
+                           aria-pressed="true"
                            role="button">ADD</a>
-                       <button type="submit" class="btn btn-primary">DELETE</button>
+                        <button type="submit" class="btn btn-primary">DELETE</button>
                     </div>
                 </div>
                 <div class="row">
@@ -42,7 +43,8 @@
                                     <td>${user.profileDto.address}</td>
                                     <td>${user.roleDto.name}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/web/users/${user.id}" class="btn btn-primary"
+                                        <a href="${pageContext.request.contextPath}/web/users/${user.id}"
+                                           class="btn btn-primary"
                                            aria-pressed="true"
                                            role="button">UPDATE</a>
                                     </td>
@@ -59,7 +61,8 @@
 </div>
 <ul class="pagination justify-content-center">
     <c:forEach var="page" begin="1" end="${pages}">
-        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/web/users?page=${page}">${page}</a></li>
+        <li class="page-item"><a class="page-link"
+                                 href="${pageContext.request.contextPath}/web/users?page=${page}">${page}</a></li>
     </c:forEach>
 </ul>
 <jsp:include page="common/footer.jsp"/>

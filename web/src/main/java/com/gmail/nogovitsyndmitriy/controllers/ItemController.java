@@ -6,9 +6,8 @@ import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import static com.gmail.nogovitsyndmitriy.utils.PanginationUtil.quantityOfPages;
 
@@ -35,4 +34,5 @@ public class ItemController {
         modelMap.addAttribute("items", items);
         return pageProperties.getItemsPagePath();
     }
+
 }

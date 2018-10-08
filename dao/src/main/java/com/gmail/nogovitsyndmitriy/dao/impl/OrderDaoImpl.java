@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
@@ -23,5 +24,22 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("userId", userId);
         return query.list();
+    }
+
+    @Override
+    public List<Order> ordersPangination(long page, int maxResult) {
+        String hql = "FROM Order AS O ORDER BY O.created DESC";
+        Query query = getCurrentSession().createQuery(hql);
+        int startPosition = (int) ((maxResult * page) - maxResult);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maxResult);
+        return query.list();
+    }
+
+    @Override
+    public long quantityOfOrders() {
+        String hql = "SELECT COUNT (*) FROM Orders AS O";
+        Query query = getCurrentSession().createQuery(hql);
+        return (long) query.uniqueResult();
     }
 }

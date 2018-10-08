@@ -2,6 +2,7 @@ package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
 import com.gmail.nogovitsyndmitriy.service.UserService;
+import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
 import com.gmail.nogovitsyndmitriy.validators.UserValidator;
@@ -29,8 +30,6 @@ public class UserController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static int QUANTITY_ON_PAGE = 5;
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserPrincipal userPrincipal =  authentication == null ? null : (UserPrincipal) authentication.getPrincipal();
 
     @Autowired
     public UserController(PageProperties pageProperties, UserService userService, UserValidator userValidator, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -93,4 +92,6 @@ public class UserController {
         modelMap.addAttribute("users", users);
         return pageProperties.getUsersPagePath();
     }
+
+
 }
