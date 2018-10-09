@@ -35,13 +35,22 @@ public class OrderController {
         this.userService = userService;
     }
 
+    @GetMapping(value = "/orders_admin")
+    public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
+        long quantityOfOrders = orderService.quantityOfOrders();
+        long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
+        List<OrderDto> orders = orderService.ordersPagination(page, QUANTITY_ON_PAGE);
+        modelMap.addAttribute("pages", pagesQuantity);
+        modelMap.addAttribute("orders", orders);
+        return pageProperties.getOrdersPagePath();
+    }
     @GetMapping
     public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         long quantityOfOrders = orderService.findOrdersByUserId(userPrincipal.getId()).size();
         long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
-        List<OrderDto> orders = orderService.ordersPagination(page, QUANTITY_ON_PAGE);
+        List<OrderDto> orders = orderService.ordersPanginationById(page, QUANTITY_ON_PAGE, userPrincipal.getId());
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("orders", orders);
         return pageProperties.getOrdersPagePath();
@@ -74,7 +83,7 @@ public class OrderController {
             orderService.update(order);
         }
         modelMap.addAttribute("order", order);
-        return "redirect:/web/orders";
+        return "redirect:/web/orders_admin";
     }
 
 }

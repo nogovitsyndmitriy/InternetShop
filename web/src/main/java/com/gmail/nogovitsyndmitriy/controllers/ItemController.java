@@ -46,19 +46,32 @@ public class ItemController {
     }
 
     @PostMapping
-    public String createItem(@ModelAttribute ItemDto item, ModelMap modelMap){
+    public String createItem(@ModelAttribute ItemDto item, ModelMap modelMap) {
+        item.setDeleted(false);
         item = itemService.save(item);
         modelMap.addAttribute("item", item);
         return pageProperties.getItemsPagePath();
     }
+
     @GetMapping(value = "/create_item")
-    public String createPage(ModelMap modelMap, @ModelAttribute ItemDto item){
+    public String createPage(ModelMap modelMap, @ModelAttribute ItemDto item) {
         modelMap.addAttribute("item", item);
         return pageProperties.getCreateItemPagePath();
     }
+
     @PostMapping(value = "/remove")
-    public String removeItem(){
-        return null;
+    public String removeItem(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute ItemDto item, @RequestParam("status") String status) {
+        for (long id : ids) {
+            item = itemService.get(id);
+            if (status.equals("remove")) {
+                item.setDeleted(true);
+            } else {
+                item.setDeleted(false);
+            }
+        }
+        itemService.update(item);
+        modelMap.addAttribute("item", item);
+        return "redirect:/web/items";
     }
 
 }

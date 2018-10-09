@@ -25,6 +25,9 @@
         </tr>
         </thead>
         <tbody>
+        <form:form action="${pageContext.request.contextPath}/web/items/remove"
+                   modelAttribute="item" method="post"
+                   cssClass="form">
         <c:forEach items="${items}" var="item">
             <tr>
                 <th scope="row"><input type="checkbox" name="ids" value="${item.id}"></th>
@@ -41,6 +44,22 @@
         </c:forEach>
         </tbody>
     </table>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="remove"
+               checked>
+        <label class="form-check-label" for="exampleRadios1">
+            Remove
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="exampleRadios2"
+               value="add">
+        <label class="form-check-label" for="exampleRadios2">
+            Add
+        </label>
+    </div>
+    <button class="btn btn-warning" type="submit">Change Status</button>
+    </form:form>
 </div>
 <ul class="pagination justify-content-center">
     <c:forEach var="page" begin="1" end="${pages}">

@@ -10,5 +10,7 @@ public interface OrderDao extends GenericDao<Order> {
 
     List<Order> ordersPangination(long page, int maxResult);
 
+    List<Order> ordersPanginationById(long page, int maxResult, long id);
+
     long quantityOfOrders();
 }

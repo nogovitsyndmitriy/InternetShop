@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -60,12 +61,22 @@
     </div>
     <button class="btn btn-warning" type="submit">Change Status</button>
     </form:form>
+<security:authorize access="hasAuthority('VIEW_USERS')">
     <ul class="pagination justify-content-center">
         <c:forEach var="page" begin="1" end="${pages}">
             <li class="page-item"><a class="page-link"
-                                     href="${pageContext.request.contextPath}/web/orders?page=${page}">${page}</a></li>
+                                     href="${pageContext.request.contextPath}/web/orders/orders_admin?page=${page}">${page}</a></li>
         </c:forEach>
     </ul>
+</security:authorize>
+    <security:authorize access="hasAuthority('VIEW_DOCUMENTS')">
+        <ul class="pagination justify-content-center">
+            <c:forEach var="page" begin="1" end="${pages}">
+                <li class="page-item"><a class="page-link"
+                                         href="${pageContext.request.contextPath}/web/orders?page=${page}">${page}</a></li>
+            </c:forEach>
+        </ul>
+    </security:authorize>
 </div>
 </body>
 <jsp:include page="common/footer.jsp"/>

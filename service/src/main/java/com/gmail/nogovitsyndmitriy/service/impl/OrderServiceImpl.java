@@ -41,8 +41,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto get(long id) {
         OrderDto orderDto = new OrderDto();
         try {
-
-           Order order = orderDao.get(id);
+            Order order = orderDao.get(id);
             orderDto = orderDtoConverter.toDTO(order);
             log.info("Get order successful!");
         } catch (Exception e) {
@@ -53,11 +52,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public OrderDto save(OrderDto dto) {
-        OrderDto orderDto = new OrderDto();
-        Order order = new Order();
+    public OrderDto save(OrderDto orderDto) {
         try {
-            order = orderConverter.toEntity(dto);
+            Order order = orderConverter.toEntity(orderDto);
             order.setStatus(Status.NEW);
             order.setCreated(LocalDateTime.now());
             orderDao.save(order);
@@ -71,11 +68,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public OrderDto update(OrderDto dto) {
-        OrderDto orderDto = new OrderDto();
-        Order order = new Order();
+    public OrderDto update(OrderDto orderDto) {
         try {
-            order = orderConverter.toEntity(dto);
+            Order order = orderConverter.toEntity(orderDto);
             orderDao.update(order);
             orderDto = orderDtoConverter.toDTO(order);
             log.info("Update order successful!");
@@ -87,11 +82,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void delete(OrderDto dto) {
-        OrderDto orderDto = new OrderDto();
-        Order order = new Order();
+    public void delete(OrderDto orderDto) {
         try {
-            order = orderConverter.toEntity(dto);
+            Order order = orderConverter.toEntity(orderDto);
             orderDao.delete(order);
             log.info("Delete order successful!");
         } catch (Exception e) {
@@ -102,10 +95,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
-        OrderDto orderDto = new OrderDto();
-        Order order = new Order();
         try {
-            order = orderDao.get(id);
+            Order order = orderDao.get(id);
             orderDao.save(order);
             log.info("Delete order by Id successful!");
         } catch (Exception e) {
@@ -117,9 +108,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<OrderDto> ordersPagination(long page, int maxResult) {
         List<OrderDto> ordersDto = new ArrayList<>();
-        List<Order> orders;
         try {
-            orders = orderDao.ordersPangination(page, maxResult);
+            List<Order> orders = orderDao.ordersPangination(page, maxResult);
             for (Order order : orders) {
                 ordersDto.add(orderDtoConverter.toDTO(order));
             }
@@ -155,5 +145,21 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<OrderDto> getAll() {
         return new LinkedList<>();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public List<OrderDto> ordersPanginationById(long page, int maxResult, long id) {
+        List<OrderDto> ordersDto = new LinkedList<>();
+        try {
+            List<Order> orders = orderDao.ordersPanginationById(page, maxResult, id);
+            for (Order order : orders) {
+                ordersDto.add(orderDtoConverter.toDTO(order));
+            }
+            log.info("Order pangination successful!");
+        } catch (Exception e) {
+            log.error("Failed to get orders pangination");
+        }
+        return ordersDto;
     }
 }

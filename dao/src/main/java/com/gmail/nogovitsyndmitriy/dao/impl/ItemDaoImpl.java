@@ -45,7 +45,7 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     }
 
     public List<Item> itemPagination(long page, int maxResult) {
-        String hql = "FROM Item AS I";
+        String hql = "FROM Item AS I WHERE I.deleted=false";
         Query query = getCurrentSession().createQuery(hql);
         int startPosition = (int) ((page * maxResult) - maxResult);
         query.setFirstResult(startPosition);

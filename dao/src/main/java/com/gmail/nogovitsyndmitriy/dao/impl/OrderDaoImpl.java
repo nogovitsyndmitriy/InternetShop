@@ -38,8 +38,18 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
     @Override
     public long quantityOfOrders() {
-        String hql = "SELECT COUNT (*) FROM Orders AS O";
+        String hql = "SELECT COUNT (*) FROM Order AS O";
         Query query = getCurrentSession().createQuery(hql);
         return (long) query.uniqueResult();
+    }
+    @Override
+    public List<Order> ordersPanginationById(long page, int maxResult, long id) {
+        String hql = "FROM Order AS O WHERE O.user.id=:id";
+        Query query = getCurrentSession().createQuery(hql);
+        int startPosition = (int) ((maxResult * page) - maxResult);
+        query.setParameter("id", id);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maxResult);
+        return query.list();
     }
 }

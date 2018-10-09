@@ -51,7 +51,7 @@ clearAuthenticationAttributes(httpServletRequest);
             }
         }
         if (isUser) {
-            return "/web/login";
+            return "/web/items";
         } else if (isAdmin) {
             return "/web/users";
         } else {
