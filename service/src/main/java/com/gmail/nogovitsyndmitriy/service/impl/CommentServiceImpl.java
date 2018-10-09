@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentConverter commentConverter;
     private final CommentDtoConverter commentDtoConverter;
     private final CommentDao commentDao;
-    private Comment comment = new Comment();
+
 
 
     @Autowired
@@ -53,15 +53,17 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public CommentDto save(CommentDto dto) {
+        CommentDto commentDto = new CommentDto();
         try {
-           comment = commentConverter.toEntity(dto);
+
+          Comment comment = commentConverter.toEntity(dto);
             commentDao.save(comment);
-            dto= commentDtoConverter.toDTO(comment);
+            commentDto = commentDtoConverter.toDTO(comment);
             log.info("Saving comment successful!");
         } catch (Exception e) {
             log.error("Saving comment failed!", e);
         }
-        return dto;
+        return commentDto;
     }
 
     @Override

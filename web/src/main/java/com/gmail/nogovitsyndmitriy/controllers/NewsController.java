@@ -57,20 +57,17 @@ public class NewsController {
         return pageProperties.getSingleNewsPagePath();
     }
 
-    @PostMapping(value = "/createComment/{id}")
-    public String createComment(ModelMap modelMap, @PathVariable("id") long id) {
+    @PostMapping(value = "/createComment/{news_id}")
+    public String createComment(ModelMap modelMap, @PathVariable("news_id") long id, @ModelAttribute CommentDto comment) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        CommentDto comment = new CommentDto();
         NewsDto news = newsService.get(id);
         comment.setUserDto(userService.findByEmail(userPrincipal.getUsername()));
         comment.setNewsDto(news);
         comment.setCreated(LocalDateTime.now());
-        List<CommentDto> comments = commentService.findCommentsByNewsId(id);
-        comments.add(comment);
         comment = commentService.save(comment);
-        newsService.update(news);
         modelMap.addAttribute("news", news);
+        List<CommentDto> comments = commentService.findCommentsByNewsId(id);
         modelMap.addAttribute("comments", comments);
         modelMap.addAttribute("comment", comment);
         return pageProperties.getSingleNewsPagePath();

@@ -9,4 +9,6 @@ import java.util.List;
 public interface DiscountDao extends GenericDao<Discount> {
 
     List<Item> findByAmountOfDiscount(BigDecimal percent);
+
+    Discount findByName(String name);
 }

@@ -23,7 +23,6 @@ public class NewsServiceImpl implements NewsService {
     private final static Logger log = LogManager.getLogger(NewsServiceImpl.class);
     private final NewsDtoConverter newsDtoConverter;
     private final NewsConverter newsConverter;
-    @Autowired
     private final NewsDao newsDao;
     private NewsDto newsDto = new NewsDto();
     private News news = new News();

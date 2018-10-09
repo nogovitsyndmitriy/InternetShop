@@ -29,24 +29,18 @@ public class UserServiceImpl implements UserService {
     private final static Logger log = LogManager.getLogger(UserServiceImpl.class);
     private final UserDtoConverter userDtoConverter;
     private final UserConverter userConverter;
-    private final RoleDtoConverter roleDtoConverter;
-    private final RoleConverter roleConverter;
-    private final RoleService roleService;
     private final UserDao userDao;
-    private RoleDao roleDao;
-    private ProfileDao profileDao;
-    private User user = new User();
+    private final RoleDao roleDao;
+
 
     @Autowired
-    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter, @Qualifier("userConverter") UserConverter userConverter, @Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleService roleService, UserDao userDao, RoleDao roleDao, ProfileDao profileDao) {
+    public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter,
+                           @Qualifier("userConverter") UserConverter userConverter,
+                           UserDao userDao, RoleDao roleDao) {
         this.userDtoConverter = userDtoConverter;
         this.userConverter = userConverter;
-        this.roleDtoConverter = roleDtoConverter;
-        this.roleConverter = roleConverter;
-        this.roleService = roleService;
         this.userDao = userDao;
         this.roleDao = roleDao;
-        this.profileDao = profileDao;
     }
 
     @Override
@@ -54,7 +48,7 @@ public class UserServiceImpl implements UserService {
     public UserDto get(long id) {
         UserDto userDto = new UserDto();
         try {
-            user = userDao.get(id);
+            User user = userDao.get(id);
             userDto = userDtoConverter.toDTO(user);
             log.info("Get user successful!");
         } catch (Exception e) {
@@ -67,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public UserDto save(UserDto userDto) {
         try {
-            user = userConverter.toEntity(userDto);
+            User user = userConverter.toEntity(userDto);
             Role role = roleDao.findByName("CUSTOMER_USER");
             user.setRole(role);
             userDao.save(user);
@@ -83,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public UserDto update(UserDto userDto) {
         try {
-            user = userConverter.toEntity(userDto);
+            User user = userConverter.toEntity(userDto);
             userDao.update(user);
             userDto = userDtoConverter.toDTO(user);
             log.info("Update user successful!");
@@ -97,7 +91,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(UserDto userDto) {
         try {
-            user = userConverter.toEntity(userDto);
+            User user = userConverter.toEntity(userDto);
             userDao.delete(user);
             log.info("Delete user successful!");
         } catch (Exception e) {
@@ -109,7 +103,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
         try {
-            user = userDao.get(id);
+            User user = userDao.get(id);
             userDao.delete(user);
             log.info("Delete user by Id successful!");
         } catch (Exception e) {
@@ -136,7 +130,7 @@ public class UserServiceImpl implements UserService {
     public UserDto findByEmail(String email) {
         UserDto userDto = new UserDto();
         try {
-            user = userDao.findByEmail(email);
+            User user = userDao.findByEmail(email);
             userDto = userDtoConverter.toDTO(user);
             log.info("Find user by email successful!");
         } catch (Exception e) {

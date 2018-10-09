@@ -28,8 +28,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDtoConverter orderDtoConverter;
     private final OrderConverter orderConverter;
     private final OrderDao orderDao;
-    private OrderDto orderDto = new OrderDto();
-    private Order order = new Order();
 
     @Autowired
     public OrderServiceImpl(@Qualifier("orderDtoConverter") OrderDtoConverter orderDtoConverter, @Qualifier("orderConverter") OrderConverter orderConverter, OrderDao orderDao) {
@@ -41,8 +39,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public OrderDto get(long id) {
+        OrderDto orderDto = new OrderDto();
         try {
-            orderDao.get(id);
+
+           Order order = orderDao.get(id);
             orderDto = orderDtoConverter.toDTO(order);
             log.info("Get order successful!");
         } catch (Exception e) {
@@ -54,6 +54,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public OrderDto save(OrderDto dto) {
+        OrderDto orderDto = new OrderDto();
+        Order order = new Order();
         try {
             order = orderConverter.toEntity(dto);
             order.setStatus(Status.NEW);
@@ -70,6 +72,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public OrderDto update(OrderDto dto) {
+        OrderDto orderDto = new OrderDto();
+        Order order = new Order();
         try {
             order = orderConverter.toEntity(dto);
             orderDao.update(order);
@@ -84,6 +88,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(OrderDto dto) {
+        OrderDto orderDto = new OrderDto();
+        Order order = new Order();
         try {
             order = orderConverter.toEntity(dto);
             orderDao.delete(order);
@@ -96,6 +102,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
+        OrderDto orderDto = new OrderDto();
+        Order order = new Order();
         try {
             order = orderDao.get(id);
             orderDao.save(order);

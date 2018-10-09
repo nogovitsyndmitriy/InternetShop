@@ -4,8 +4,6 @@ import com.gmail.nogovitsyndmitriy.dao.DiscountDao;
 import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
-import com.gmail.nogovitsyndmitriy.dao.impl.DiscountDaoImpl;
-import com.gmail.nogovitsyndmitriy.dao.impl.ItemDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
@@ -22,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -30,24 +29,25 @@ public class DiscountServiceImpl implements DiscountService {
     private final DTOConverter<DiscountDto, Discount> discountDtoConverter;
     private final Converter<Discount, DiscountDto> discountConverter;
     private final DTOConverter<ItemDto, Item> itemDtoConverter;
-    private DiscountDto discountDto = new DiscountDto();
-    private DiscountDao discountDao = new DiscountDaoImpl();
-    private Discount discount = new Discount();
-    private ItemDao itemDao = new ItemDaoImpl();
+    private DiscountDao discountDao;
+    private ItemDao itemDao;
 
     @Autowired
-    public DiscountServiceImpl(@Qualifier("discountDtoConverter") DTOConverter<DiscountDto, Discount> discountDtoConverter, @Qualifier("discountConverter") Converter<Discount, DiscountDto> discountConverter, @Qualifier("itemDtoConverter") DTOConverter<ItemDto, Item> itemDtoConverter) {
+    public DiscountServiceImpl(@Qualifier("discountDtoConverter") DTOConverter<DiscountDto, Discount> discountDtoConverter, @Qualifier("discountConverter") Converter<Discount, DiscountDto> discountConverter, @Qualifier("itemDtoConverter") DTOConverter<ItemDto, Item> itemDtoConverter, DiscountDao discountDao, ItemDao itemDao) {
         this.discountDtoConverter = discountDtoConverter;
         this.discountConverter = discountConverter;
         this.itemDtoConverter = itemDtoConverter;
+        this.discountDao = discountDao;
+        this.itemDao = itemDao;
     }
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public DiscountDto get(long id) {
+        DiscountDto discountDto = new DiscountDto();
         try {
-            discount = discountDao.get(id);
+            Discount discount = discountDao.get(id);
             discountDto = discountDtoConverter.toDTO(discount);
             log.info("Get Discount successful!");
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class DiscountServiceImpl implements DiscountService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public DiscountDto save(DiscountDto discountDto) {
         try {
-            discount = discountConverter.toEntity(discountDto);
+            Discount discount = discountConverter.toEntity(discountDto);
             discountDao.save(discount);
             discountDto = discountDtoConverter.toDTO(discount);
             log.info("Discount save successful!");
@@ -73,9 +73,8 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public DiscountDto update(DiscountDto discountDto) {
-
         try {
-            discount = discountConverter.toEntity(discountDto);
+            Discount discount = discountConverter.toEntity(discountDto);
             discountDao.update(discount);
             discountDto = discountDtoConverter.toDTO(discount);
             log.info("Discount Update Successful!");
@@ -108,7 +107,7 @@ public class DiscountServiceImpl implements DiscountService {
         try {
             List<Item> items = itemDao.findItemInRangeOfPrice(above, below);
             items.forEach(item -> discountDto.getItemDtoSet().add(itemDtoConverter.toDTO(item)));
-            discount = discountConverter.toEntity(discountDto);
+            Discount discount = discountConverter.toEntity(discountDto);
             discountDao.update(discount);
             log.info("Add discount by item price successful!");
         } catch (Exception e) {
@@ -120,7 +119,7 @@ public class DiscountServiceImpl implements DiscountService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(DiscountDto discountDto) {
         try {
-            discount = discountConverter.toEntity(discountDto);
+            Discount discount = discountConverter.toEntity(discountDto);
             discountDao.delete(discount);
             log.info("Discount delete successful!");
         } catch (Exception e) {
@@ -132,7 +131,7 @@ public class DiscountServiceImpl implements DiscountService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
         try {
-            discount = discountDao.get(id);
+            Discount discount = discountDao.get(id);
             discountDao.delete(discount);
             log.info("Get feedback by Id successful!");
         } catch (Exception e) {
@@ -143,6 +142,20 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<DiscountDto> getAll() {
-        return null;
+        List<DiscountDto> discounts = new ArrayList<>();
+        try {
+            discounts = discountDtoConverter.toDtoList(discountDao.getAll());
+            log.info("Get all discounts successful!");
+        } catch (Exception e) {
+            log.info("Get all discounts failed!");
+        }
+        return discounts;
+    }
+
+    @Override
+    public DiscountDto findByName(String name) {
+        Discount discount = discountDao.findByName(name);
+        DiscountDto discountDto = discountDtoConverter.toDTO(discount);
+        return discountDto;
     }
 }

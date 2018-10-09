@@ -61,7 +61,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/change_status")
-    public String reviewing(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute OrderDto order, @RequestParam("status") String status) {
+    public String changeStatus(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute OrderDto order, @RequestParam("status") String status) {
         for (long id : ids) {
             order = orderService.get(id);
             if (status.equals("REVIEWING")) {

@@ -1,15 +1,13 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
+import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
-import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
+import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
-import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
 import com.gmail.nogovitsyndmitriy.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,15 +24,17 @@ public class UserController {
 
     private final PageProperties pageProperties;
     private final UserService userService;
+    private final DiscountService discountService;
     private final UserValidator userValidator;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static int QUANTITY_ON_PAGE = 5;
 
 
     @Autowired
-    public UserController(PageProperties pageProperties, UserService userService, UserValidator userValidator, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(PageProperties pageProperties, UserService userService, DiscountService discountService, UserValidator userValidator, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.pageProperties = pageProperties;
         this.userService = userService;
+        this.discountService = discountService;
         this.userValidator = userValidator;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -93,5 +93,15 @@ public class UserController {
         return pageProperties.getUsersPagePath();
     }
 
-
+    @PostMapping(value = "/set_discount")
+    public String setDiscount(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("discountName") String discountName) {
+        List<DiscountDto> discounts = discountService.getAll();
+        for (long id : ids) {
+            user = userService.get(id);
+            user.setDiscountDto(discountService.findByName(discountName));
+        }
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("discounts", discounts);
+        return "redirect:/users";
+    }
 }

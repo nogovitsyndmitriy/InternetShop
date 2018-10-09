@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 @Repository
 public class DiscountDaoImpl extends GenericDaoImpl<Discount> implements DiscountDao {
     public DiscountDaoImpl() {
@@ -21,5 +22,13 @@ public class DiscountDaoImpl extends GenericDaoImpl<Discount> implements Discoun
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("percent", percent);
         return query.list();
+    }
+
+    @Override
+    public Discount findByName(String name) {
+        String hql = "FROM Discount AS D WHERE D.name:=name";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("name", name);
+        return (Discount) query.uniqueResult();
     }
 }

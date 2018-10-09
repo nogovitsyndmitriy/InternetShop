@@ -33,29 +33,31 @@
                 <td>${order.created.dayOfMonth}/${order.created.monthValue}/${order.created.year}
                         ${order.created.hour}:${order.created.minute}:${order.created.second}</td>
                 <td>${order.status}</td>
-                <td><div class="form-check">
-                    <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="REVIEWING" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        Reviewing
-                    </label>
-                </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="exampleRadios2" value="IN_PROGRESS">
-                        <label class="form-check-label" for="exampleRadios2">
-                            In Progress
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="exampleRadios3" value="DELIVERED">
-                        <label class="form-check-label" for="exampleRadios3">
-                            Delivered
-                        </label>
-                    </div></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="REVIEWING"
+               checked>
+        <label class="form-check-label" for="exampleRadios1">
+            Reviewing
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="exampleRadios2"
+               value="IN_PROGRESS">
+        <label class="form-check-label" for="exampleRadios2">
+            In Progress
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="exampleRadios3"
+               value="DELIVERED">
+        <label class="form-check-label" for="exampleRadios3">
+            Delivered
+        </label>
+    </div>
     <button class="btn btn-warning" type="submit">Change Status</button>
     </form:form>
     <ul class="pagination justify-content-center">

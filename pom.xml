@@ -37,6 +37,7 @@
         <spring-security-config.version>5.0.7.RELEASE</spring-security-config.version>
         <spring-security-taglibs.version>5.0.7.RELEASE</spring-security-taglibs.version>
         <jackson.version>2.9.7</jackson.version>
+        <file.upload.version>1.3.2</file.upload.version>
     </properties>
     <dependencies>
         <dependency>
@@ -68,6 +69,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${file.upload.version}</version>
         </dependency>
     </dependencies>
 </project>

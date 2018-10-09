@@ -2,7 +2,6 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.FeedbackDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Feedback;
-import com.gmail.nogovitsyndmitriy.dao.impl.FeedbackDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.FeedbackService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.FeedbackDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.FeedbackConverter;
@@ -21,14 +20,17 @@ import java.util.List;
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
     private final static Logger log = LogManager.getLogger(FeedbackServiceImpl.class);
-    private FeedbackDao feedbackDao = new FeedbackDaoImpl();
+    private FeedbackDao feedbackDao;
     private FeedbackDto feedbackDto = new FeedbackDto();
     private Feedback feedback = new Feedback();
     private final FeedbackConverter feedbackConverter;
     private final FeedbackDtoConverter feedbackDtoConverter;
 
     @Autowired
-    public FeedbackServiceImpl(@Qualifier("feedbackConverter") FeedbackConverter feedbackConverter, @Qualifier("feedbackDtoConverter") FeedbackDtoConverter feedbackDtoConverter) {
+    public FeedbackServiceImpl(FeedbackDao feedbackDao,
+                               @Qualifier("feedbackConverter") FeedbackConverter feedbackConverter,
+                               @Qualifier("feedbackDtoConverter") FeedbackDtoConverter feedbackDtoConverter) {
+        this.feedbackDao = feedbackDao;
         this.feedbackConverter = feedbackConverter;
         this.feedbackDtoConverter = feedbackDtoConverter;
     }

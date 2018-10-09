@@ -2,8 +2,6 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.RoleDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
-import com.gmail.nogovitsyndmitriy.dao.enums.Roles;
-import com.gmail.nogovitsyndmitriy.dao.impl.RoleDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
@@ -24,13 +22,14 @@ public class RoleServiceImpl implements RoleService {
     private final static Logger log = LogManager.getLogger(RoleServiceImpl.class);
     private final RoleDtoConverter roleDtoConverter;
     private final RoleConverter roleConverter;
-    private RoleDao roleDao = new RoleDaoImpl();
-    private Role role = new Role();
+    private final RoleDao roleDao;
+
 
     @Autowired
-    public RoleServiceImpl(@Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter) {
+    public RoleServiceImpl(@Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleDao roleDao) {
         this.roleDtoConverter = roleDtoConverter;
         this.roleConverter = roleConverter;
+        this.roleDao = roleDao;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto get(long id) {
         RoleDto roleDto = new RoleDto();
         try {
-            role = roleDao.get(id);
+            Role role = roleDao.get(id);
             roleDto = roleDtoConverter.toDTO(role);
             log.info("Get role successful!");
         } catch (Exception e) {
@@ -51,7 +50,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public RoleDto save(RoleDto roleDto) {
         try {
-            role = roleConverter.toEntity(roleDto);
+            Role role = roleConverter.toEntity(roleDto);
             roleDao.save(role);
             roleDto = roleDtoConverter.toDTO(role);
             log.info("Saving role successful!");
@@ -65,7 +64,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public RoleDto update(RoleDto roleDto) {
         try {
-            role = roleConverter.toEntity(roleDto);
+            Role role = roleConverter.toEntity(roleDto);
             roleDao.update(role);
             roleDto = roleDtoConverter.toDTO(role);
             log.info("Update role successful!");
@@ -79,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(RoleDto roleDto) {
         try {
-            role = roleConverter.toEntity(roleDto);
+            Role role = roleConverter.toEntity(roleDto);
             roleDao.delete(role);
             log.info("Delete role successful!");
         } catch (Exception e) {
@@ -91,7 +90,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
         try {
-            role = roleDao.get(id);
+            Role role = roleDao.get(id);
             roleDao.delete(role);
             log.info("Delete role by Id successful!");
         } catch (Exception e) {
@@ -110,8 +109,8 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto findByName(String name) {
         RoleDto roleDto = null;
         try {
-            role = roleDao.findByName(name);
-             roleDto = roleDtoConverter.toDTO(role);
+            Role role = roleDao.findByName(name);
+            roleDto = roleDtoConverter.toDTO(role);
             log.info("Get role by name successful!");
         } catch (Exception e) {
             log.error("Get role by name failed!", e);

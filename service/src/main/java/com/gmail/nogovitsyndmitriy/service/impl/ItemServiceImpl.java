@@ -6,6 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ItemConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
+import com.gmail.nogovitsyndmitriy.service.model.UploadedFileDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +31,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemDtoConverter itemDtoConverter;
     private final ItemConverter itemConverter;
     private final ItemDao itemDao;
-    private ItemDto itemDto = new ItemDto();
-    private Item item = new Item();
+
 
     @Autowired
     public ItemServiceImpl(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter, @Qualifier("itemConverter") ItemConverter itemConverter, ItemDao itemDao) {
@@ -38,8 +43,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public ItemDto get(long id) {
+        ItemDto itemDto = new ItemDto();
         try {
-            item = itemDao.get(id);
+            Item item = itemDao.get(id);
             itemDto = itemDtoConverter.toDTO(item);
             log.info("Get item by Id successful!");
         } catch (Exception e) {
@@ -50,9 +56,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public ItemDto save(ItemDto dto) {
+    public ItemDto save(ItemDto itemDto) {
         try {
-            item = itemConverter.toEntity(dto);
+            Item item = itemConverter.toEntity(itemDto);
             itemDao.save(item);
             itemDto = itemDtoConverter.toDTO(item);
             log.info("Saving item successful!");
@@ -64,9 +70,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public ItemDto update(ItemDto dto) {
+    public ItemDto update(ItemDto itemDto) {
         try {
-            item = itemConverter.toEntity(dto);
+            Item item = itemConverter.toEntity(itemDto);
             itemDao.update(item);
             itemDto = itemDtoConverter.toDTO(item);
             log.info("Update item successful!");
@@ -78,9 +84,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void delete(ItemDto dto) {
+    public void delete(ItemDto itemDto) {
         try {
-            item = itemConverter.toEntity(dto);
+            Item item = itemConverter.toEntity(itemDto);
             itemDao.delete(item);
             log.info("Delete item successful!");
         } catch (Exception e) {
@@ -92,7 +98,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
         try {
-            item = itemDao.get(id);
+            Item item = itemDao.get(id);
             itemDao.delete(item);
             log.info("Delete item by Id successful!");
         } catch (Exception e) {
@@ -148,13 +154,13 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemDto> itemPagination(long page, int maxResult) {
         List<ItemDto> itemDtoList = new ArrayList<>();
         List<Item> items;
-        try{
+        try {
             items = itemDao.itemPagination(page, maxResult);
-            for (Item item : items){
+            for (Item item : items) {
                 itemDtoList.add(itemDtoConverter.toDTO(item));
             }
             log.info("Successful getting items pagination!");
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("Items pagination failed!", e);
         }
         return itemDtoList;
@@ -171,5 +177,24 @@ public class ItemServiceImpl implements ItemService {
             log.error("Failed to get items quantity!", e);
         }
         return quantity;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public void uploadFromFile(MultipartFile file) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(UploadedFileDto.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            File tmpFile = new File("tmp.xml");
+            file.transferTo(tmpFile);
+            UploadedFileDto uploadedFileDto = (UploadedFileDto) unmarshaller.unmarshal(new FileReader(tmpFile));
+            List<ItemDto> itemsDto = uploadedFileDto.getItems();
+            for (ItemDto itemDto : itemsDto) {
+                Item item = itemConverter.toEntity(itemDto);
+                itemDao.save(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

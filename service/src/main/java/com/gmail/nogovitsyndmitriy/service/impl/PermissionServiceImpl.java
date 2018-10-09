@@ -1,12 +1,9 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.PermissionDao;
-import com.gmail.nogovitsyndmitriy.dao.impl.PermissionDaoImpl;
 import com.gmail.nogovitsyndmitriy.dao.entities.Permission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import com.gmail.nogovitsyndmitriy.service.PermissionService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.PermissionDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.PermissionConverter;
@@ -18,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
@@ -25,21 +23,22 @@ public class PermissionServiceImpl implements PermissionService {
     private final static Logger log = LogManager.getLogger(PermissionServiceImpl.class);
     private final PermissionDtoConverter permissionDtoConverter;
     private final PermissionConverter permissionConverter;
-    private PermissionDao permissionDao = new PermissionDaoImpl();
-    private PermissionDto permissionDto = new PermissionDto();
-    private Permission permission = new Permission();
+    private final PermissionDao permissionDao;
+
 
     @Autowired
-    public PermissionServiceImpl(@Qualifier("permissionDtoConverter") PermissionDtoConverter permissionDtoConverter, @Qualifier("permissionConverter") PermissionConverter permissionConverter) {
+    public PermissionServiceImpl(@Qualifier("permissionDtoConverter") PermissionDtoConverter permissionDtoConverter, @Qualifier("permissionConverter") PermissionConverter permissionConverter, PermissionDao permissionDao) {
         this.permissionDtoConverter = permissionDtoConverter;
         this.permissionConverter = permissionConverter;
+        this.permissionDao = permissionDao;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public PermissionDto get(long id) {
+        PermissionDto permissionDto = new PermissionDto();
         try {
-            permission = permissionDao.get(id);
+            Permission permission = permissionDao.get(id);
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Get permission successful!");
         } catch (Exception e) {
@@ -50,9 +49,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public PermissionDto save(PermissionDto dto) {
+    public PermissionDto save(PermissionDto permissionDto) {
         try {
-            permission = permissionConverter.toEntity(dto);
+            Permission permission = permissionConverter.toEntity(permissionDto);
             permissionDao.save(permission);
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Saving permission successful!");
@@ -64,9 +63,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public PermissionDto update(PermissionDto dto) {
+    public PermissionDto update(PermissionDto permissionDto) {
         try {
-            permission = permissionConverter.toEntity(dto);
+            Permission permission = permissionConverter.toEntity(permissionDto);
             permissionDao.update(permission);
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Update permission successful!");
@@ -80,7 +79,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(PermissionDto dto) {
         try {
-            permission = permissionConverter.toEntity(dto);
+            Permission permission = permissionConverter.toEntity(dto);
             permissionDao.delete(permission);
             log.info("Delete permission successful!");
         } catch (Exception e) {
@@ -92,7 +91,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteById(long id) {
         try {
-            permission = permissionDao.get(id);
+            Permission permission = permissionDao.get(id);
             permissionDao.delete(permission);
             log.info("Delete permission by Id successful!");
         } catch (Exception e) {

@@ -30,6 +30,6 @@
             <button type="submit" class="btn btn-primary">Create User</button>
     </form:form>
 </div>
-<jsp:include page="common/footer.jsp"/>
 </body>
+<jsp:include page="common/footer.jsp"/>
 </html>

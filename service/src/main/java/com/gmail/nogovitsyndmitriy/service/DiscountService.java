@@ -12,4 +12,6 @@ public interface DiscountService extends GenericService<DiscountDto> {
 
     void addDiscountByItemPrice(DiscountDto discountDto, BigDecimal above, BigDecimal below);
 
+    DiscountDto findByName(String name);
+
 }
