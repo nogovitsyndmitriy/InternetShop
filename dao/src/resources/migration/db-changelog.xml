@@ -314,11 +314,11 @@
         </insert>
     </changeSet>
     <changeSet id="1538416744535-44" author="com.gmail.nogovitsyndmitriy">
-    <insert tableName="t_role">
-        <column name="F_ID" value="4"/>
-        <column name="F_NAME" value="API_USER"/>
-    </insert>
-</changeSet>
+        <insert tableName="t_role">
+            <column name="F_ID" value="4"/>
+            <column name="F_NAME" value="API_USER"/>
+        </insert>
+    </changeSet>
     <changeSet id="1538416744535-45" author="com.gmail.nogovitsyndmitriy">
         <insert tableName="t_discount">
             <column name="F_ID" value="1"/>
@@ -385,9 +385,11 @@
     <changeSet id="1538416744535-53" author="com.gmail.nogovitsyndmitriy">
         <insert tableName="t_news">
             <column name="F_ID" value="1"/>
-            <column name="F_CONTENT" value="Госпошлину на допуск к дорожному движению не будут включать в стоимость топлива. Об этом рассказал 5 октября в Палате представителей премьер-министр Беларуси Сергей Румас."/>
+            <column name="F_CONTENT"
+                    value="Госпошлину на допуск к дорожному движению не будут включать в стоимость топлива. Об этом рассказал 5 октября в Палате представителей премьер-министр Беларуси Сергей Румас."/>
             <column name="F_CREATED" value="now()"/>
-            <column name="F_TITLE" value="Румас: Транспортный налог отвяжут от техосмотра. Платить можно будет через ЕРИП."/>
+            <column name="F_TITLE"
+                    value="Румас: Транспортный налог отвяжут от техосмотра. Платить можно будет через ЕРИП."/>
             <column name="F_USER_ID" value="1"/>
         </insert>
     </changeSet>
@@ -398,6 +400,240 @@
             <column name="F_CREATED" value="now()"/>
             <column name="F_NEWS_ID" value="1"/>
             <column name="F_USER_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-55" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="3"/>
+            <column name="F_Name" value="CHANGE_ROLE"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-56" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="4"/>
+            <column name="F_Name" value="DISABLE_USERS"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-57" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="5"/>
+            <column name="F_Name" value="DELETE_USERS"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-58" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="6"/>
+            <column name="F_Name" value="CHANGE_PASSWORD"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-59" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="7"/>
+            <column name="F_Name" value="CREATE_NEWS"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-60" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="8"/>
+            <column name="F_Name" value="UPDATE_NEWS"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-61" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="9"/>
+            <column name="F_Name" value="DELETE_NEWS"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-62" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="10"/>
+            <column name="F_Name" value="DELETE_COMMENTS"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-63" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="11"/>
+            <column name="F_Name" value="CREATE_ITEM"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-64" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="12"/>
+            <column name="F_Name" value="REMOVE_ITEM"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-65" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="13"/>
+            <column name="F_Name" value="UPLOAD_ITEM"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-66" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="14"/>
+            <column name="F_Name" value="SHOW_ORDERS"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-67" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="15"/>
+            <column name="F_Name" value="CHANGE_STATUS"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-68" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="16"/>
+            <column name="F_Name" value="SHOW_NEWS"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-69" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="17"/>
+            <column name="F_Name" value="COMMENT_NEWS"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-70" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="18"/>
+            <column name="F_Name" value="CREATE_ORDER"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-71" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="19"/>
+            <column name="F_Name" value="SHOW_PERSONAL_ORDERS"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-72" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="20"/>
+            <column name="F_Name" value="CHANGE_PROFILE"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-73" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="3"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-74" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="4"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-75" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="5"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-76" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="6"/>
+            <column name="F_ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-77" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="7"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-78" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="8"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-79" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="9"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-80" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="10"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-81" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="11"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-82" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="12"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-83" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="13"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-84" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="14"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-85" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="15"/>
+            <column name="F_ROLE_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-86" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="16"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-87" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="17"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-88" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="18"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-89" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="19"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-90" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="20"/>
+            <column name="F_ROLE_ID" value="3"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

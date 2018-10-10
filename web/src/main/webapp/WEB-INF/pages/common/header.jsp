@@ -25,6 +25,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/web/items">Items</a>
                 </li>
+                <security:authorize access="hasAuthority('UPLOAD_ITEM')">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/web/items/manage_items">Manage Items</a>
+                </li>
+                </security:authorize>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/web/news">News</a>
                 </li>

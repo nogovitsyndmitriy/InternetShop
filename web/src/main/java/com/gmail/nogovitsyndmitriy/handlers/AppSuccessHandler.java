@@ -40,6 +40,7 @@ clearAuthenticationAttributes(httpServletRequest);
     private String determineTargetUrl(Authentication authentication) {
         boolean isUser = false;
         boolean isAdmin = false;
+        boolean isSaleUser = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("VIEW_DOCUMENTS")) {
@@ -48,13 +49,18 @@ clearAuthenticationAttributes(httpServletRequest);
             } else if (grantedAuthority.getAuthority().equals("VIEW_USERS")) {
                 isAdmin = true;
                 break;
+            } else if (grantedAuthority.getAuthority().equals("UPLOAD_ITEM")){
+                isSaleUser = true;
+                break;
             }
         }
         if (isUser) {
             return "/web/items";
         } else if (isAdmin) {
             return "/web/users";
-        } else {
+        } else if (isSaleUser){
+            return "/web/items/manage_items";
+        }else {
             throw new IllegalStateException();
         }
     }

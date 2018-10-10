@@ -1,10 +1,12 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
+import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
+import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,7 @@ public class OrderController {
         modelMap.addAttribute("orders", orders);
         return pageProperties.getOrdersPagePath();
     }
+
     @GetMapping
     public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,15 +59,18 @@ public class OrderController {
         return pageProperties.getOrdersPagePath();
     }
 
-    @GetMapping(value = "/createOrder/{id}")
-    public String createOrder(@PathVariable("id") long id, ModelMap modelMap) {
+    @PostMapping(value = "/create_order")
+    public String createOrder(@RequestParam("item") long id, ModelMap modelMap, @RequestParam("quantity") String quantity) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         OrderDto order = new OrderDto();
+        ItemDto item = itemService.get(id);
         order.setUserDto(userService.get(userPrincipal.getId()));
-        order.setQuantity(1);
-        order.setItemDto(itemService.get(id));
+        order.setQuantity(Integer.parseInt(quantity));
+        order.setItemDto(item);
         orderService.save(order);
+        modelMap.addAttribute("item", item);
+        modelMap.addAttribute("quantity", quantity);
         modelMap.addAttribute("order", order);
         return "redirect:/web/items";
     }

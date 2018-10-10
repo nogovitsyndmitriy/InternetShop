@@ -17,6 +17,9 @@
                         <a href="${pageContext.request.contextPath}/web/registration" class="btn btn-primary"
                            aria-pressed="true"
                            role="button">ADD</a>
+                        <a href="${pageContext.request.contextPath}/web/users/roles" class="btn btn-primary"
+                                                   aria-pressed="true"
+                                                   role="button">ROLES</a>
                         <button type="submit" class="btn btn-primary">DELETE</button>
                     </div>
                 </div>

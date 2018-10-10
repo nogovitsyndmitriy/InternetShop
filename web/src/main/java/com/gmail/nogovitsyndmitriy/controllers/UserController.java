@@ -2,8 +2,10 @@ package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
+import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
+import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import com.gmail.nogovitsyndmitriy.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +28,18 @@ public class UserController {
     private final UserService userService;
     private final DiscountService discountService;
     private final UserValidator userValidator;
+    private final RoleService roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static int QUANTITY_ON_PAGE = 5;
 
 
     @Autowired
-    public UserController(PageProperties pageProperties, UserService userService, DiscountService discountService, UserValidator userValidator, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(PageProperties pageProperties, UserService userService, DiscountService discountService, UserValidator userValidator, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.pageProperties = pageProperties;
         this.userService = userService;
         this.discountService = discountService;
         this.userValidator = userValidator;
+        this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -99,9 +103,34 @@ public class UserController {
         for (long id : ids) {
             user = userService.get(id);
             user.setDiscountDto(discountService.findByName(discountName));
+            userService.update(user);
         }
         modelMap.addAttribute("user", user);
         modelMap.addAttribute("discounts", discounts);
         return "redirect:/users";
+    }
+
+    @GetMapping(value = "/roles")
+    public String rolesPage(@ModelAttribute UserDto user, ModelMap modelMap, @RequestParam(value = "page", defaultValue = "1") long page) {
+        long quantityOfUsers = userService.quantityOfUsers();
+        long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
+        List<UserDto> users = userService.usersPangination(page, QUANTITY_ON_PAGE);
+        modelMap.addAttribute("pages", pagesQuantity);
+        modelMap.addAttribute("users", users);
+        modelMap.addAttribute("user", user);
+        return pageProperties.getRolesPagePath();
+    }
+
+    @PostMapping(value = "/change_role")
+    public String changeRole(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("role") String role) {
+        List<RoleDto> roles = roleService.getAll();
+        for (long id : ids) {
+            user = userService.get(id);
+            user.setRoleDto(roleService.findByName(role));
+            userService.update(user);
+        }
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("roles", roles);
+        return "redirect:/web/users/roles";
     }
 }

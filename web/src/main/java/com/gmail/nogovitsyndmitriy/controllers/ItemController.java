@@ -42,7 +42,7 @@ public class ItemController {
     public String upload(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
         itemService.uploadFromFile(file);
         modelMap.addAttribute("file", file);
-        return "redirect:/web/items";
+        return "redirect:/web/items/manage_items";
     }
 
     @PostMapping
@@ -50,7 +50,7 @@ public class ItemController {
         item.setDeleted(false);
         item = itemService.save(item);
         modelMap.addAttribute("item", item);
-        return pageProperties.getItemsPagePath();
+        return pageProperties.getManageItemsPagePath();
     }
 
     @GetMapping(value = "/create_item")
@@ -71,7 +71,23 @@ public class ItemController {
         }
         itemService.update(item);
         modelMap.addAttribute("item", item);
-        return "redirect:/web/items";
+        return "redirect:/web/items/manage_items";
     }
 
+    @GetMapping(value = "/manage_items")
+    public String manageItems(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
+        long quantityOfItems = itemService.quantityOfItems();
+        long pagesQuantity = quantityOfPages(quantityOfItems, QUANTITY_ON_PAGE);
+        List<ItemDto> items = itemService.itemPagination(page, QUANTITY_ON_PAGE);
+        modelMap.addAttribute("pages", pagesQuantity);
+        modelMap.addAttribute("items", items);
+        return pageProperties.getManageItemsPagePath();
+    }
+
+    @GetMapping(value = "/{id}")
+    public String getItem(@PathVariable("id") long id, ModelMap modelMap) {
+        ItemDto item= itemService.get(id);
+        modelMap.addAttribute("item", item);
+        return pageProperties.getCreateOrderPagePath();
+    }
 }
