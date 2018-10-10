@@ -89,7 +89,7 @@ public class OrderController {
             orderService.update(order);
         }
         modelMap.addAttribute("order", order);
-        return "redirect:/web/orders_admin";
+        return "redirect:/web/orders/orders_admin";
     }
 
 }
