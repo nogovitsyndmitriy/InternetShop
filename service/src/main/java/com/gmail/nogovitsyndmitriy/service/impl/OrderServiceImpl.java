@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public OrderDto get(long id) {
+    public OrderDto get(Long id) {
         OrderDto orderDto = new OrderDto();
         try {
             Order order = orderDao.get(id);
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             Order order = orderDao.get(id);
             orderDao.save(order);
@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<OrderDto> ordersPagination(long page, int maxResult) {
+    public List<OrderDto> ordersPagination(Long page, int maxResult) {
         List<OrderDto> ordersDto = new ArrayList<>();
         try {
             List<Order> orders = orderDao.ordersPangination(page, maxResult);
@@ -122,8 +122,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public long quantityOfOrders() {
-        long quantity = 0;
+    public Long quantityOfOrders() {
+        Long quantity = 0L;
         try {
             quantity = orderDao.quantityOfOrders();
             log.info("Quantity find successful!");
@@ -135,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<OrderDto> findOrdersByUserId(long id) {
+    public List<OrderDto> findOrdersByUserId(Long id) {
         List<Order> list = orderDao.findOrdersByUserId(id);
         List<OrderDto> orders = list.stream().map(orderDtoConverter::toDTO).collect(Collectors.toCollection(LinkedList::new));
         return orders;
@@ -149,7 +149,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<OrderDto> ordersPanginationById(long page, int maxResult, long id) {
+    public List<OrderDto> ordersPanginationById(Long page, int maxResult, Long id) {
         List<OrderDto> ordersDto = new LinkedList<>();
         try {
             List<Order> orders = orderDao.ordersPanginationById(page, maxResult, id);

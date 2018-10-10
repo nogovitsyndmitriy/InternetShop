@@ -1,7 +1,6 @@
 package com.gmail.nogovitsyndmitriy.service.converter.impl.dto;
 
 import com.gmail.nogovitsyndmitriy.dao.entities.Audit;
-import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.*;
@@ -67,9 +66,9 @@ public class UserDtoConverter implements DTOConverter<UserDto, User> {
 
     @Override
     public List<UserDto> toDtoList(List<User> list) {
-       List<UserDto> users = new ArrayList<>();
+        List<UserDto> users = new ArrayList<>();
         for (User user : list) {
-         users.add(toDTO(user));
+            users.add(toDTO(user));
         }
         return users;
     }

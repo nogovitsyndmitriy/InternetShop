@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -41,8 +40,9 @@ public class WebConfig implements WebMvcConfigurer {
         builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
     }
+
     @Bean
-    public CommonsMultipartResolver multipartResolver(){
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setMaxUploadSize(50000);
         return multipartResolver;

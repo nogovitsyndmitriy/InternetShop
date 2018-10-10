@@ -17,9 +17,9 @@ import static com.gmail.nogovitsyndmitriy.utils.PanginationUtil.quantityOfPages;
 @RequestMapping("/web/items")
 public class ItemController {
 
+    private final static int QUANTITY_ON_PAGE = 5;
     private final PageProperties pageProperties;
     private final ItemService itemService;
-    private final static int QUANTITY_ON_PAGE = 5;
 
 
     @Autowired
@@ -29,7 +29,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public String getItems(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
+    public String getItems(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         long quantityOfItems = itemService.quantityOfItems();
         long pagesQuantity = quantityOfPages(quantityOfItems, QUANTITY_ON_PAGE);
         List<ItemDto> items = itemService.itemPagination(page, QUANTITY_ON_PAGE);
@@ -60,8 +60,10 @@ public class ItemController {
     }
 
     @PostMapping(value = "/remove")
-    public String removeItem(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute ItemDto item, @RequestParam("status") String status) {
-        for (long id : ids) {
+    public String removeItem(@RequestParam("ids") Long[] ids, ModelMap modelMap,
+                             @ModelAttribute ItemDto item,
+                             @RequestParam("status") String status) {
+        for (Long id : ids) {
             item = itemService.get(id);
             if (status.equals("remove")) {
                 item.setDeleted(true);
@@ -75,9 +77,9 @@ public class ItemController {
     }
 
     @GetMapping(value = "/manage_items")
-    public String manageItems(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
-        long quantityOfItems = itemService.quantityOfItems();
-        long pagesQuantity = quantityOfPages(quantityOfItems, QUANTITY_ON_PAGE);
+    public String manageItems(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
+        Long quantityOfItems = itemService.quantityOfItems();
+        Long pagesQuantity = quantityOfPages(quantityOfItems, QUANTITY_ON_PAGE);
         List<ItemDto> items = itemService.itemPagination(page, QUANTITY_ON_PAGE);
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("items", items);
@@ -85,8 +87,8 @@ public class ItemController {
     }
 
     @GetMapping(value = "/{id}")
-    public String getItem(@PathVariable("id") long id, ModelMap modelMap) {
-        ItemDto item= itemService.get(id);
+    public String getItem(@PathVariable("id") Long id, ModelMap modelMap) {
+        ItemDto item = itemService.get(id);
         modelMap.addAttribute("item", item);
         return pageProperties.getCreateOrderPagePath();
     }

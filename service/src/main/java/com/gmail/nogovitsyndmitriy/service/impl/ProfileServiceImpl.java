@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,7 +26,9 @@ public class ProfileServiceImpl implements ProfileService {
     private final ProfileDao profileDao;
 
     @Autowired
-    public ProfileServiceImpl(@Qualifier("profileDtoConverter") ProfileDtoConverter profileDtoConverter, @Qualifier("profileConverter") ProfileConverter profileConverter, ProfileDao profileDao) {
+    public ProfileServiceImpl(@Qualifier("profileDtoConverter") ProfileDtoConverter profileDtoConverter,
+                              @Qualifier("profileConverter") ProfileConverter profileConverter,
+                              ProfileDao profileDao) {
         this.profileDtoConverter = profileDtoConverter;
         this.profileConverter = profileConverter;
         this.profileDao = profileDao;
@@ -33,7 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public ProfileDto get(long id) {
+    public ProfileDto get(Long id) {
         ProfileDto profileDto = new ProfileDto();
         try {
             Profile profile = profileDao.get(id);
@@ -87,9 +90,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
-           Profile profile = profileDao.get(id);
+            Profile profile = profileDao.get(id);
             profileDao.delete(profile);
             log.info("Delete profile by Id successful!");
         } catch (Exception e) {
@@ -100,6 +103,6 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<ProfileDto> getAll() {
-        return null;
+        return new ArrayList<>();
     }
 }

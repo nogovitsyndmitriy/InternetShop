@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -37,9 +36,9 @@ public class NewsController {
     }
 
     @GetMapping
-    public String getNews(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
-        long quantityOfNews = newsService.quantityOfNews();
-        long pagesQuantity = quantityOfPages(quantityOfNews, QUANTITY_ON_PAGE);
+    public String getNews(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
+        Long quantityOfNews = newsService.quantityOfNews();
+        Long pagesQuantity = quantityOfPages(quantityOfNews, QUANTITY_ON_PAGE);
         List<NewsDto> news = newsService.newsPagination(page, QUANTITY_ON_PAGE);
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("news", news);
@@ -47,7 +46,7 @@ public class NewsController {
     }
 
     @GetMapping(value = "/{id}")
-    public String getCurrentNews(@PathVariable("id") long id, ModelMap modelMap) {
+    public String getCurrentNews(@PathVariable("id") Long id, ModelMap modelMap) {
         NewsDto news = newsService.get(id);
         CommentDto comment = new CommentDto();
         List<CommentDto> comments = commentService.findCommentsByNewsId(id);
@@ -58,7 +57,7 @@ public class NewsController {
     }
 
     @PostMapping(value = "/createComment/{news_id}")
-    public String createComment(ModelMap modelMap, @PathVariable("news_id") long id, @ModelAttribute CommentDto comment) {
+    public String createComment(ModelMap modelMap, @PathVariable("news_id") Long id, @ModelAttribute CommentDto comment) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         NewsDto news = newsService.get(id);

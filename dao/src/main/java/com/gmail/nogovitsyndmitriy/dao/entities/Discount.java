@@ -33,7 +33,7 @@ public class Discount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID")
-    private long id;
+    private Long id;
     @Column(name = "F_NAME")
     private String name;
     @Column(name = "F_PERCENT")
@@ -55,7 +55,7 @@ public class Discount implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Discount)) return false;
         Discount discount = (Discount) o;
-        return id == discount.id &&
+        return Objects.equals(id, discount.id) &&
                 Objects.equals(name, discount.name) &&
                 Objects.equals(percent, discount.percent) &&
                 Objects.equals(valid, discount.valid);

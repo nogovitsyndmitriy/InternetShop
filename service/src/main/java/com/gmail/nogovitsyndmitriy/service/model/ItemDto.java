@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -17,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ItemDto {
 
-    private long id;
+    private Long id;
     private String name;
     private String description;
     private String uniqueNumber;
@@ -30,7 +28,7 @@ public class ItemDto {
         if (this == o) return true;
         if (!(o instanceof ItemDto)) return false;
         ItemDto itemDto = (ItemDto) o;
-        return id == itemDto.id &&
+        return Objects.equals(id, itemDto.id) &&
                 Objects.equals(name, itemDto.name) &&
                 Objects.equals(description, itemDto.description) &&
                 Objects.equals(uniqueNumber, itemDto.uniqueNumber) &&

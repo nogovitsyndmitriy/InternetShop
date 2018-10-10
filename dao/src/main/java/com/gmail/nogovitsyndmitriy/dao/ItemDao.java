@@ -10,7 +10,7 @@ public interface ItemDao extends GenericDao<Item> {
 
     long count(BigDecimal above, BigDecimal below);
 
-    List<Item> itemPagination(long page, int maxResult);
+    List<Item> itemPagination(Long page, int maxResult);
 
-    long quantityOfItems();
+    Long quantityOfItems();
 }

@@ -22,7 +22,7 @@ public class Audit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", updatable = false, nullable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_EVENT_TYPE")
     private String eventType;
     @Column(name = "F_CREATED")
@@ -33,7 +33,7 @@ public class Audit implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Audit)) return false;
         Audit audit = (Audit) o;
-        return id == audit.id &&
+        return Objects.equals(id, audit.id) &&
                 Objects.equals(eventType, audit.eventType) &&
                 Objects.equals(created, audit.created);
     }

@@ -2,7 +2,6 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.CommentDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Comment;
-import com.gmail.nogovitsyndmitriy.dao.impl.CommentDaoImpl;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.CommentDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.CommentConverter;
@@ -28,7 +27,6 @@ public class CommentServiceImpl implements CommentService {
     private final CommentDao commentDao;
 
 
-
     @Autowired
     public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter, @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter, CommentDao commentDao) {
         this.commentConverter = commentConverter;
@@ -38,10 +36,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public CommentDto get(long id) {
+    public CommentDto get(Long id) {
         CommentDto commentDto = new CommentDto();
         try {
-           Comment comment = commentDao.get(id);
+            Comment comment = commentDao.get(id);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Getting comment by Id successful!");
         } catch (Exception e) {
@@ -56,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
         CommentDto commentDto = new CommentDto();
         try {
 
-          Comment comment = commentConverter.toEntity(dto);
+            Comment comment = commentConverter.toEntity(dto);
             commentDao.save(comment);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Saving comment successful!");
@@ -71,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto update(CommentDto dto) {
         CommentDto commentDto = new CommentDto();
         try {
-          Comment  comment = commentConverter.toEntity(dto);
+            Comment comment = commentConverter.toEntity(dto);
             commentDao.update(comment);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Update comment successful!");
@@ -85,7 +83,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(CommentDto dto) {
         try {
-           Comment comment = commentConverter.toEntity(dto);
+            Comment comment = commentConverter.toEntity(dto);
             commentDao.delete(comment);
             log.info("Saving comment successful!");
         } catch (Exception e) {
@@ -95,9 +93,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
-           Comment comment = commentDao.get(id);
+            Comment comment = commentDao.get(id);
             commentDao.delete(comment);
             log.info("Delete comment successful!");
         } catch (Exception e) {
@@ -113,10 +111,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<CommentDto> findCommentsByNewsId(long id) {
+    public List<CommentDto> findCommentsByNewsId(Long id) {
         List<CommentDto> commentDtoList = new ArrayList<>();
         List<Comment> comments = commentDao.findCommentsByNewsId(id);
-        for(Comment comment: comments){
+        for (Comment comment : comments) {
             commentDtoList.add(commentDtoConverter.toDTO(comment));
         }
         return commentDtoList;

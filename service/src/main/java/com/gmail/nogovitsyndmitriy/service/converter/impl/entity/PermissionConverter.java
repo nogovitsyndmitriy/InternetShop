@@ -5,7 +5,9 @@ import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+
 @Component("permissionConverter")
 public class PermissionConverter implements Converter<Permission, PermissionDto> {
     @Override
@@ -22,6 +24,6 @@ public class PermissionConverter implements Converter<Permission, PermissionDto>
 
     @Override
     public List<Permission> toEntityList(List<PermissionDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

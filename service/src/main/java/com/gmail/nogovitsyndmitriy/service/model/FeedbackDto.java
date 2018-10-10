@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 public class FeedbackDto {
 
-    private long id;
+    private Long id;
     private String content;
     private LocalDateTime created;
     private UserDto userDto;
@@ -26,7 +26,7 @@ public class FeedbackDto {
         if (this == o) return true;
         if (!(o instanceof FeedbackDto)) return false;
         FeedbackDto that = (FeedbackDto) o;
-        return id == that.id &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(content, that.content) &&
                 Objects.equals(created, that.created);
     }

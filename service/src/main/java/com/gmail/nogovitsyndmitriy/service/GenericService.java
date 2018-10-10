@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface GenericService<T> {
 
-    T get(final long id);
+    T get(final Long id);
 
     T save(final T dto);
 
@@ -12,7 +12,7 @@ public interface GenericService<T> {
 
     void delete(final T dto);
 
-    void deleteById(final long id);
+    void deleteById(final Long id);
 
     List<T> getAll();
 }

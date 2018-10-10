@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +46,6 @@ public class RoleConverter implements Converter<Role, RoleDto> {
 
     @Override
     public List<Role> toEntityList(List<RoleDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

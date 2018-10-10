@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +28,9 @@ public class AuditServiceImpl implements AuditService {
     private final AuditDtoConverter auditDtoConverter;
 
     @Autowired
-    public AuditServiceImpl(@Qualifier("auditConverter") AuditConverter auditConverter, @Qualifier("auditDtoConverter") AuditDtoConverter auditDtoConverter, AuditDao auditDao) {
+    public AuditServiceImpl(@Qualifier("auditConverter") AuditConverter auditConverter,
+                            @Qualifier("auditDtoConverter") AuditDtoConverter auditDtoConverter,
+                            AuditDao auditDao) {
         this.auditConverter = auditConverter;
         this.auditDtoConverter = auditDtoConverter;
         this.auditDao = auditDao;
@@ -36,7 +39,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public AuditDto get(long id) {
+    public AuditDto get(Long id) {
         try {
             audit = auditDao.get(id);
             auditDto = auditDtoConverter.toDTO(audit);
@@ -89,7 +92,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             audit = auditDao.get(id);
             auditDao.delete(audit);
@@ -102,6 +105,6 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<AuditDto> getAll() {
-        return null;
+        return new ArrayList<>();
     }
 }

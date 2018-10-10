@@ -19,7 +19,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
         super(Order.class);
     }
 
-    public List<Order> findOrdersByUserId(long userId) {
+    public List<Order> findOrdersByUserId(Long userId) {
         String hql = "FROM Order AS O WHERE O.user.id =: userId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("userId", userId);
@@ -27,7 +27,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> ordersPangination(long page, int maxResult) {
+    public List<Order> ordersPangination(Long page, int maxResult) {
         String hql = "FROM Order AS O ORDER BY O.created DESC";
         Query query = getCurrentSession().createQuery(hql);
         int startPosition = (int) ((maxResult * page) - maxResult);
@@ -37,13 +37,13 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
     }
 
     @Override
-    public long quantityOfOrders() {
+    public Long quantityOfOrders() {
         String hql = "SELECT COUNT (*) FROM Order AS O";
         Query query = getCurrentSession().createQuery(hql);
         return (long) query.uniqueResult();
     }
     @Override
-    public List<Order> ordersPanginationById(long page, int maxResult, long id) {
+    public List<Order> ordersPanginationById(Long page, int maxResult, Long id) {
         String hql = "FROM Order AS O WHERE O.user.id=:id";
         Query query = getCurrentSession().createQuery(hql);
         int startPosition = (int) ((maxResult * page) - maxResult);
@@ -52,4 +52,5 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
         query.setMaxResults(maxResult);
         return query.list();
     }
+
 }

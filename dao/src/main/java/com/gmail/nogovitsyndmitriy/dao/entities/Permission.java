@@ -26,7 +26,7 @@ public class Permission implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", nullable = false, updatable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_NAME")
     private String name;
 
@@ -44,7 +44,7 @@ public class Permission implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Permission)) return false;
         Permission that = (Permission) o;
-        return id == that.id &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name);
     }
 

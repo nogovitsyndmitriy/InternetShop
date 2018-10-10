@@ -1,7 +1,6 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
-import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
@@ -38,9 +37,9 @@ public class OrderController {
     }
 
     @GetMapping(value = "/orders_admin")
-    public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
-        long quantityOfOrders = orderService.quantityOfOrders();
-        long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
+    public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
+        Long quantityOfOrders = orderService.quantityOfOrders();
+        Long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
         List<OrderDto> orders = orderService.ordersPagination(page, QUANTITY_ON_PAGE);
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("orders", orders);
@@ -48,11 +47,11 @@ public class OrderController {
     }
 
     @GetMapping
-    public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
+    public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        long quantityOfOrders = orderService.findOrdersByUserId(userPrincipal.getId()).size();
-        long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
+        Long quantityOfOrders = (long) orderService.findOrdersByUserId(userPrincipal.getId()).size();
+        Long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
         List<OrderDto> orders = orderService.ordersPanginationById(page, QUANTITY_ON_PAGE, userPrincipal.getId());
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("orders", orders);
@@ -60,13 +59,13 @@ public class OrderController {
     }
 
     @PostMapping(value = "/create_order")
-    public String createOrder(@RequestParam("item") long id, ModelMap modelMap, @RequestParam("quantity") String quantity) {
+    public String createOrder(@RequestParam("item") Long id, ModelMap modelMap, @RequestParam("quantity") Integer quantity) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         OrderDto order = new OrderDto();
         ItemDto item = itemService.get(id);
         order.setUserDto(userService.get(userPrincipal.getId()));
-        order.setQuantity(Integer.parseInt(quantity));
+        order.setQuantity(quantity);
         order.setItemDto(item);
         orderService.save(order);
         modelMap.addAttribute("item", item);
@@ -76,15 +75,23 @@ public class OrderController {
     }
 
     @PostMapping(value = "/change_status")
-    public String changeStatus(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute OrderDto order, @RequestParam("status") String status) {
-        for (long id : ids) {
+    public String changeStatus(@RequestParam("ids") Long[] ids,
+                               @ModelAttribute OrderDto order,
+                               @RequestParam("status") String status,
+                               ModelMap modelMap
+    ) {
+        for (Long id : ids) {
             order = orderService.get(id);
-            if (status.equals("REVIEWING")) {
-                order.setStatus(Status.REVIEWING);
-            } else if (status.equals("IN_PROGRESS")) {
-                order.setStatus(Status.IN_PROGRESS);
-            } else if (status.equals("DELIVERED")) {
-                order.setStatus(Status.DELIVERED);
+            switch (status) {
+                case "REVIEWING":
+                    order.setStatus(Status.REVIEWING);
+                    break;
+                case "IN_PROGRESS":
+                    order.setStatus(Status.IN_PROGRESS);
+                    break;
+                case "DELIVERED":
+                    order.setStatus(Status.DELIVERED);
+                    break;
             }
             orderService.update(order);
         }

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 public class PanginationUtil {
     private static final Logger log = LogManager.getLogger(PanginationUtil.class);
 
-    public static long quantityOfPages(long quantityOfEntities, int maxResult) {
+    public static Long quantityOfPages(Long quantityOfEntities, int maxResult) {
         long quantityOfPages = 0L;
         try {
             if (quantityOfEntities > 0 && quantityOfEntities <= maxResult) {

@@ -12,9 +12,9 @@ public interface ItemService extends GenericService<ItemDto> {
 
     long count(BigDecimal above, BigDecimal below);
 
-    List<ItemDto> itemPagination(long page, int maxResult);
+    List<ItemDto> itemPagination(Long page, int maxResult);
 
-    long quantityOfItems();
+    Long quantityOfItems();
 
     void uploadFromFile(MultipartFile file);
 }

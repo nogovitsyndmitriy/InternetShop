@@ -20,7 +20,7 @@ public abstract class GenericDaoImpl<T extends Serializable> implements GenericD
         this.clazz = clazz;
     }
 
-    public T get(long id) {
+    public T get(Long id) {
         return getCurrentSession().get(clazz, id);
     }
 

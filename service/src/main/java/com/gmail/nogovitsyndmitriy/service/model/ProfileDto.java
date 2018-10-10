@@ -12,7 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileDto {
-    private long userId;
+    private Long userId;
     private String address;
     private String telephone;
 
@@ -21,7 +21,7 @@ public class ProfileDto {
         if (this == o) return true;
         if (!(o instanceof ProfileDto)) return false;
         ProfileDto that = (ProfileDto) o;
-        return userId == that.userId &&
+        return userId.equals(that.userId) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(telephone, that.telephone);
     }

@@ -24,11 +24,12 @@ public class NewsServiceImpl implements NewsService {
     private final NewsDtoConverter newsDtoConverter;
     private final NewsConverter newsConverter;
     private final NewsDao newsDao;
-    private NewsDto newsDto = new NewsDto();
-    private News news = new News();
+
 
     @Autowired
-    public NewsServiceImpl(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("newsConverter") NewsConverter newsConverter, NewsDao newsDao) {
+    public NewsServiceImpl(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter,
+                           @Qualifier("newsConverter") NewsConverter newsConverter,
+                           NewsDao newsDao) {
         this.newsDtoConverter = newsDtoConverter;
         this.newsConverter = newsConverter;
         this.newsDao = newsDao;
@@ -36,9 +37,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public NewsDto get(long id) {
+    public NewsDto get(Long id) {
+        NewsDto newsDto = new NewsDto();
         try {
-            news = newsDao.get(id);
+            News news = newsDao.get(id);
             newsDto = newsDtoConverter.toDTO(news);
             log.info("Getting news by Id successful!");
         } catch (Exception e) {
@@ -49,9 +51,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public NewsDto save(NewsDto dto) {
+    public NewsDto save(NewsDto newsDto) {
         try {
-            news = newsConverter.toEntity(dto);
+            News news = newsConverter.toEntity(newsDto);
             newsDao.save(news);
             newsDto = newsDtoConverter.toDTO(news);
             log.info("Saving news successful!");
@@ -63,9 +65,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public NewsDto update(NewsDto dto) {
+    public NewsDto update(NewsDto newsDto) {
         try {
-            news = newsConverter.toEntity(dto);
+            News news = newsConverter.toEntity(newsDto);
             newsDao.update(news);
             newsDto = newsDtoConverter.toDTO(news);
             log.info("Update news successful!");
@@ -77,9 +79,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void delete(NewsDto dto) {
+    public void delete(NewsDto newsDto) {
         try {
-            news = newsConverter.toEntity(dto);
+            News news = newsConverter.toEntity(newsDto);
             newsDao.save(news);
             log.info("Delete news successful!");
         } catch (Exception e) {
@@ -89,9 +91,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
-            news = newsDao.get(id);
+            News news = newsDao.get(id);
             newsDao.delete(news);
             log.info("Delete news by Id successful!");
         } catch (Exception e) {
@@ -102,12 +104,12 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<NewsDto> getAll() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<NewsDto> newsPagination(long page, int maxResult) {
+    public List<NewsDto> newsPagination(Long page, int maxResult) {
         List<NewsDto> newsDtoList = new ArrayList<>();
         List<News> newss;
         try {
@@ -125,8 +127,8 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public long quantityOfNews() {
-        long quantity = 0;
+    public Long quantityOfNews() {
+        Long quantity = 0L;
         try {
             quantity = newsDao.quantityOfNews();
             log.info("Quantity of news getting successful!");

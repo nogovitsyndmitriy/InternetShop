@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface OrderDao extends GenericDao<Order> {
 
-    List<Order> findOrdersByUserId(long userId);
+    List<Order> findOrdersByUserId(Long userId);
 
-    List<Order> ordersPangination(long page, int maxResult);
+    List<Order> ordersPangination(Long page, int maxResult);
 
-    List<Order> ordersPanginationById(long page, int maxResult, long id);
+    List<Order> ordersPanginationById(Long page, int maxResult, Long id);
 
-    long quantityOfOrders();
+    Long quantityOfOrders();
 }

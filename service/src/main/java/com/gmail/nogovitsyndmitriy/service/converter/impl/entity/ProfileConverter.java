@@ -5,7 +5,9 @@ import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+
 @Component("profileConverter")
 public class ProfileConverter implements Converter<Profile, ProfileDto> {
     @Override
@@ -23,6 +25,6 @@ public class ProfileConverter implements Converter<Profile, ProfileDto> {
 
     @Override
     public List<Profile> toEntityList(List<ProfileDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

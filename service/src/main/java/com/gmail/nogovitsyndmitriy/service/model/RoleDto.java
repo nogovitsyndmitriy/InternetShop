@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleDto {
-    private long id;
+    private Long id;
     private String name;
     private Set<PermissionDto> permissionDtoSet = new HashSet<>();
 
@@ -24,7 +24,7 @@ public class RoleDto {
         if (this == o) return true;
         if (!(o instanceof RoleDto)) return false;
         RoleDto roleDto = (RoleDto) o;
-        return id == roleDto.id &&
+        return id.equals(roleDto.id) &&
                 Objects.equals(name, roleDto.name);
     }
 

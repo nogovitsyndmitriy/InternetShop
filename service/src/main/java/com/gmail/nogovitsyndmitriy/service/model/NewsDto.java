@@ -19,10 +19,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class NewsDto {
 
-    private long id;
+    private Long id;
     private String title;
     private String content;
-    private long userId;
+    private Long userId;
     private LocalDateTime created;
     private UserDto user;
 
@@ -32,10 +32,10 @@ public class NewsDto {
         if (this == o) return true;
         if (!(o instanceof NewsDto)) return false;
         NewsDto newsDto = (NewsDto) o;
-        return id == newsDto.id &&
-                userId == newsDto.userId &&
+        return Objects.equals(id, newsDto.id) &&
                 Objects.equals(title, newsDto.title) &&
                 Objects.equals(content, newsDto.content) &&
+                Objects.equals(userId, newsDto.userId) &&
                 Objects.equals(created, newsDto.created);
     }
 

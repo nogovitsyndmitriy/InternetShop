@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("orderConverter")
@@ -17,7 +18,8 @@ public class OrderConverter implements Converter<Order, OrderDto> {
     private final UserConverter userConverter;
 
     @Autowired
-    public OrderConverter(@Qualifier("itemConverter") ItemConverter itemConverter, @Qualifier("userConverter") UserConverter userConverter) {
+    public OrderConverter(@Qualifier("itemConverter") ItemConverter itemConverter,
+                          @Qualifier("userConverter") UserConverter userConverter) {
         this.itemConverter = itemConverter;
         this.userConverter = userConverter;
     }
@@ -48,6 +50,6 @@ public class OrderConverter implements Converter<Order, OrderDto> {
 
     @Override
     public List<Order> toEntityList(List<OrderDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public ItemDto get(long id) {
+    public ItemDto get(Long id) {
         ItemDto itemDto = new ItemDto();
         try {
             Item item = itemDao.get(id);
@@ -96,7 +96,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             Item item = itemDao.get(id);
             itemDao.delete(item);
@@ -151,7 +151,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<ItemDto> itemPagination(long page, int maxResult) {
+    public List<ItemDto> itemPagination(Long page, int maxResult) {
         List<ItemDto> itemDtoList = new ArrayList<>();
         List<Item> items;
         try {
@@ -168,8 +168,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public long quantityOfItems() {
-        long quantity = 0;
+    public Long quantityOfItems() {
+        Long quantity = 0L;
         try {
             quantity = itemDao.quantityOfItems();
             log.info("Quantity of items getting successful!");

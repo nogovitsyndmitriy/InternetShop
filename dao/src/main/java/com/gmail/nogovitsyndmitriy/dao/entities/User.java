@@ -33,7 +33,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", nullable = false, updatable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_EMAIL")
 //    @Email
 //    @NotNull
@@ -72,7 +72,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return id == user.id &&
+        return Objects.equals(id, user.id) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
@@ -85,5 +85,4 @@ public class User implements Serializable {
 
         return Objects.hash(id, email, name, surname, password, disabled);
     }
-
 }

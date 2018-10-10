@@ -25,7 +25,7 @@ public class UserAPIController {
     @GetMapping(value = "/{id}")
     private UserDto getUser(@PathVariable(name = "id") Integer id) {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setId(1L);
         userDto.setName("John");
         users.put(1,userDto);
         return users.get(id);

@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService extends GenericService<UserDto> {
     UserDto findByEmail(String email);
 
-    long quantityOfUsers();
+    Long quantityOfUsers();
 
-    List<UserDto> usersPangination(long page, int maxResult);
+    List<UserDto> usersPangination(Long page, int maxResult);
 }

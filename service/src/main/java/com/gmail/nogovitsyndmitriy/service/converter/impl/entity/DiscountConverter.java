@@ -2,15 +2,14 @@ package com.gmail.nogovitsyndmitriy.service.converter.impl.entity;
 
 import com.gmail.nogovitsyndmitriy.dao.entities.Discount;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
-import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
-import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +44,7 @@ public class DiscountConverter implements Converter<Discount, DiscountDto> {
 
     @Override
     public List<Discount> toEntityList(List<DiscountDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }
 

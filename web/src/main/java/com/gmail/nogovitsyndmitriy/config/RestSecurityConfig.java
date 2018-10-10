@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity http)throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/api/**")
                 .authorizeRequests().anyRequest().fullyAuthenticated()
                 .and()
@@ -24,7 +24,7 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint(){
+    public AuthenticationEntryPoint authenticationEntryPoint() {
         BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
         entryPoint.setRealmName("REST realm");
         return entryPoint;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("commentConverter")
@@ -46,6 +47,6 @@ public class CommentConverter implements Converter<Comment, CommentDto> {
 
     @Override
     public List<Comment> toEntityList(List<CommentDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

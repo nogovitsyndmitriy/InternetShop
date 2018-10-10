@@ -26,11 +26,11 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", updatable = false, nullable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_CREATED")
     private LocalDateTime created;
     @Column(name = "F_QUANTITY")
-    private int quantity;
+    private Integer quantity;
     @Column(name = "F_STATUS")
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -49,10 +49,10 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return id == order.id &&
-                quantity == order.quantity &&
+        return Objects.equals(id, order.id) &&
                 Objects.equals(created, order.created) &&
-                Objects.equals(status, order.status);
+                Objects.equals(quantity, order.quantity) &&
+                status == order.status;
     }
 
     @Override

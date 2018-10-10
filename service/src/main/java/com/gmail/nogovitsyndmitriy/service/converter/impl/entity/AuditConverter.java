@@ -5,7 +5,9 @@ import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+
 @Component("auditConverter")
 public class AuditConverter implements Converter<Audit, AuditDto> {
     @Override
@@ -23,6 +25,6 @@ public class AuditConverter implements Converter<Audit, AuditDto> {
 
     @Override
     public List<Audit> toEntityList(List<AuditDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

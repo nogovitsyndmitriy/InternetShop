@@ -18,8 +18,9 @@ public class SingleNewsController {
     public SingleNewsController(PageProperties pageProperties) {
         this.pageProperties = pageProperties;
     }
+
     @GetMapping
-    public String readNews(@ModelAttribute NewsDto news, ModelMap modelMap){
+    public String readNews(@ModelAttribute NewsDto news, ModelMap modelMap) {
         modelMap.addAttribute("news", news);
         return pageProperties.getSingleNewsPagePath();
     }

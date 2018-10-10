@@ -13,8 +13,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuditDto {
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private String eventType;
     private LocalDateTime created;
 
@@ -23,8 +23,8 @@ public class AuditDto {
         if (this == o) return true;
         if (!(o instanceof AuditDto)) return false;
         AuditDto auditDto = (AuditDto) o;
-        return id == auditDto.id &&
-                userId == auditDto.userId &&
+        return Objects.equals(id, auditDto.id) &&
+                Objects.equals(userId, auditDto.userId) &&
                 Objects.equals(eventType, auditDto.eventType) &&
                 Objects.equals(created, auditDto.created);
     }

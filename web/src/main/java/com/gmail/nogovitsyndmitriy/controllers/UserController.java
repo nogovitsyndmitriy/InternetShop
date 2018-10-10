@@ -34,7 +34,14 @@ public class UserController {
 
 
     @Autowired
-    public UserController(PageProperties pageProperties, UserService userService, DiscountService discountService, UserValidator userValidator, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(
+            PageProperties pageProperties,
+            UserService userService,
+            DiscountService discountService,
+            UserValidator userValidator,
+            RoleService roleService,
+            BCryptPasswordEncoder bCryptPasswordEncoder
+    ) {
         this.pageProperties = pageProperties;
         this.userService = userService;
         this.discountService = discountService;
@@ -44,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public String getUser(@PathVariable("id") long id, ModelMap modelMap) {
+    public String getUser(@PathVariable("id") Long id, ModelMap modelMap) {
         UserDto user = userService.get(id);
         modelMap.addAttribute("user", user);
         return pageProperties.getUpdateUserPagePath();
@@ -55,17 +62,17 @@ public class UserController {
     public String createUser(@ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
         userValidator.validate(user, result);
         if (result.hasErrors()) {
+            modelMap.addAttribute("user", user);
             return pageProperties.getUsersPagePath();
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user = userService.save(user);
-            modelMap.addAttribute("user", user);
             return "redirect:/web/login";
         }
     }
 
     @PostMapping(value = "/{id}")
-    public String updateUser(@PathVariable("id") long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
+    public String updateUser(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
         user.setId(id);
         user.getProfileDto().setUserId(id);
         userValidator.validate(user, result);
@@ -79,18 +86,18 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@RequestParam("ids") long[] ids) {
-        for (long id : ids) {
+    public String deleteUser(@RequestParam("ids") Long[] ids) {
+        for (Long id : ids) {
             userService.deleteById(id);
         }
         return "redirect:/web/users";
     }
 
-    @GetMapping()
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('VIEW_USERS')")
-    public String getUsers(@RequestParam(value = "page", defaultValue = "1") long page, ModelMap modelMap) {
-        long quantityOfUsers = userService.quantityOfUsers();
-        long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
+    public String getUsers(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
+        Long quantityOfUsers = userService.quantityOfUsers();
+        Long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
         List<UserDto> users = userService.usersPangination(page, QUANTITY_ON_PAGE);
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("users", users);
@@ -98,9 +105,13 @@ public class UserController {
     }
 
     @PostMapping(value = "/set_discount")
-    public String setDiscount(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("discountName") String discountName) {
+    public String setDiscount(@RequestParam("ids") Long[] ids,
+                              @ModelAttribute UserDto user,
+                              @RequestParam("discountName") String discountName,
+                              ModelMap modelMap
+    ) {
         List<DiscountDto> discounts = discountService.getAll();
-        for (long id : ids) {
+        for (Long id : ids) {
             user = userService.get(id);
             user.setDiscountDto(discountService.findByName(discountName));
             userService.update(user);
@@ -111,9 +122,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/roles")
-    public String rolesPage(@ModelAttribute UserDto user, ModelMap modelMap, @RequestParam(value = "page", defaultValue = "1") long page) {
-        long quantityOfUsers = userService.quantityOfUsers();
-        long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
+    public String rolesPage(@ModelAttribute UserDto user,
+                            @RequestParam(value = "page", defaultValue = "1") long page,
+                            ModelMap modelMap
+    ) {
+        Long quantityOfUsers = userService.quantityOfUsers();
+        Long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
         List<UserDto> users = userService.usersPangination(page, QUANTITY_ON_PAGE);
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("users", users);
@@ -122,9 +136,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/change_role")
-    public String changeRole(@RequestParam("ids") long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("role") String role) {
+    public String changeRole(@RequestParam("ids") Long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("role") String role) {
         List<RoleDto> roles = roleService.getAll();
-        for (long id : ids) {
+        for (Long id : ids) {
             user = userService.get(id);
             user.setRoleDto(roleService.findByName(role));
             userService.update(user);

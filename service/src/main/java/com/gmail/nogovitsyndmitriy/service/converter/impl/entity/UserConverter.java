@@ -2,7 +2,8 @@ package com.gmail.nogovitsyndmitriy.service.converter.impl.entity;
 
 import com.gmail.nogovitsyndmitriy.dao.entities.*;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
-import com.gmail.nogovitsyndmitriy.service.model.*;
+import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
+import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,10 @@ public class UserConverter implements Converter<User, UserDto> {
     private final DiscountConverter discountConverter;
 
     @Autowired
-    public UserConverter(@Qualifier("profileConverter") ProfileConverter converter, @Qualifier("auditConverter") AuditConverter auditConverter, @Qualifier("roleConverter") RoleConverter roleConverter, @Qualifier("discountConverter") DiscountConverter discountConverter) {
+    public UserConverter(@Qualifier("profileConverter") ProfileConverter converter,
+                         @Qualifier("auditConverter") AuditConverter auditConverter,
+                         @Qualifier("roleConverter") RoleConverter roleConverter,
+                         @Qualifier("discountConverter") DiscountConverter discountConverter) {
         this.converter = converter;
         this.auditConverter = auditConverter;
         this.roleConverter = roleConverter;

@@ -16,7 +16,8 @@ public class CommentDtoConverter implements DTOConverter<CommentDto, Comment> {
     private final UserDtoConverter userDtoConverter;
 
     @Autowired
-    public CommentDtoConverter(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter, @Qualifier("userDtoConverter") UserDtoConverter userDtoConverter) {
+    public CommentDtoConverter(@Qualifier("newsDtoConverter") NewsDtoConverter newsDtoConverter,
+                               @Qualifier("userDtoConverter") UserDtoConverter userDtoConverter) {
         this.newsDtoConverter = newsDtoConverter;
         this.userDtoConverter = userDtoConverter;
     }

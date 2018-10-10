@@ -1,15 +1,11 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
-import com.gmail.nogovitsyndmitriy.dao.ProfileDao;
 import com.gmail.nogovitsyndmitriy.dao.RoleDao;
 import com.gmail.nogovitsyndmitriy.dao.UserDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
-import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
-import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.UserDtoConverter;
-import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.UserConverter;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import org.apache.logging.log4j.LogManager;
@@ -45,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public UserDto get(long id) {
+    public UserDto get(Long id) {
         UserDto userDto = new UserDto();
         try {
             User user = userDao.get(id);
@@ -101,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             User user = userDao.get(id);
             userDao.delete(user);
@@ -141,8 +137,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public long quantityOfUsers() {
-        long quantity = 0;
+    public Long quantityOfUsers() {
+        Long quantity = 0L;
         try {
             quantity = userDao.quantityOfUsers();
             log.info("Quantity find successful!");
@@ -154,7 +150,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<UserDto> usersPangination(long page, int maxResult) {
+    public List<UserDto> usersPangination(Long page, int maxResult) {
         List<UserDto> usersDto = new ArrayList<>();
         List<User> users;
         try {

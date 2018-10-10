@@ -23,7 +23,7 @@ public class Feedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID")
-    private long id;
+    private Long id;
     @Column(name = "F_CONTENT")
     private String content;
     @Column(name = "F_CREATED")
@@ -43,7 +43,7 @@ public class Feedback implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Feedback)) return false;
         Feedback feedback = (Feedback) o;
-        return id == feedback.id &&
+        return Objects.equals(id, feedback.id) &&
                 Objects.equals(content, feedback.content) &&
                 Objects.equals(created, feedback.created);
     }

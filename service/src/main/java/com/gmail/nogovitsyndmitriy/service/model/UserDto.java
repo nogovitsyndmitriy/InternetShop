@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private long id;
+    private Long id;
     private String email;
     private String name;
     private String surname;
@@ -30,7 +30,7 @@ public class UserDto {
         if (this == o) return true;
         if (!(o instanceof UserDto)) return false;
         UserDto userDto = (UserDto) o;
-        return id == userDto.id &&
+        return id.equals(userDto.id) &&
                 Objects.equals(email, userDto.email) &&
                 Objects.equals(name, userDto.name) &&
                 Objects.equals(surname, userDto.surname) &&

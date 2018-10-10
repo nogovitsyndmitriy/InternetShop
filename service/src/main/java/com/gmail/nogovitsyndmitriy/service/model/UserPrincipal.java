@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class UserPrincipal implements UserDetails {
 
-    private long id;
+    private Long id;
     private String username;
     private String password;
     private List<GrantedAuthority> authorities;

@@ -19,7 +19,7 @@ public class NewsDaoImpl extends GenericDaoImpl<News> implements NewsDao {
     }
 
 
-    public List<News> newsPagination(long page, int maxResult) {
+    public List<News> newsPagination(Long page, int maxResult) {
         String hql = "FROM News AS N ORDER BY N.created DESC";
         Query query= getCurrentSession().createQuery(hql);
         int startPosition = (int) ((page * maxResult) - maxResult);
@@ -29,10 +29,10 @@ public class NewsDaoImpl extends GenericDaoImpl<News> implements NewsDao {
     }
 
     @Override
-    public long quantityOfNews() {
+    public Long quantityOfNews() {
         String hql = "SELECT COUNT (*) FROM News AS N";
         Query query = getCurrentSession().createQuery(hql);
-        return (long) query.uniqueResult();
+        return (Long) query.uniqueResult();
     }
 
 }

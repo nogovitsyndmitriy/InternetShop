@@ -1,6 +1,5 @@
 package com.gmail.nogovitsyndmitriy.service.model;
 
-import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.Set;
 @Setter
 public class DiscountDto {
 
-    private long id;
+    private Long id;
     private String name;
     private BigDecimal percent;
     private LocalDateTime valid;
@@ -30,7 +29,7 @@ public class DiscountDto {
         if (this == o) return true;
         if (!(o instanceof DiscountDto)) return false;
         DiscountDto that = (DiscountDto) o;
-        return id == that.id &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(percent, that.percent) &&
                 Objects.equals(valid, that.valid);

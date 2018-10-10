@@ -6,6 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component("profileDtoConverter")
 public class ProfileDtoConverter implements DTOConverter<ProfileDto, Profile> {
     @Override

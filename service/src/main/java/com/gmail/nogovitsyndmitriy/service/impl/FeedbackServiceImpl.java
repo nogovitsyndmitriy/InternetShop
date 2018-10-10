@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,7 +39,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public FeedbackDto get(long id) {
+    public FeedbackDto get(Long id) {
         try {
             feedback = feedbackDao.get(id);
             feedbackDto = feedbackDtoConverter.toDTO(feedback);
@@ -91,7 +92,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             feedback = feedbackDao.get(id);
             feedbackDao.delete(feedback);
@@ -104,6 +105,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<FeedbackDto> getAll() {
-        return null;
+        return new ArrayList<>();
     }
 }

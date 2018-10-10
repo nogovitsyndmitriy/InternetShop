@@ -15,9 +15,9 @@ import java.util.Objects;
 @AllArgsConstructor
 public class OrderDto {
 
-    private long id;
+    private Long id;
     private LocalDateTime created;
-    private int quantity;
+    private Integer quantity;
     private Status status;
     private ItemDto itemDto;
     private UserDto userDto;
@@ -27,10 +27,10 @@ public class OrderDto {
         if (this == o) return true;
         if (!(o instanceof OrderDto)) return false;
         OrderDto orderDto = (OrderDto) o;
-        return id == orderDto.id &&
-                quantity == orderDto.quantity &&
+        return Objects.equals(id, orderDto.id) &&
                 Objects.equals(created, orderDto.created) &&
-                Objects.equals(status, orderDto.status);
+                Objects.equals(quantity, orderDto.quantity) &&
+                status == orderDto.status;
     }
 
     @Override

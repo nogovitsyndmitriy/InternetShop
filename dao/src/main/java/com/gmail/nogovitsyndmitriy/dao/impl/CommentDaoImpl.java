@@ -19,10 +19,12 @@ public class CommentDaoImpl extends GenericDaoImpl<Comment> implements CommentDa
     }
 
     @Override
-    public List<Comment> findCommentsByNewsId(long id) {
+    public List<Comment> findCommentsByNewsId(Long id) {
         String hql = "FROM Comment AS C WHERE C.news.id=:id ORDER BY C.created DESC";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("id", id);
         return query.list();
     }
+
+
 }

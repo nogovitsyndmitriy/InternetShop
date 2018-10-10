@@ -24,8 +24,8 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-handle(httpServletRequest, httpServletResponse, authentication);
-clearAuthenticationAttributes(httpServletRequest);
+        handle(httpServletRequest, httpServletResponse, authentication);
+        clearAuthenticationAttributes(httpServletRequest);
     }
 
     private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -43,31 +43,32 @@ clearAuthenticationAttributes(httpServletRequest);
         boolean isSaleUser = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("VIEW_DOCUMENTS")) {
-                isUser = true;
-                break;
-            } else if (grantedAuthority.getAuthority().equals("VIEW_USERS")) {
-                isAdmin = true;
-                break;
-            } else if (grantedAuthority.getAuthority().equals("UPLOAD_ITEM")){
-                isSaleUser = true;
-                break;
+            switch (grantedAuthority.getAuthority()) {
+                case "VIEW_DOCUMENTS":
+                    isUser = true;
+                    break;
+                case "VIEW_USERS":
+                    isAdmin = true;
+                    break;
+                case "UPLOAD_ITEM":
+                    isSaleUser = true;
+                    break;
             }
         }
         if (isUser) {
             return "/web/items";
         } else if (isAdmin) {
             return "/web/users";
-        } else if (isSaleUser){
+        } else if (isSaleUser) {
             return "/web/items/manage_items";
-        }else {
+        } else {
             throw new IllegalStateException();
         }
     }
 
-    private void clearAuthenticationAttributes(HttpServletRequest request){
+    private void clearAuthenticationAttributes(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if(session == null){
+        if (session == null) {
             return;
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);

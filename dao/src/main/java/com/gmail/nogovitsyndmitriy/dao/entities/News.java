@@ -25,7 +25,7 @@ public class News implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", nullable = false, updatable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_TITLE")
     private String title;
     @Column(name = "F_CONTENT")
@@ -43,7 +43,7 @@ public class News implements Serializable {
         if (this == o) return true;
         if (!(o instanceof News)) return false;
         News news = (News) o;
-        return id == news.id &&
+        return Objects.equals(id, news.id) &&
                 Objects.equals(title, news.title) &&
                 Objects.equals(content, news.content) &&
                 Objects.equals(created, news.created);

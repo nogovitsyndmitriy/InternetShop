@@ -28,14 +28,14 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public long quantityOfUsers() {
+    public Long quantityOfUsers() {
         String hql = "SELECT COUNT (*) FROM User AS U";
         Query query = getCurrentSession().createQuery(hql);
         return (long) query.uniqueResult();
     }
 
     @Override
-    public List<User> usersPangination(long page, int maxResult) {
+    public List<User> usersPangination(Long page, int maxResult) {
         String hql = "FROM User AS U";
         Query query = getCurrentSession().createQuery(hql);
         int startPosition = (int) ((page * maxResult) - maxResult);

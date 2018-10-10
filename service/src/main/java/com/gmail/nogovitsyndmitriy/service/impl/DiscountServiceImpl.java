@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -33,7 +32,10 @@ public class DiscountServiceImpl implements DiscountService {
     private ItemDao itemDao;
 
     @Autowired
-    public DiscountServiceImpl(@Qualifier("discountDtoConverter") DTOConverter<DiscountDto, Discount> discountDtoConverter, @Qualifier("discountConverter") Converter<Discount, DiscountDto> discountConverter, @Qualifier("itemDtoConverter") DTOConverter<ItemDto, Item> itemDtoConverter, DiscountDao discountDao, ItemDao itemDao) {
+    public DiscountServiceImpl(@Qualifier("discountDtoConverter") DTOConverter<DiscountDto, Discount> discountDtoConverter,
+                               @Qualifier("discountConverter") Converter<Discount, DiscountDto> discountConverter,
+                               @Qualifier("itemDtoConverter") DTOConverter<ItemDto, Item> itemDtoConverter,
+                               DiscountDao discountDao, ItemDao itemDao) {
         this.discountDtoConverter = discountDtoConverter;
         this.discountConverter = discountConverter;
         this.itemDtoConverter = itemDtoConverter;
@@ -44,7 +46,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public DiscountDto get(long id) {
+    public DiscountDto get(Long id) {
         DiscountDto discountDto = new DiscountDto();
         try {
             Discount discount = discountDao.get(id);
@@ -129,7 +131,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             Discount discount = discountDao.get(id);
             discountDao.delete(discount);

@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDao extends GenericDao<User> {
     User findByEmail(String email);
 
-    long quantityOfUsers();
+    Long quantityOfUsers();
 
-    List<User> usersPangination(long page, int maxResult);
+    List<User> usersPangination(Long page, int maxResult);
 }

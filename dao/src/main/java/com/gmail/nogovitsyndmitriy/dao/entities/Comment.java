@@ -32,7 +32,7 @@ public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", updatable = false, nullable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_CONTENT")
     private String content;
     @Column(name = "F_CREATED")
@@ -51,7 +51,7 @@ public class Comment implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Comment)) return false;
         Comment comment = (Comment) o;
-        return id == comment.id &&
+        return Objects.equals(id, comment.id) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(created, comment.created);
     }

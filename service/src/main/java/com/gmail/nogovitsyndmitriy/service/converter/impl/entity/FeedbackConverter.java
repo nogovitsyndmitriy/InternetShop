@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("feedbackConverter")
@@ -17,7 +18,8 @@ public class FeedbackConverter implements Converter<Feedback, FeedbackDto> {
     private final ItemConverter itemConverter;
 
     @Autowired
-    public FeedbackConverter(@Qualifier("userConverter") UserConverter userConverter, @Qualifier("itemConverter") ItemConverter itemConverter) {
+    public FeedbackConverter(@Qualifier("userConverter") UserConverter userConverter,
+                             @Qualifier("itemConverter") ItemConverter itemConverter) {
         this.userConverter = userConverter;
         this.itemConverter = itemConverter;
     }
@@ -41,11 +43,11 @@ public class FeedbackConverter implements Converter<Feedback, FeedbackDto> {
             Item item = itemConverter.toEntity(dto.getItemDto());
             feedback.setItem(item);
         }
-        return null;
+        return feedback;
     }
 
     @Override
     public List<Feedback> toEntityList(List<FeedbackDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

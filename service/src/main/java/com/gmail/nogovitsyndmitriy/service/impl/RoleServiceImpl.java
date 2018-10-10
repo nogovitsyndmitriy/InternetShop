@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,7 +27,9 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Autowired
-    public RoleServiceImpl(@Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter, @Qualifier("roleConverter") RoleConverter roleConverter, RoleDao roleDao) {
+    public RoleServiceImpl(@Qualifier("roleDtoConverter") RoleDtoConverter roleDtoConverter,
+                           @Qualifier("roleConverter") RoleConverter roleConverter,
+                           RoleDao roleDao) {
         this.roleDtoConverter = roleDtoConverter;
         this.roleConverter = roleConverter;
         this.roleDao = roleDao;
@@ -34,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public RoleDto get(long id) {
+    public RoleDto get(Long id) {
         RoleDto roleDto = new RoleDto();
         try {
             Role role = roleDao.get(id);
@@ -88,7 +91,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         try {
             Role role = roleDao.get(id);
             roleDao.delete(role);
@@ -101,7 +104,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<RoleDto> getAll() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

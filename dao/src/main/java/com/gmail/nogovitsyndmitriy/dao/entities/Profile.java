@@ -29,7 +29,7 @@ public class Profile implements Serializable {
     @Id
     @GeneratedValue(generator = "generator")
     @Column(name = "F_USER_ID", unique = true, nullable = false)
-    private long userId;
+    private Long userId;
     @Column(name = "F_ADDRESS")
     private String address;
     @Column(name = "F_TELEPHONE")
@@ -44,7 +44,7 @@ public class Profile implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Profile)) return false;
         Profile profile = (Profile) o;
-        return userId == profile.userId &&
+        return Objects.equals(userId, profile.userId) &&
                 Objects.equals(address, profile.address) &&
                 Objects.equals(telephone, profile.telephone);
     }

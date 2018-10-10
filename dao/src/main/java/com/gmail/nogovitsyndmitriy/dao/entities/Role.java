@@ -25,7 +25,7 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", nullable = false, updatable = false)
-    private long id;
+    private Long id;
     @Column(name = "F_NAME")
     private String name;
 
@@ -39,7 +39,7 @@ public class Role implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role = (Role) o;
-        return id == role.id &&
+        return Objects.equals(id, role.id) &&
                 Objects.equals(name, role.name);
     }
 

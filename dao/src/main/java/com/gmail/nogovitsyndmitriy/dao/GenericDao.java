@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GenericDao <T extends Serializable> {
 
-    T get(final long entityId);
+    T get(final Long entityId);
 
     void save(final T entity);
 

@@ -37,14 +37,14 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return (Long) query.uniqueResult();
     }
 
-    public List<Feedback> getAllFeedbacksforItem(long itemId) {
+    public List<Feedback> getAllFeedbacksforItem(Long itemId) {
         String hql = "FROM Feedback AS F WHERE F.item.id=:itemId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("itemId", itemId);
         return query.list();
     }
 
-    public List<Item> itemPagination(long page, int maxResult) {
+    public List<Item> itemPagination(Long page, int maxResult) {
         String hql = "FROM Item AS I WHERE I.deleted=false";
         Query query = getCurrentSession().createQuery(hql);
         int startPosition = (int) ((page * maxResult) - maxResult);
@@ -54,7 +54,7 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     }
 
     @Override
-    public long quantityOfItems() {
+    public Long quantityOfItems() {
         String hql = "SELECT COUNT (*) FROM Item AS I";
         Query query = getCurrentSession().createQuery(hql);
         return (long) query.uniqueResult();

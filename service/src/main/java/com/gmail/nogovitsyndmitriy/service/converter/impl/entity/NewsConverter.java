@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("newsConverter")
@@ -39,6 +40,6 @@ public class NewsConverter implements Converter<News, NewsDto> {
 
     @Override
     public List<News> toEntityList(List<NewsDto> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -17,8 +15,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class CommentDto {
 
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private String content;
     private LocalDateTime created;
     private UserDto userDto;
@@ -29,8 +27,8 @@ public class CommentDto {
         if (this == o) return true;
         if (!(o instanceof CommentDto)) return false;
         CommentDto that = (CommentDto) o;
-        return id == that.id &&
-                userId == that.userId &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(content, that.content) &&
                 Objects.equals(created, that.created);
     }
