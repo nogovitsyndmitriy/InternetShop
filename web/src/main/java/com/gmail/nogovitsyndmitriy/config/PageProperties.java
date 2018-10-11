@@ -26,6 +26,8 @@ public class PageProperties {
     private String rolesPagePath;
     private String manageItemsPagePath;
     private String createOrderPagePath;
+    private String currentUserPagePath;
+    private String passwordPagePath;
 
     @Autowired
     public PageProperties(Environment environment) {
@@ -47,6 +49,8 @@ public class PageProperties {
         this.rolesPagePath = environment.getProperty("roles.page.path");
         this.manageItemsPagePath = environment.getProperty("manage.items.page.path");
         this.createOrderPagePath = environment.getProperty("create.order.page.path");
+        this.currentUserPagePath = environment.getProperty("current.user.page.path");
+        this.passwordPagePath = environment.getProperty("password.page.path");
     }
 
 

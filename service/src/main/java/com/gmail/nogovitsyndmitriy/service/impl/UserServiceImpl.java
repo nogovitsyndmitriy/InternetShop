@@ -2,19 +2,20 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.RoleDao;
 import com.gmail.nogovitsyndmitriy.dao.UserDao;
+import com.gmail.nogovitsyndmitriy.dao.entities.Profile;
 import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.UserDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.UserConverter;
+import com.gmail.nogovitsyndmitriy.service.model.PasswordDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -27,20 +28,25 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final UserDao userDao;
     private final RoleDao roleDao;
+    private final BCryptPasswordEncoder encoder;
 
 
     @Autowired
     public UserServiceImpl(@Qualifier("userDtoConverter") UserDtoConverter userDtoConverter,
                            @Qualifier("userConverter") UserConverter userConverter,
-                           UserDao userDao, RoleDao roleDao) {
+                           UserDao userDao,
+                           RoleDao roleDao,
+                           BCryptPasswordEncoder encoder) {
         this.userDtoConverter = userDtoConverter;
         this.userConverter = userConverter;
         this.userDao = userDao;
         this.roleDao = roleDao;
+        this.encoder = encoder;
+
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public UserDto get(Long id) {
         UserDto userDto = new UserDto();
         try {
@@ -54,12 +60,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public UserDto save(UserDto userDto) {
         try {
             User user = userConverter.toEntity(userDto);
             Role role = roleDao.findByName("CUSTOMER_USER");
             user.setRole(role);
+            Profile profile = new Profile();
+            user.setProfile(profile);
+            profile.setUser(user);
             userDao.save(user);
             userDto = userDtoConverter.toDTO(user);
             log.info("Saving user successful!");
@@ -70,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public UserDto update(UserDto userDto) {
         try {
             User user = userConverter.toEntity(userDto);
@@ -84,7 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(UserDto userDto) {
         try {
             User user = userConverter.toEntity(userDto);
@@ -96,7 +105,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void deleteById(Long id) {
         try {
             User user = userDao.get(id);
@@ -108,7 +117,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<UserDto> getAll() {
         List<UserDto> users = new ArrayList<>();
         try {
@@ -122,7 +131,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public UserDto findByEmail(String email) {
         UserDto userDto = new UserDto();
         try {
@@ -136,7 +145,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public Long quantityOfUsers() {
         Long quantity = 0L;
         try {
@@ -149,7 +158,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<UserDto> usersPangination(Long page, int maxResult) {
         List<UserDto> usersDto = new ArrayList<>();
         List<User> users;
@@ -165,4 +174,20 @@ public class UserServiceImpl implements UserService {
         return usersDto;
     }
 
+    @Override
+    @Transactional
+    public UserDto changePassword(PasswordDto password, UserDto userDto) {
+        if (password.getConfirmPassword().equals(password.getNewPassword())) {
+            password.setCurrentPassword(encoder.encode(password.getCurrentPassword()));
+            password.setNewPassword(encoder.encode(password.getNewPassword()));
+            password.setConfirmPassword(encoder.encode(password.getConfirmPassword()));
+            userDto.setPassword(password.getNewPassword());
+
+            User user = userConverter.toEntity(userDto);
+            userDao.update(user);
+            userDto = userDtoConverter.toDTO(user);
+            return userDto;
+        }
+        return null;
+    }
 }

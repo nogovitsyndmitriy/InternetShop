@@ -4,12 +4,12 @@ import com.gmail.nogovitsyndmitriy.config.PageProperties;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
-import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
-import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
-import com.gmail.nogovitsyndmitriy.service.model.UserDto;
+import com.gmail.nogovitsyndmitriy.service.model.*;
 import com.gmail.nogovitsyndmitriy.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/{id}")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
+    public String updateUsers(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
         user.setId(id);
         user.getProfileDto().setUserId(id);
         userValidator.validate(user, result);
@@ -82,7 +82,7 @@ public class UserController {
             user = userService.update(user);
             modelMap.addAttribute("user", user);
         }
-        return "redirect:/web/users";
+        return pageProperties.getUsersPagePath();
     }
 
     @PostMapping("/delete")
@@ -146,5 +146,47 @@ public class UserController {
         modelMap.addAttribute("user", user);
         modelMap.addAttribute("roles", roles);
         return "redirect:/web/users/roles";
+    }
+
+    @GetMapping(value = "/current")
+    public String getUser(@ModelAttribute UserDto user, ModelMap modelMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        user = userService.get(userPrincipal.getId());
+        modelMap.addAttribute("user", user);
+        return pageProperties.getCurrentUserPagePath();
+    }
+
+    @PostMapping(value = "/{id}/current")
+    public String updateCurrentUser(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
+        user.setId(id);
+        user.getProfileDto().setUserId(id);
+        userValidator.validate(user, result);
+        if (result.hasErrors()) {
+            return pageProperties.getUsersPagePath();
+        } else {
+            user = userService.update(user);
+            modelMap.addAttribute("user", user);
+        }
+        return pageProperties.getCurrentUserPagePath();
+    }
+
+    @GetMapping(value = "/{id}/update/password")
+    public String passwordPage(@PathVariable("id") Long id, ModelMap modelMap) {
+        UserDto user = userService.get(id);
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("password", new PasswordDto());
+        return pageProperties.getPasswordPagePath();
+    }
+
+    @PostMapping(value = "/{id}/update/password")
+    public String passwordPage(@PathVariable("id") Long id,
+                               @ModelAttribute PasswordDto password,
+                               ModelMap modelMap) {
+        UserDto user = userService.get(id);
+        userService.changePassword(password, user);
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("password", new PasswordDto());
+        return pageProperties.getCurrentUserPagePath();
     }
 }

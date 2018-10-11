@@ -16,6 +16,12 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <security:authorize access="isAuthenticated()">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/web/users/current">Update Info<span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                </security:authorize>
                 <security:authorize access="hasAuthority('VIEW_USERS')">
                     <li class="nav-item active">
                         <a class="nav-link" href="${pageContext.request.contextPath}/web/users">Users<span
