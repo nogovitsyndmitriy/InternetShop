@@ -33,7 +33,7 @@
                 </li>
                 <security:authorize access="hasAuthority('UPLOAD_ITEM')">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/web/items/manage_items">Manage Items</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/web/items/manage">Manage Items</a>
                 </li>
                 </security:authorize>
                 <li class="nav-item">
@@ -42,7 +42,7 @@
                 <security:authorize access="isAuthenticated()">
                 <security:authorize access="hasAuthority('VIEW_USERS')">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/web/orders/orders_admin">Orders</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/web/orders/admin">Orders</a>
                     </li>
                 </security:authorize>
                     <security:authorize access="hasAuthority('VIEW_DOCUMENTS')">

@@ -105,7 +105,7 @@ public class UserController {
         return pageProperties.getUsersPagePath();
     }
 
-    @PostMapping(value = "/set_discount")
+    @PostMapping(value = "/discount")
     public String setDiscount(@RequestParam("ids") Long[] ids,
                               @ModelAttribute UserDto user,
                               @RequestParam("discountName") String discountName,
@@ -136,7 +136,7 @@ public class UserController {
         return pageProperties.getRolesPagePath();
     }
 
-    @PostMapping(value = "/change_role")
+    @PostMapping(value = "/roles")
     public String changeRole(@RequestParam("ids") Long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("role") String role) {
         List<RoleDto> roles = roleService.getAll();
         for (Long id : ids) {

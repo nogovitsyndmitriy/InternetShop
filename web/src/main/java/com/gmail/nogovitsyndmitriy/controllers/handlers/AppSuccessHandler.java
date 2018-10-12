@@ -60,7 +60,7 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
         } else if (isAdmin) {
             return "/web/users";
         } else if (isSaleUser) {
-            return "/web/items/manage_items";
+            return "/web/items/manage";
         } else {
             throw new IllegalStateException();
         }

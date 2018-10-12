@@ -12,7 +12,7 @@
     <input type="file" name="file" accept="text/xml">
     <button type="submit" class="btn btn-primary">upload</button>
 </form:form>
-<a href="${pageContext.request.contextPath}/web/items/create_item" class="btn-primary">Create Item</a>
+<a href="${pageContext.request.contextPath}/web/items/create" class="btn-primary">Create Item</a>
 <div class="col-md-12">
     <table class="table table-striped table-dark">
         <thead>

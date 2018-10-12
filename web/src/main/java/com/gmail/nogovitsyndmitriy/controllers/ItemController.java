@@ -53,7 +53,7 @@ public class ItemController {
         return pageProperties.getManageItemsPagePath();
     }
 
-    @GetMapping(value = "/create_item")
+    @GetMapping(value = "/create")
     public String createPage(ModelMap modelMap, @ModelAttribute ItemDto item) {
         modelMap.addAttribute("item", item);
         return pageProperties.getCreateItemPagePath();
@@ -76,7 +76,7 @@ public class ItemController {
         return "redirect:/web/items/manage_items";
     }
 
-    @GetMapping(value = "/manage_items")
+    @GetMapping(value = "/manage")
     public String manageItems(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfItems = itemService.quantityOfItems();
         Long pagesQuantity = quantityOfPages(quantityOfItems, QUANTITY_ON_PAGE);

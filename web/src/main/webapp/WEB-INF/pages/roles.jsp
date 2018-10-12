@@ -6,7 +6,7 @@
 </head>
 <jsp:include page="common/header.jsp"/>
 <body class="body">
-<form action="${pageContext.request.contextPath}/web/users/change_role" method="post">
+<form action="${pageContext.request.contextPath}/web/users/roles" method="post">
 <div class="row">
     <div class="col-md-12">
         <table class="table">

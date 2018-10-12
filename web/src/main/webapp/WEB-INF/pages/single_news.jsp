@@ -25,7 +25,7 @@
     </c:forEach>
 </div>
 <div class="reg_form text-center">
-    <form:form action="${pageContext.request.contextPath}/web/news/createComment/${news.id}" modelAttribute="comment"
+    <form:form action="${pageContext.request.contextPath}/web/news/comment/${news.id}" modelAttribute="comment"
                method="post" cssClass="form">
     <div class="form group">
         <form:label path="content">Type your comment</form:label>

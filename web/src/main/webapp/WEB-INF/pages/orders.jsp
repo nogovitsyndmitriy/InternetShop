@@ -10,7 +10,7 @@
 <div class="col-md-12">
     <jsp:include page="common/header.jsp"/>
     <table class="table table-striped table-dark">
-        <form:form action="${pageContext.request.contextPath}/web/orders/change_status"
+        <form:form action="${pageContext.request.contextPath}/web/orders/status"
                    modelAttribute="order" method="post"
                    cssClass="form">
         <thead>
@@ -65,7 +65,7 @@
     <ul class="pagination justify-content-center">
         <c:forEach var="page" begin="1" end="${pages}">
             <li class="page-item"><a class="page-link"
-                                     href="${pageContext.request.contextPath}/web/orders/orders_admin?page=${page}">${page}</a></li>
+                                     href="${pageContext.request.contextPath}/web/orders/admin?page=${page}">${page}</a></li>
         </c:forEach>
     </ul>
 </security:authorize>

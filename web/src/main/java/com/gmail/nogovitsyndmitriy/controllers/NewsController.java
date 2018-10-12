@@ -56,7 +56,7 @@ public class NewsController {
         return pageProperties.getSingleNewsPagePath();
     }
 
-    @PostMapping(value = "/createComment/{news_id}")
+    @PostMapping(value = "/comment/{news_id}")
     public String createComment(ModelMap modelMap, @PathVariable("news_id") Long id, @ModelAttribute CommentDto comment) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();

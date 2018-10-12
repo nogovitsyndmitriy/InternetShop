@@ -36,7 +36,7 @@ public class OrderController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/orders_admin")
+    @GetMapping(value = "/admin")
     public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfOrders = orderService.quantityOfOrders();
         Long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
@@ -58,7 +58,7 @@ public class OrderController {
         return pageProperties.getOrdersPagePath();
     }
 
-    @PostMapping(value = "/create_order")
+    @PostMapping(value = "/create")
     public String createOrder(@RequestParam("item") Long id, ModelMap modelMap, @RequestParam("quantity") Integer quantity) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -74,7 +74,7 @@ public class OrderController {
         return "redirect:/web/items";
     }
 
-    @PostMapping(value = "/change_status")
+    @PostMapping(value = "/status")
     public String changeStatus(@RequestParam("ids") Long[] ids,
                                @ModelAttribute OrderDto order,
                                @RequestParam("status") String status,

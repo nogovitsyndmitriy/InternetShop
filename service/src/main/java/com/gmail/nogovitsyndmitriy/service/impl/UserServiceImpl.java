@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
             User user = userConverter.toEntity(userDto);
             Role role = roleDao.findByName("CUSTOMER_USER");
             user.setRole(role);
+            user.setDisabled(false);
             Profile profile = new Profile();
             user.setProfile(profile);
             profile.setUser(user);

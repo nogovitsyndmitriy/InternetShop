@@ -24,7 +24,7 @@
 <td>${item.name}</td>
 <td>${item.price}$</td>
 <td>${item.uniqueNumber}</td>
-<form:form action="${pageContext.request.contextPath}/web/orders/create_order" modelAttribute="order" method="post">
+<form:form action="${pageContext.request.contextPath}/web/orders/create" modelAttribute="order" method="post">
     <td>
     <input type="number" name="quantity" class="form-control" placeholder="Quantity"/>
     <input type="hidden" name="item" value="${item.id}"/>
