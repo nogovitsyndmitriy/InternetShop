@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +92,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Role role = roleDao.get(id);
             roleDao.delete(role);
@@ -99,6 +100,7 @@ public class RoleServiceImpl implements RoleService {
         } catch (Exception e) {
             log.error("Delete role by Id failed!", e);
         }
+        return null;
     }
 
     @Override

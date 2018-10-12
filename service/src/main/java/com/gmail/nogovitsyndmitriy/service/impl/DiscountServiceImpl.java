@@ -7,6 +7,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.apache.logging.log4j.LogManager;
@@ -131,7 +132,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Discount discount = discountDao.get(id);
             discountDao.delete(discount);
@@ -139,6 +140,7 @@ public class DiscountServiceImpl implements DiscountService {
         } catch (Exception e) {
             log.error("Failed to get feedback by Id!");
         }
+        return null;
     }
 
     @Override

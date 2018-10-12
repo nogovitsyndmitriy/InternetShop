@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ItemConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.UploadedFileDto;
 import org.apache.logging.log4j.LogManager;
@@ -96,7 +97,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Item item = itemDao.get(id);
             itemDao.delete(item);
@@ -104,6 +105,7 @@ public class ItemServiceImpl implements ItemService {
         } catch (Exception e) {
             log.error("Delete item by Id failed!", e);
         }
+        return null;
     }
 
     @Override

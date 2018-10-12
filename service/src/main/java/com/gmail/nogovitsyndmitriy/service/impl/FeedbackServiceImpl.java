@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Feedback;
 import com.gmail.nogovitsyndmitriy.service.FeedbackService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.FeedbackDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.FeedbackConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.FeedbackDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -92,7 +93,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             feedback = feedbackDao.get(id);
             feedbackDao.delete(feedback);
@@ -100,6 +101,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         } catch (Exception e) {
             log.error("Failed to delete feedback by Id!");
         }
+        return null;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.AuditService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.AuditDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.AuditConverter;
 import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +93,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             audit = auditDao.get(id);
             auditDao.delete(audit);
@@ -100,6 +101,7 @@ public class AuditServiceImpl implements AuditService {
         } catch (Exception e) {
             log.error("Delete by Id audit failed!", e);
         }
+        return null;
     }
 
     @Override

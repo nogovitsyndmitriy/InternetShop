@@ -4,7 +4,6 @@ import com.gmail.nogovitsyndmitriy.dao.entities.*;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.hibernate.SessionFactory;
-import org.omg.DynamicAny.DynArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -68,8 +66,9 @@ public class DatabaseConfig {
                 Role.class,
                 Permission.class,
                 Discount.class,
-                Feedback.class);
-
+                Feedback.class,
+                BusinessCard.class
+        );
         return factoryBean;
     }
 

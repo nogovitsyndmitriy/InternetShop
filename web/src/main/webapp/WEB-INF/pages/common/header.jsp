@@ -50,6 +50,11 @@
                             <a class="nav-link" href="${pageContext.request.contextPath}/web/orders">Orders</a>
                         </li>
                     </security:authorize>
+                    <security:authorize access="hasAuthority('MANAGE_BUSINESS_CARD')">
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/web/users/cards">Cards</a>
+                        </li>
+                    </security:authorize>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Promo</a>
                     </li>

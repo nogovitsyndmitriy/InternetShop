@@ -1,10 +1,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext 
-                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
-                   http://www.liquibase.org/xml/ns/dbchangelog 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="Дмитрий (generated)" id="1538416744535-1">
         <createTable tableName="t_audit">
@@ -635,5 +632,35 @@
             <column name="F_PERMISSION_ID" value="20"/>
             <column name="F_ROLE_ID" value="3"/>
         </insert>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-91">
+        <createTable tableName="t_business_card">
+            <column autoIncrement="true" name="F_ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="F_TITLE" type="VARCHAR(255)"/>
+            <column name="F_FULL_NAME" type="VARCHAR(255)"/>
+            <column name="F_PHONE" type="VARCHAR(255)"/>
+            <column name="F_USER_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1538416744535-92" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_permission">
+            <column name="F_ID" value="21"/>
+            <column name="F_Name" value="MANAGE_BUSINESS_CARD"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1538416744535-93" author="com.gmail.nogovitsyndmitriy">
+        <insert tableName="t_role_permission">
+            <column name="F_PERMISSION_ID" value="21"/>
+            <column name="F_ROLE_ID" value="3"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Дмитрий (generated)" id="1538416744535-95">
+        <addForeignKeyConstraint baseColumnNames="F_USER_ID" baseTableName="t_business_card"
+                                 constraintName="FK12312" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="F_ID" referencedTableName="t_user" validate="true"/>
     </changeSet>
 </databaseChangeLog>

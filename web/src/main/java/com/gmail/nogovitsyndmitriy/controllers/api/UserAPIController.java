@@ -1,6 +1,9 @@
 package com.gmail.nogovitsyndmitriy.controllers.api;
 
+import com.gmail.nogovitsyndmitriy.service.BusinessCardService;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -10,6 +13,12 @@ import java.util.*;
 public class UserAPIController {
     private Random random = new Random();
     private Map<Integer, UserDto> users = new HashMap<>();
+    private BusinessCardService cardService;
+
+    @Autowired
+    public UserAPIController(BusinessCardService cardService) {
+        this.cardService = cardService;
+    }
 
 
     @PostMapping
@@ -22,13 +31,19 @@ public class UserAPIController {
         return new ArrayList<>(users.values());
     }
 
-    @GetMapping(value = "/{id}")
-    private UserDto getUser(@PathVariable(name = "id") Integer id) {
-        UserDto userDto = new UserDto();
-        userDto.setId(1L);
-        userDto.setName("John");
-        users.put(1,userDto);
-        return users.get(id);
+
+    @GetMapping(value = "/cards")
+    public List<BusinessCardDto> getCards() {
+        return new ArrayList<>();
     }
 
+    @DeleteMapping(value = "/{id}")
+    public BusinessCardDto deleteCard(@PathVariable(name = "id") Long id) {
+        return cardService.deleteById(id);
+    }
+
+    @GetMapping(value = "/cards/{id}")
+    public BusinessCardDto getCard(@PathVariable(name = "id") Long id) {
+        return cardService.get(id);
+    }
 }

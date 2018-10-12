@@ -20,11 +20,13 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.password.invalid");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "user.email.invalid");
+
         UserDto user = (UserDto) o;
 
         Pattern pattern = Pattern.compile("[aA-zZ]+[0-9]*(\\.)?[aA-zZ]+[0-9]*@[a-z]*.[a-z]{2,3}", Pattern.CASE_INSENSITIVE);
         if (!(pattern.matcher(user.getEmail()).matches())) {
             errors.rejectValue("email", "user.email.invalid");
         }
+
     }
 }

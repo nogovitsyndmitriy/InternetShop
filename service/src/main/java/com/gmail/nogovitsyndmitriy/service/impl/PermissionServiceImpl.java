@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Permission;
 import com.gmail.nogovitsyndmitriy.service.PermissionService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.PermissionDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.PermissionConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +92,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Permission permission = permissionDao.get(id);
             permissionDao.delete(permission);
@@ -99,6 +100,7 @@ public class PermissionServiceImpl implements PermissionService {
         } catch (Exception e) {
             log.error("Delete permission by Id failed!", e);
         }
+        return null;
     }
 
     @Override

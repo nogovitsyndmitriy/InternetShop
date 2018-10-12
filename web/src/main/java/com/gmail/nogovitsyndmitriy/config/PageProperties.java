@@ -28,6 +28,7 @@ public class PageProperties {
     private String createOrderPagePath;
     private String currentUserPagePath;
     private String passwordPagePath;
+    private String businessCardPagePath;
 
     @Autowired
     public PageProperties(Environment environment) {
@@ -51,6 +52,7 @@ public class PageProperties {
         this.createOrderPagePath = environment.getProperty("create.order.page.path");
         this.currentUserPagePath = environment.getProperty("current.user.page.path");
         this.passwordPagePath = environment.getProperty("password.page.path");
+        this.businessCardPagePath = environment.getProperty("business.card.page.path");
     }
 
 

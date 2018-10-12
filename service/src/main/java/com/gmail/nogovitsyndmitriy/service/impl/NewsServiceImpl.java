@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.NewsDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +92,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             News news = newsDao.get(id);
             newsDao.delete(news);
@@ -99,6 +100,7 @@ public class NewsServiceImpl implements NewsService {
         } catch (Exception e) {
             log.error("Delete news by Id failed!", e);
         }
+        return null;
     }
 
     @Override

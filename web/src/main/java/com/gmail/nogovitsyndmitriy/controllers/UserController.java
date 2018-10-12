@@ -1,11 +1,13 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
+import com.gmail.nogovitsyndmitriy.controllers.validators.BusinessCardValidator;
+import com.gmail.nogovitsyndmitriy.controllers.validators.UserValidator;
+import com.gmail.nogovitsyndmitriy.service.BusinessCardService;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.*;
-import com.gmail.nogovitsyndmitriy.controllers.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -29,8 +31,10 @@ public class UserController {
     private final DiscountService discountService;
     private final UserValidator userValidator;
     private final RoleService roleService;
+    private final BusinessCardService cardService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static int QUANTITY_ON_PAGE = 5;
+    private final BusinessCardValidator cardValidator;
 
 
     @Autowired
@@ -40,14 +44,16 @@ public class UserController {
             DiscountService discountService,
             UserValidator userValidator,
             RoleService roleService,
-            BCryptPasswordEncoder bCryptPasswordEncoder
-    ) {
+            BusinessCardService cardService, BCryptPasswordEncoder bCryptPasswordEncoder,
+            BusinessCardValidator cardValidator) {
         this.pageProperties = pageProperties;
         this.userService = userService;
         this.discountService = discountService;
         this.userValidator = userValidator;
         this.roleService = roleService;
+        this.cardService = cardService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.cardValidator = cardValidator;
     }
 
     @GetMapping(value = "/{id}")
@@ -189,5 +195,30 @@ public class UserController {
         modelMap.addAttribute("user", user);
         modelMap.addAttribute("password", new PasswordDto());
         return pageProperties.getCurrentUserPagePath();
+    }
+
+    @GetMapping(value = "/cards")
+    @PreAuthorize("hasAnyAuthority('MANAGE_BUSINESS_CARD')")
+    public String getCards(ModelMap modelMap, @ModelAttribute BusinessCardDto card) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        List<BusinessCardDto> cards = cardService.getAllById(userPrincipal.getId());
+        modelMap.addAttribute("card", card);
+        modelMap.addAttribute("cards", cards);
+        return pageProperties.getBusinessCardPagePath();
+    }
+
+    @PostMapping(value = "/cards/create")
+    @PreAuthorize("hasAnyAuthority('MANAGE_BUSINESS_CARD')")
+    public String createCards(ModelMap modelMap, @ModelAttribute BusinessCardDto card, BindingResult result) {
+        cardValidator.validate(card, result);
+        if (result.hasErrors()) {
+            modelMap.addAttribute("card", card);
+            return pageProperties.getBusinessCardPagePath();
+        } else {
+            cardService.save(card);
+            modelMap.addAttribute("card", card);
+            return "redirect:/web/users/cards";
+        }
     }
 }

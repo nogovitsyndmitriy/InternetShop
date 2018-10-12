@@ -1,5 +1,7 @@
 package com.gmail.nogovitsyndmitriy.service;
 
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
+
 import java.util.List;
 
 public interface GenericService<T> {
@@ -12,7 +14,7 @@ public interface GenericService<T> {
 
     void delete(final T dto);
 
-    void deleteById(final Long id);
+    BusinessCardDto deleteById(final Long id);
 
     List<T> getAll();
 }

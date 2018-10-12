@@ -6,6 +6,7 @@ import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.OrderDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.OrderConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -94,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Order order = orderDao.get(id);
             orderDao.save(order);
@@ -102,6 +103,7 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             log.error("Delete order by Id failed!", e);
         }
+        return null;
     }
 
     @Override

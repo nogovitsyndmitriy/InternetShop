@@ -8,13 +8,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -49,7 +42,7 @@ public class User implements Serializable {
 //    @Size(min = 6, max = 15)
 //    @NotNull
     private String password;
-    @Column (name = "F_DISABLED")
+    @Column(name = "F_DISABLED")
     private Boolean disabled;
     //  Profile
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
@@ -66,6 +59,8 @@ public class User implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "F_DISCOUNT_ID", unique = true)
     private Discount discount;
+
+
 
     @Override
     public boolean equals(Object o) {

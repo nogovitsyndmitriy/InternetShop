@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Profile;
 import com.gmail.nogovitsyndmitriy.service.ProfileService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ProfileDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ProfileConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -90,7 +91,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Profile profile = profileDao.get(id);
             profileDao.delete(profile);
@@ -98,6 +99,7 @@ public class ProfileServiceImpl implements ProfileService {
         } catch (Exception e) {
             log.error("SDelete profile by Id failed!", e);
         }
+        return null;
     }
 
     @Override

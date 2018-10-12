@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Comment;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.CommentDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.CommentConverter;
+import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -93,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void deleteById(Long id) {
+    public BusinessCardDto deleteById(Long id) {
         try {
             Comment comment = commentDao.get(id);
             commentDao.delete(comment);
@@ -101,6 +102,7 @@ public class CommentServiceImpl implements CommentService {
         } catch (Exception e) {
             log.error("Delete comment failed!", e);
         }
+        return null;
     }
 
     @Override
