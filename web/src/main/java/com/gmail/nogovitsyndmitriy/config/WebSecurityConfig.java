@@ -1,6 +1,6 @@
 package com.gmail.nogovitsyndmitriy.config;
 
-import com.gmail.nogovitsyndmitriy.handlers.AppSuccessHandler;
+import com.gmail.nogovitsyndmitriy.controllers.handlers.AppSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

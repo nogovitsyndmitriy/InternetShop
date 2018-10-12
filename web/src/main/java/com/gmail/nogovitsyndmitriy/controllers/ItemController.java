@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.gmail.nogovitsyndmitriy.utils.PanginationUtil.quantityOfPages;
+import static com.gmail.nogovitsyndmitriy.controllers.utils.PanginationUtil.quantityOfPages;
 
 @Controller
 @RequestMapping("/web/items")

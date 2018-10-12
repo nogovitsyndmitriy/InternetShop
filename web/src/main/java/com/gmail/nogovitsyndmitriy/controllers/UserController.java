@@ -5,7 +5,7 @@ import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.*;
-import com.gmail.nogovitsyndmitriy.validators.UserValidator;
+import com.gmail.nogovitsyndmitriy.controllers.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.gmail.nogovitsyndmitriy.utils.PanginationUtil.quantityOfPages;
+import static com.gmail.nogovitsyndmitriy.controllers.utils.PanginationUtil.quantityOfPages;
 
 @Controller
 @RequestMapping("/web/users")
@@ -67,6 +67,7 @@ public class UserController {
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user = userService.save(user);
+            modelMap.addAttribute("user", user);
             return "redirect:/web/login";
         }
     }

@@ -1,7 +1,6 @@
-package com.gmail.nogovitsyndmitriy.validators;
+package com.gmail.nogovitsyndmitriy.controllers.validators;
 
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -9,7 +8,7 @@ import org.springframework.validation.Validator;
 
 import java.util.regex.Pattern;
 
-@Getter
+
 @Component
 public class UserValidator implements Validator {
     @Override

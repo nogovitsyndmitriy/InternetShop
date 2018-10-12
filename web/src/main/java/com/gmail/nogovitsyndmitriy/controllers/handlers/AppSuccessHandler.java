@@ -1,4 +1,4 @@
-package com.gmail.nogovitsyndmitriy.handlers;
+package com.gmail.nogovitsyndmitriy.controllers.handlers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
