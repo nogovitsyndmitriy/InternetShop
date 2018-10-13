@@ -34,7 +34,7 @@ public class AuditServiceImpl implements AuditService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public AuditDto get(Long id) {
         AuditDto auditDto = new AuditDto();
         try {

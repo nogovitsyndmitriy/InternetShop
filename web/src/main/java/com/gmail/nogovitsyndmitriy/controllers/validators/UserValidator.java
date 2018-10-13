@@ -27,6 +27,5 @@ public class UserValidator implements Validator {
         if (!(pattern.matcher(user.getEmail()).matches())) {
             errors.rejectValue("email", "user.email.invalid");
         }
-
     }
 }

@@ -7,7 +7,6 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.apache.logging.log4j.LogManager;
@@ -15,8 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -46,7 +43,7 @@ public class DiscountServiceImpl implements DiscountService {
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional(readOnly = true)
     public DiscountDto get(Long id) {
         DiscountDto discountDto = new DiscountDto();
         try {
@@ -60,7 +57,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public DiscountDto save(DiscountDto discountDto) {
         try {
             Discount discount = discountConverter.toEntity(discountDto);
@@ -74,7 +71,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public DiscountDto update(DiscountDto discountDto) {
         try {
             Discount discount = discountConverter.toEntity(discountDto);
@@ -88,7 +85,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional(readOnly = true)
     public List<ItemDto> findByAmountOfDiscount(BigDecimal percent) {
         List<ItemDto> itemDtoList = new ArrayList<>();
         try {
@@ -105,7 +102,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void addDiscountByItemPrice(DiscountDto discountDto, BigDecimal above, BigDecimal below) {
         try {
             List<Item> items = itemDao.findItemInRangeOfPrice(above, below);
@@ -119,7 +116,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(DiscountDto discountDto) {
         try {
             Discount discount = discountConverter.toEntity(discountDto);
@@ -131,7 +128,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void deleteById(Long id) {
         try {
             Discount discount = discountDao.get(id);
@@ -143,7 +140,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<DiscountDto> getAll() {
         List<DiscountDto> discounts = new ArrayList<>();
         try {
@@ -156,6 +153,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
+    @Transactional
     public DiscountDto findByName(String name) {
         Discount discount = discountDao.findByName(name);
         DiscountDto discountDto = discountDtoConverter.toDTO(discount);

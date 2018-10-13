@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional(readOnly = true)
     public CommentDto get(Long id) {
         CommentDto commentDto = new CommentDto();
         try {
@@ -49,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public CommentDto save(CommentDto commentDto) {
         try {
 
@@ -64,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public CommentDto update(CommentDto commentDto) {
         try {
             Comment comment = commentConverter.toEntity(commentDto);
@@ -78,7 +76,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(CommentDto commentDto) {
         try {
             Comment comment = commentConverter.toEntity(commentDto);
@@ -90,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void deleteById(Long id) {
         try {
             Comment comment = commentDao.get(id);
@@ -102,13 +100,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<CommentDto> getAll() {
         return new LinkedList<>();
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional(readOnly = true)
     public List<CommentDto> findCommentsByNewsId(Long id) {
         List<CommentDto> commentDtoList = new ArrayList<>();
         List<Comment> comments = commentDao.findCommentsByNewsId(id);

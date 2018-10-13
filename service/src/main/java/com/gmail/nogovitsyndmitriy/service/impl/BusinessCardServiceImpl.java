@@ -78,7 +78,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
     @Override
     @Transactional
     public BusinessCardDto update(BusinessCardDto businessCardDto) {
-        return null;
+        return new BusinessCardDto();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BusinessCardDto> getAllById(Long id) {
         List<BusinessCardDto> cards = new ArrayList<>();
         List<BusinessCard> list = businessCardDao.getAllById(id);

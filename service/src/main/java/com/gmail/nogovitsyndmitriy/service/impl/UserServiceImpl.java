@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDto get(Long id) {
         UserDto userDto = new UserDto();
         try {
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDto findByEmail(String email) {
         UserDto userDto = new UserDto();
         try {
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Long quantityOfUsers() {
         Long quantity = 0L;
         try {

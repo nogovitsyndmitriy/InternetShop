@@ -33,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ProfileDto get(Long id) {
         ProfileDto profileDto = new ProfileDto();
         try {

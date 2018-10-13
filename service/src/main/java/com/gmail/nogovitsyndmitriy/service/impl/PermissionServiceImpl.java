@@ -34,7 +34,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public PermissionDto get(Long id) {
         PermissionDto permissionDto = new PermissionDto();
         try {

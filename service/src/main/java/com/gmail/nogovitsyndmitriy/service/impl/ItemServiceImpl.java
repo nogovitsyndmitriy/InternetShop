@@ -47,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ItemDto get(Long id) {
         ItemDto itemDto = new ItemDto();
         try {
@@ -173,7 +173,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Long quantityOfItems() {
         Long quantity = 0L;
         try {
@@ -205,7 +205,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Boolean findItemInOrders(Long itemId) {
         Item item = itemDao.get(itemId);
         int count = 0;

@@ -72,24 +72,29 @@
     height: 50%;
     border: black 1px solid;
 }
-.news_title{
+
+.news_title {
     height: 30%;
 }
-.news_content{
+
+.news_content {
     height: 63%;
     overflow-y: auto;
 }
-.news_author{
+
+.news_author {
 
     font-size: 13px;
     float: left;
 }
-.news_created{
+
+.news_created {
     font-size: 13px;
     float: right;
     margin-right: 15px;
 }
-.comment_area{
+
+.comment_area {
     overflow-y: auto;
     width: 50%;
     height: 18%;
@@ -97,15 +102,21 @@
     background-color: rgba(255, 255, 255, 0.90);
     border-radius: 5px;
 }
-.comment_author{
+
+.comment_author {
     font-size: 14px;
 }
-.comment_created{
+
+.comment_created {
     font-size: 13px;
 }
-.comment_area{
+
+.comment_area {
     overflow-y: auto;
     padding: 14px;
 }
 
+.error {
+    overflow: auto;
+}
 

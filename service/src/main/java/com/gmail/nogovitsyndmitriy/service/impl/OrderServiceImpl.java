@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public OrderDto get(Long id) {
         OrderDto orderDto = new OrderDto();
         try {
@@ -119,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Long quantityOfOrders() {
         Long quantity = 0L;
         try {
@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<OrderDto> findOrdersByUserId(Long id) {
         List<Order> list = orderDao.findOrdersByUserId(id);
         List<OrderDto> orders = list.stream().map(orderDtoConverter::toDTO).collect(Collectors.toCollection(LinkedList::new));
@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<OrderDto> getAll() {
         List<Order> orders = orderDao.getAll();
         List<OrderDto> orderDtos = new ArrayList<>();
@@ -151,7 +151,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<OrderDto> ordersPanginationById(Long page, int maxResult, Long id) {
         List<OrderDto> ordersDto = new LinkedList<>();
         try {

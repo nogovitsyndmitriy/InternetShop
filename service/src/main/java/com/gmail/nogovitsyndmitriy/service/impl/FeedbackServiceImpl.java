@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public FeedbackDto get(Long id) {
         FeedbackDto feedbackDto = new FeedbackDto();
         try {
@@ -64,7 +62,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public FeedbackDto update(FeedbackDto feedbackDto) {
         try {
             Feedback feedback = feedbackConverter.toEntity(feedbackDto);
@@ -78,7 +76,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(FeedbackDto feedbackDto) {
         try {
             Feedback feedback = feedbackConverter.toEntity(feedbackDto);
@@ -90,7 +88,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void deleteById(Long id) {
         try {
             Feedback feedback = feedbackDao.get(id);
@@ -102,7 +100,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<FeedbackDto> getAll() {
         return new ArrayList<>();
     }

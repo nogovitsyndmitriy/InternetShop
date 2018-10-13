@@ -34,7 +34,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public NewsDto get(Long id) {
         NewsDto newsDto = new NewsDto();
         try {
@@ -123,7 +123,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Long quantityOfNews() {
         Long quantity = 0L;
         try {

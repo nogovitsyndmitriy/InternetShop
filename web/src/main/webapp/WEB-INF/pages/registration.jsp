@@ -8,9 +8,9 @@
 </head>
 <jsp:include page="common/header.jsp"/>
 <body class="body">
-<form:errors path="*"/>
 <div class="reg_form text-center">
     <form:form action="${pageContext.request.contextPath}/web/users" modelAttribute="user" method="post" cssClass="form">
+        <form:errors path="*" cssClass="errorblock" element="div"/>
         <div class="form group">
             <form:label path="name">Name</form:label>
             <form:input path="name" placeholder="Name"/>

@@ -34,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public RoleDto get(Long id) {
         RoleDto roleDto = new RoleDto();
         try {
@@ -107,7 +107,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public RoleDto findByName(String name) {
         RoleDto roleDto = null;
         try {

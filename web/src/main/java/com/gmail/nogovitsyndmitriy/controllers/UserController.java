@@ -69,7 +69,7 @@ public class UserController {
         userValidator.validate(user, result);
         if (result.hasErrors()) {
             modelMap.addAttribute("user", user);
-            return pageProperties.getUsersPagePath();
+            return pageProperties.getRegistrationPagePath();
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user = userService.save(user);
