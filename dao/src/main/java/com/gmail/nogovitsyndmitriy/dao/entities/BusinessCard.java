@@ -1,8 +1,6 @@
 package com.gmail.nogovitsyndmitriy.dao.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -11,8 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Setter
 @Getter
 @Entity
@@ -31,7 +28,7 @@ public class BusinessCard implements Serializable {
     @Column(name = "F_PHONE")
     private String workingTelephone;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "F_USER_ID")
     private User user;
 

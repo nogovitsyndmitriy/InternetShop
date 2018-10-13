@@ -26,7 +26,7 @@ public class OrderController {
     private final OrderService orderService;
     private final ItemService itemService;
     private final UserService userService;
-    private final static int QUANTITY_ON_PAGE = 5;
+
 
     @Autowired
     public OrderController(PageProperties pageProperties, OrderService orderService, ItemService itemService, UserService userService) {
@@ -39,8 +39,8 @@ public class OrderController {
     @GetMapping(value = "/admin")
     public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfOrders = orderService.quantityOfOrders();
-        Long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
-        List<OrderDto> orders = orderService.ordersPagination(page, QUANTITY_ON_PAGE);
+        Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<OrderDto> orders = orderService.ordersPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("orders", orders);
         return pageProperties.getOrdersPagePath();
@@ -51,8 +51,8 @@ public class OrderController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long quantityOfOrders = (long) orderService.findOrdersByUserId(userPrincipal.getId()).size();
-        Long pagesQuantity = quantityOfPages(quantityOfOrders, QUANTITY_ON_PAGE);
-        List<OrderDto> orders = orderService.ordersPanginationById(page, QUANTITY_ON_PAGE, userPrincipal.getId());
+        Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<OrderDto> orders = orderService.ordersPanginationById(page, Integer.parseInt(pageProperties.getQuantityOnPage()), userPrincipal.getId());
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("orders", orders);
         return pageProperties.getOrdersPagePath();

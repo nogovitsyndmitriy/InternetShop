@@ -17,4 +17,6 @@ public interface ItemService extends GenericService<ItemDto> {
     Long quantityOfItems();
 
     void uploadFromFile(MultipartFile file);
+
+    Boolean findItemInOrders(Long itemId);
 }

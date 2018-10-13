@@ -41,10 +41,11 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
         boolean isUser = false;
         boolean isAdmin = false;
         boolean isSaleUser = false;
+        boolean isApi = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             switch (grantedAuthority.getAuthority()) {
-                case "VIEW_DOCUMENTS":
+                case "VIEW_ITEMS":
                     isUser = true;
                     break;
                 case "VIEW_USERS":
@@ -52,6 +53,9 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
                     break;
                 case "UPLOAD_ITEM":
                     isSaleUser = true;
+                    break;
+                case "API_PERMISSIONS":
+                    isApi = true;
                     break;
             }
         }
@@ -61,6 +65,8 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
             return "/web/users";
         } else if (isSaleUser) {
             return "/web/items/manage";
+        }else if (isApi) {
+            return "/web/login";
         } else {
             throw new IllegalStateException();
         }

@@ -5,15 +5,12 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Role;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.RoleDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.RoleConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.RoleDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public RoleDto get(Long id) {
         RoleDto roleDto = new RoleDto();
         try {
@@ -51,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public RoleDto save(RoleDto roleDto) {
         try {
             Role role = roleConverter.toEntity(roleDto);
@@ -65,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public RoleDto update(RoleDto roleDto) {
         try {
             Role role = roleConverter.toEntity(roleDto);
@@ -79,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(RoleDto roleDto) {
         try {
             Role role = roleConverter.toEntity(roleDto);
@@ -91,8 +88,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
             Role role = roleDao.get(id);
             roleDao.delete(role);
@@ -100,17 +97,17 @@ public class RoleServiceImpl implements RoleService {
         } catch (Exception e) {
             log.error("Delete role by Id failed!", e);
         }
-        return null;
+
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<RoleDto> getAll() {
         return new ArrayList<>();
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public RoleDto findByName(String name) {
         RoleDto roleDto = null;
         try {

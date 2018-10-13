@@ -5,15 +5,12 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Profile;
 import com.gmail.nogovitsyndmitriy.service.ProfileService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ProfileDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ProfileConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public ProfileDto get(Long id) {
         ProfileDto profileDto = new ProfileDto();
         try {
@@ -50,7 +47,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public ProfileDto save(ProfileDto profileDto) {
         try {
             Profile profile = profileConverter.toEntity(profileDto);
@@ -64,7 +61,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public ProfileDto update(ProfileDto profileDto) {
         try {
             Profile profile = profileConverter.toEntity(profileDto);
@@ -78,7 +75,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(ProfileDto profileDto) {
         try {
             Profile profile = profileConverter.toEntity(profileDto);
@@ -90,20 +87,19 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
             Profile profile = profileDao.get(id);
             profileDao.delete(profile);
             log.info("Delete profile by Id successful!");
         } catch (Exception e) {
-            log.error("SDelete profile by Id failed!", e);
+            log.error("Delete profile by Id failed!", e);
         }
-        return null;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<ProfileDto> getAll() {
         return new ArrayList<>();
     }

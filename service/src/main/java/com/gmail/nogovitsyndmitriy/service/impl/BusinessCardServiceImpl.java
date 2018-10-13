@@ -44,9 +44,17 @@ public class BusinessCardServiceImpl implements BusinessCardService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public BusinessCardDto get(Long id) {
-        return null;
+        BusinessCardDto cardDto = null;
+        try {
+            BusinessCard card = businessCardDao.get(id);
+            cardDto = dtoConverter.toDTO(card);
+            log.info("Get user successful!");
+        } catch (Exception e) {
+            log.error("Get user failed!", e);
+        }
+        return cardDto;
     }
 
     @Override
@@ -87,7 +95,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
 
     @Override
     @Transactional
-    public BusinessCardDto deleteById(Long id) {
+    public void deleteById(Long id) {
         try {
             BusinessCard card = businessCardDao.get(id);
             businessCardDao.delete(card);
@@ -95,7 +103,6 @@ public class BusinessCardServiceImpl implements BusinessCardService {
         } catch (Exception e) {
             log.error("Delete card by Id failed!", e);
         }
-        return null;
     }
 
 
@@ -117,7 +124,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
     public List<BusinessCardDto> getAllById(Long id) {
         List<BusinessCardDto> cards = new ArrayList<>();
         List<BusinessCard> list = businessCardDao.getAllById(id);
-        for (BusinessCard card : list){
+        for (BusinessCard card : list) {
             cards.add(dtoConverter.toDTO(card));
         }
         return cards;

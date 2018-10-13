@@ -132,7 +132,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    public void deleteById(Long id) {
         try {
             Discount discount = discountDao.get(id);
             discountDao.delete(discount);
@@ -140,7 +140,6 @@ public class DiscountServiceImpl implements DiscountService {
         } catch (Exception e) {
             log.error("Failed to get feedback by Id!");
         }
-        return null;
     }
 
     @Override

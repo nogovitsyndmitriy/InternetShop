@@ -5,7 +5,6 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Feedback;
 import com.gmail.nogovitsyndmitriy.service.FeedbackService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.FeedbackDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.FeedbackConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.FeedbackDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,8 +22,6 @@ import java.util.List;
 public class FeedbackServiceImpl implements FeedbackService {
     private final static Logger log = LogManager.getLogger(FeedbackServiceImpl.class);
     private FeedbackDao feedbackDao;
-    private FeedbackDto feedbackDto = new FeedbackDto();
-    private Feedback feedback = new Feedback();
     private final FeedbackConverter feedbackConverter;
     private final FeedbackDtoConverter feedbackDtoConverter;
 
@@ -39,10 +36,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public FeedbackDto get(Long id) {
+        FeedbackDto feedbackDto = new FeedbackDto();
         try {
-            feedback = feedbackDao.get(id);
+            Feedback feedback = feedbackDao.get(id);
             feedbackDto = feedbackDtoConverter.toDTO(feedback);
             log.info("Get feedback by Id successful!");
         } catch (Exception e) {
@@ -52,10 +50,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public FeedbackDto save(FeedbackDto feedbackDto) {
         try {
-            feedback = feedbackConverter.toEntity(feedbackDto);
+            Feedback feedback = feedbackConverter.toEntity(feedbackDto);
             feedbackDao.save(feedback);
             feedbackDto = feedbackDtoConverter.toDTO(feedback);
             log.info("Feedback save successful!");
@@ -69,7 +67,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public FeedbackDto update(FeedbackDto feedbackDto) {
         try {
-            feedback = feedbackConverter.toEntity(feedbackDto);
+            Feedback feedback = feedbackConverter.toEntity(feedbackDto);
             feedbackDao.update(feedback);
             feedbackDto = feedbackDtoConverter.toDTO(feedback);
             log.info("Feedback update successful!");
@@ -83,7 +81,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void delete(FeedbackDto feedbackDto) {
         try {
-            feedback = feedbackConverter.toEntity(feedbackDto);
+            Feedback feedback = feedbackConverter.toEntity(feedbackDto);
             feedbackDao.delete(feedback);
             log.info("Delete feedback successful!");
         } catch (Exception e) {
@@ -93,15 +91,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    public void deleteById(Long id) {
         try {
-            feedback = feedbackDao.get(id);
+            Feedback feedback = feedbackDao.get(id);
             feedbackDao.delete(feedback);
             log.info("Delete by Id successful!");
         } catch (Exception e) {
             log.error("Failed to delete feedback by Id!");
         }
-        return null;
     }
 
     @Override

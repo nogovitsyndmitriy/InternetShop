@@ -3,18 +3,17 @@ package com.gmail.nogovitsyndmitriy.service.impl;
 import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
+import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ItemConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
+import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import com.gmail.nogovitsyndmitriy.service.model.UploadedFileDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,17 +31,23 @@ public class ItemServiceImpl implements ItemService {
     private final ItemDtoConverter itemDtoConverter;
     private final ItemConverter itemConverter;
     private final ItemDao itemDao;
+    private final OrderService orderService;
 
 
     @Autowired
-    public ItemServiceImpl(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter, @Qualifier("itemConverter") ItemConverter itemConverter, ItemDao itemDao) {
+    public ItemServiceImpl(@Qualifier("itemDtoConverter") ItemDtoConverter itemDtoConverter,
+                           @Qualifier("itemConverter") ItemConverter itemConverter,
+                           ItemDao itemDao,
+                           OrderService orderService
+    ) {
         this.itemDtoConverter = itemDtoConverter;
         this.itemConverter = itemConverter;
         this.itemDao = itemDao;
+        this.orderService = orderService;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public ItemDto get(Long id) {
         ItemDto itemDto = new ItemDto();
         try {
@@ -56,7 +61,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public ItemDto save(ItemDto itemDto) {
         try {
             Item item = itemConverter.toEntity(itemDto);
@@ -70,7 +75,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public ItemDto update(ItemDto itemDto) {
         try {
             Item item = itemConverter.toEntity(itemDto);
@@ -84,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(ItemDto itemDto) {
         try {
             Item item = itemConverter.toEntity(itemDto);
@@ -96,8 +101,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
             Item item = itemDao.get(id);
             itemDao.delete(item);
@@ -105,11 +110,10 @@ public class ItemServiceImpl implements ItemService {
         } catch (Exception e) {
             log.error("Delete item by Id failed!", e);
         }
-        return null;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<ItemDto> findItemInRangeOfPrice(BigDecimal above, BigDecimal below) {
         List<ItemDto> itemDtoList = new ArrayList<>();
         try {
@@ -126,7 +130,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public long count(BigDecimal above, BigDecimal below) {
         Long number = Long.valueOf(0);
         try {
@@ -139,7 +143,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<ItemDto> getAll() {
         List<ItemDto> items = new ArrayList<>();
         try {
@@ -152,7 +156,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<ItemDto> itemPagination(Long page, int maxResult) {
         List<ItemDto> itemDtoList = new ArrayList<>();
         List<Item> items;
@@ -169,7 +173,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public Long quantityOfItems() {
         Long quantity = 0L;
         try {
@@ -182,7 +186,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void uploadFromFile(MultipartFile file) {
         try {
             JAXBContext context = JAXBContext.newInstance(UploadedFileDto.class);
@@ -197,6 +201,27 @@ public class ItemServiceImpl implements ItemService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    @Transactional
+    public Boolean findItemInOrders(Long itemId) {
+        Item item = itemDao.get(itemId);
+        int count = 0;
+        List<OrderDto> orders = orderService.getAll();
+        for (OrderDto order : orders) {
+            if (order.getItemDto().getId().equals(itemId)) {
+                count++;
+            }
+        }
+        if (count > 0) {
+            item.setDeleted(true);
+            itemDao.update(item);
+            return true;
+        } else {
+            itemDao.delete(item);
+            return false;
         }
     }
 }

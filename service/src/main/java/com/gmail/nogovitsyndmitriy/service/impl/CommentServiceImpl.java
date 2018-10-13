@@ -5,7 +5,6 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Comment;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.CommentDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.CommentConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,11 +50,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public CommentDto save(CommentDto dto) {
-        CommentDto commentDto = new CommentDto();
+    public CommentDto save(CommentDto commentDto) {
         try {
 
-            Comment comment = commentConverter.toEntity(dto);
+            Comment comment = commentConverter.toEntity(commentDto);
             commentDao.save(comment);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Saving comment successful!");
@@ -67,10 +65,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public CommentDto update(CommentDto dto) {
-        CommentDto commentDto = new CommentDto();
+    public CommentDto update(CommentDto commentDto) {
         try {
-            Comment comment = commentConverter.toEntity(dto);
+            Comment comment = commentConverter.toEntity(commentDto);
             commentDao.update(comment);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Update comment successful!");
@@ -82,9 +79,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void delete(CommentDto dto) {
+    public void delete(CommentDto commentDto) {
         try {
-            Comment comment = commentConverter.toEntity(dto);
+            Comment comment = commentConverter.toEntity(commentDto);
             commentDao.delete(comment);
             log.info("Saving comment successful!");
         } catch (Exception e) {
@@ -94,7 +91,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    public void deleteById(Long id) {
         try {
             Comment comment = commentDao.get(id);
             commentDao.delete(comment);
@@ -102,7 +99,6 @@ public class CommentServiceImpl implements CommentService {
         } catch (Exception e) {
             log.error("Delete comment failed!", e);
         }
-        return null;
     }
 
     @Override

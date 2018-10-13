@@ -25,7 +25,7 @@ public class NewsController {
     private final NewsService newsService;
     private final UserService userService;
     private final CommentService commentService;
-    private final static int QUANTITY_ON_PAGE = 5;
+
 
 
     public NewsController(PageProperties pageProperties, NewsService newsService, UserService userService, CommentService commentService) {
@@ -38,8 +38,8 @@ public class NewsController {
     @GetMapping
     public String getNews(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfNews = newsService.quantityOfNews();
-        Long pagesQuantity = quantityOfPages(quantityOfNews, QUANTITY_ON_PAGE);
-        List<NewsDto> news = newsService.newsPagination(page, QUANTITY_ON_PAGE);
+        Long pagesQuantity = quantityOfPages(quantityOfNews, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<NewsDto> news = newsService.newsPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("news", news);
         return pageProperties.getNewsPage();

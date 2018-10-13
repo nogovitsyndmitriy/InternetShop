@@ -8,7 +8,6 @@ import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.UserDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.UserConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.PasswordDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserDto;
 import org.apache.logging.log4j.LogManager;
@@ -108,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public BusinessCardDto deleteById(Long id) {
+    public void deleteById(Long id) {
         try {
             User user = userDao.get(id);
             userDao.delete(user);
@@ -116,7 +115,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             log.error("Delete user by Id failed!", e);
         }
-        return null;
     }
 
     @Override

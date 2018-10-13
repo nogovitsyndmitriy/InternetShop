@@ -6,14 +6,11 @@ import com.gmail.nogovitsyndmitriy.service.AuditService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.AuditDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.AuditConverter;
 import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -23,8 +20,6 @@ import java.util.List;
 public class AuditServiceImpl implements AuditService {
     private final static Logger log = LogManager.getLogger(AuditServiceImpl.class);
     private final AuditDao auditDao;
-    private AuditDto auditDto = new AuditDto();
-    private Audit audit = new Audit();
     private final AuditConverter auditConverter;
     private final AuditDtoConverter auditDtoConverter;
 
@@ -39,10 +34,11 @@ public class AuditServiceImpl implements AuditService {
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public AuditDto get(Long id) {
+        AuditDto auditDto = new AuditDto();
         try {
-            audit = auditDao.get(id);
+            Audit audit = auditDao.get(id);
             auditDto = auditDtoConverter.toDTO(audit);
             log.info("Getting audit by Id successful!");
         } catch (Exception e) {
@@ -52,10 +48,10 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public AuditDto save(AuditDto dto) {
+    @Transactional
+    public AuditDto save(AuditDto auditDto) {
         try {
-            audit = auditConverter.toEntity(dto);
+            Audit audit = auditConverter.toEntity(auditDto);
             auditDao.save(audit);
             auditDto = auditDtoConverter.toDTO(audit);
             log.info("Saving audit successful!");
@@ -66,10 +62,10 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public AuditDto update(AuditDto dto) {
+    @Transactional
+    public AuditDto update(AuditDto auditDto) {
         try {
-            audit = auditConverter.toEntity(dto);
+            Audit audit = auditConverter.toEntity(auditDto);
             auditDao.update(audit);
             auditDto = auditDtoConverter.toDTO(audit);
             log.info("Update audit successful!");
@@ -80,10 +76,10 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public void delete(AuditDto dto) {
+    @Transactional
+    public void delete(AuditDto auditDto) {
         try {
-            audit = auditConverter.toEntity(dto);
+            Audit audit = auditConverter.toEntity(auditDto);
             auditDao.delete(audit);
             log.info("Delete audit successful!");
         } catch (Exception e) {
@@ -92,20 +88,19 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
-            audit = auditDao.get(id);
+            Audit audit = auditDao.get(id);
             auditDao.delete(audit);
             log.info("Delete by Id audit successful!");
         } catch (Exception e) {
             log.error("Delete by Id audit failed!", e);
         }
-        return null;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<AuditDto> getAll() {
         return new ArrayList<>();
     }

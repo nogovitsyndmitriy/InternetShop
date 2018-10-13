@@ -5,15 +5,12 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Permission;
 import com.gmail.nogovitsyndmitriy.service.PermissionService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.PermissionDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.PermissionConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public PermissionDto get(Long id) {
         PermissionDto permissionDto = new PermissionDto();
         try {
@@ -51,7 +48,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public PermissionDto save(PermissionDto permissionDto) {
         try {
             Permission permission = permissionConverter.toEntity(permissionDto);
@@ -65,7 +62,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public PermissionDto update(PermissionDto permissionDto) {
         try {
             Permission permission = permissionConverter.toEntity(permissionDto);
@@ -79,7 +76,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(PermissionDto dto) {
         try {
             Permission permission = permissionConverter.toEntity(dto);
@@ -91,8 +88,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
             Permission permission = permissionDao.get(id);
             permissionDao.delete(permission);
@@ -100,11 +97,10 @@ public class PermissionServiceImpl implements PermissionService {
         } catch (Exception e) {
             log.error("Delete permission by Id failed!", e);
         }
-        return null;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<PermissionDto> getAll() {
         return new ArrayList<>();
     }

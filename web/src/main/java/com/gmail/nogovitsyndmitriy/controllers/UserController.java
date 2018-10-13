@@ -33,7 +33,6 @@ public class UserController {
     private final RoleService roleService;
     private final BusinessCardService cardService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final static int QUANTITY_ON_PAGE = 5;
     private final BusinessCardValidator cardValidator;
 
 
@@ -57,6 +56,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('VIEW_USERS')")
     public String getUser(@PathVariable("id") Long id, ModelMap modelMap) {
         UserDto user = userService.get(id);
         modelMap.addAttribute("user", user);
@@ -79,6 +79,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String updateUsers(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
         user.setId(id);
         user.getProfileDto().setUserId(id);
@@ -93,6 +94,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('DELETE_USERS')")
     public String deleteUser(@RequestParam("ids") Long[] ids) {
         for (Long id : ids) {
             userService.deleteById(id);
@@ -104,14 +106,15 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('VIEW_USERS')")
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfUsers = userService.quantityOfUsers();
-        Long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
-        List<UserDto> users = userService.usersPangination(page, QUANTITY_ON_PAGE);
+        Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("users", users);
         return pageProperties.getUsersPagePath();
     }
 
     @PostMapping(value = "/discount")
+    @PreAuthorize("hasRole('SALE_USER')")
     public String setDiscount(@RequestParam("ids") Long[] ids,
                               @ModelAttribute UserDto user,
                               @RequestParam("discountName") String discountName,
@@ -129,13 +132,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/roles")
+    @PreAuthorize("hasAuthority('CHANGE_ROLE')")
     public String rolesPage(@ModelAttribute UserDto user,
                             @RequestParam(value = "page", defaultValue = "1") long page,
                             ModelMap modelMap
     ) {
         Long quantityOfUsers = userService.quantityOfUsers();
-        Long pagesQuantity = quantityOfPages(quantityOfUsers, QUANTITY_ON_PAGE);
-        List<UserDto> users = userService.usersPangination(page, QUANTITY_ON_PAGE);
+        Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("users", users);
         modelMap.addAttribute("user", user);
@@ -143,6 +147,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/roles")
+    @PreAuthorize("hasAuthority('CHANGE_ROLE')")
     public String changeRole(@RequestParam("ids") Long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("role") String role) {
         List<RoleDto> roles = roleService.getAll();
         for (Long id : ids) {
@@ -156,6 +161,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/current")
+    @PreAuthorize("isAuthenticated()")
     public String getUser(@ModelAttribute UserDto user, ModelMap modelMap) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -165,6 +171,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/{id}/current")
+    @PreAuthorize("isAuthenticated()")
     public String updateCurrentUser(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
         user.setId(id);
         user.getProfileDto().setUserId(id);
@@ -179,6 +186,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}/update/password")
+    @PreAuthorize("isAuthenticated()")
     public String passwordPage(@PathVariable("id") Long id, ModelMap modelMap) {
         UserDto user = userService.get(id);
         modelMap.addAttribute("user", user);
@@ -187,6 +195,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/{id}/update/password")
+    @PreAuthorize("isAuthenticated()")
     public String passwordPage(@PathVariable("id") Long id,
                                @ModelAttribute PasswordDto password,
                                ModelMap modelMap) {

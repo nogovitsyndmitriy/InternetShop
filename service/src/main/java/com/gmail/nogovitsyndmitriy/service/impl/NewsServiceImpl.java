@@ -5,15 +5,12 @@ import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.NewsDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public NewsDto get(Long id) {
         NewsDto newsDto = new NewsDto();
         try {
@@ -51,7 +48,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public NewsDto save(NewsDto newsDto) {
         try {
             News news = newsConverter.toEntity(newsDto);
@@ -65,7 +62,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public NewsDto update(NewsDto newsDto) {
         try {
             News news = newsConverter.toEntity(newsDto);
@@ -79,7 +76,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(NewsDto newsDto) {
         try {
             News news = newsConverter.toEntity(newsDto);
@@ -91,8 +88,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
             News news = newsDao.get(id);
             newsDao.delete(news);
@@ -100,17 +97,16 @@ public class NewsServiceImpl implements NewsService {
         } catch (Exception e) {
             log.error("Delete news by Id failed!", e);
         }
-        return null;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<NewsDto> getAll() {
         return new ArrayList<>();
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<NewsDto> newsPagination(Long page, int maxResult) {
         List<NewsDto> newsDtoList = new ArrayList<>();
         List<News> newss;
@@ -126,9 +122,8 @@ public class NewsServiceImpl implements NewsService {
         return newsDtoList;
     }
 
-
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public Long quantityOfNews() {
         Long quantity = 0L;
         try {

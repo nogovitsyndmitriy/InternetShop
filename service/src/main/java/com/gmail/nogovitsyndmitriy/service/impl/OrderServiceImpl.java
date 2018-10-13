@@ -6,15 +6,12 @@ import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.OrderDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.OrderConverter;
-import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -38,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public OrderDto get(Long id) {
         OrderDto orderDto = new OrderDto();
         try {
@@ -52,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public OrderDto save(OrderDto orderDto) {
         try {
             Order order = orderConverter.toEntity(orderDto);
@@ -68,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public OrderDto update(OrderDto orderDto) {
         try {
             Order order = orderConverter.toEntity(orderDto);
@@ -82,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public void delete(OrderDto orderDto) {
         try {
             Order order = orderConverter.toEntity(orderDto);
@@ -94,8 +91,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public BusinessCardDto deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         try {
             Order order = orderDao.get(id);
             orderDao.save(order);
@@ -103,11 +100,10 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             log.error("Delete order by Id failed!", e);
         }
-        return null;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<OrderDto> ordersPagination(Long page, int maxResult) {
         List<OrderDto> ordersDto = new ArrayList<>();
         try {
@@ -123,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public Long quantityOfOrders() {
         Long quantity = 0L;
         try {
@@ -136,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<OrderDto> findOrdersByUserId(Long id) {
         List<Order> list = orderDao.findOrdersByUserId(id);
         List<OrderDto> orders = list.stream().map(orderDtoConverter::toDTO).collect(Collectors.toCollection(LinkedList::new));
@@ -144,13 +140,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<OrderDto> getAll() {
-        return new LinkedList<>();
+        List<Order> orders = orderDao.getAll();
+        List<OrderDto> orderDtos = new ArrayList<>();
+        for (Order order : orders) {
+            orderDtos.add(orderDtoConverter.toDTO(order));
+        }
+        return orderDtos;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional
     public List<OrderDto> ordersPanginationById(Long page, int maxResult, Long id) {
         List<OrderDto> ordersDto = new LinkedList<>();
         try {
