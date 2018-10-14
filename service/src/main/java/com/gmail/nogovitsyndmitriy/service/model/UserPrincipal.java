@@ -19,6 +19,7 @@ public class UserPrincipal implements UserDetails {
     private String username;
     private String password;
     private List<GrantedAuthority> authorities;
+    private Boolean disabled;
 
     public UserPrincipal(User user) {
         this.id = user.getId();
@@ -26,8 +27,9 @@ public class UserPrincipal implements UserDetails {
         this.password = user.getPassword();
         String[] authorityList = user.getRole().getPermissions().stream()
                 .map(Permission::getName)
-                .toArray(String[] :: new);
+                .toArray(String[]::new);
         this.authorities = AuthorityUtils.createAuthorityList(authorityList);
+        this.disabled = user.getDisabled();
     }
 
     @Override
@@ -52,7 +54,11 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        if (disabled.equals(false)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

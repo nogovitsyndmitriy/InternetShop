@@ -13,4 +13,6 @@ public interface UserService extends GenericService<UserDto> {
     List<UserDto> usersPangination(Long page, int maxResult);
 
     UserDto changePassword(PasswordDto password, UserDto user);
+
+    UserDto disableUser(Long id, Boolean isDisabled);
 }

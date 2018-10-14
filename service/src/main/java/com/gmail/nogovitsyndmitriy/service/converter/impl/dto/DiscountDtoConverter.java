@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +45,6 @@ public class DiscountDtoConverter implements DTOConverter<DiscountDto, Discount>
 
     @Override
     public List<DiscountDto> toDtoList(List<Discount> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

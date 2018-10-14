@@ -1,12 +1,14 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
+import com.gmail.nogovitsyndmitriy.exceptions.EntityNotFoundException;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
+import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -46,8 +48,11 @@ public class NewsController {
     }
 
     @GetMapping(value = "/{id}")
-    public String getCurrentNews(@PathVariable("id") Long id, ModelMap modelMap) {
+    public String getCurrentNews(@PathVariable("id") Long id, ModelMap modelMap) throws EntityNotFoundException {
         NewsDto news = newsService.get(id);
+        if(news == null){
+            throw new EntityNotFoundException(id, "NOT_FOUND", "Entity not found.");
+        }
         CommentDto comment = new CommentDto();
         List<CommentDto> comments = commentService.findCommentsByNewsId(id);
         modelMap.addAttribute("news", news);

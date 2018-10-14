@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("orderDtoConverter")
@@ -48,6 +49,6 @@ public class OrderDtoConverter implements DTOConverter<OrderDto, Order> {
 
     @Override
     public List<OrderDto> toDtoList(List<Order> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

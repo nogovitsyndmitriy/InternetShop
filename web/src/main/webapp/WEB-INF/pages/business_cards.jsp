@@ -31,6 +31,7 @@
 <form:errors path="*"/>
 <div class="reg_form text-center">
     <form:form action="${pageContext.request.contextPath}/web/users/cards/create" modelAttribute="card" method="post" cssClass="form">
+        <form:errors path="*" cssClass="error" element="div" />
         <div class="form group">
             <form:label path="title">Title</form:label>
             <form:input path="title" placeholder="Title"/>
@@ -46,7 +47,7 @@
         <button type="submit" class="btn btn-primary">Create User</button>
     </form:form>
 </div>
-</body>
 <jsp:include page="common/footer.jsp"/>
+</body>
 </html>
 

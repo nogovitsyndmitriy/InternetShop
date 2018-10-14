@@ -191,4 +191,18 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    @Transactional
+    public UserDto disableUser(Long id, Boolean isDisabled) {
+        User user = userDao.get(id);
+        if (isDisabled.equals(true)) {
+            user.setDisabled(true);
+        } else {
+            user.setDisabled(false);
+        }
+        userDao.update(user);
+        UserDto userDto = userDtoConverter.toDTO(user);
+        return userDto;
+    }
 }

@@ -30,6 +30,7 @@ public class PageProperties {
     private String passwordPagePath;
     private String businessCardPagePath;
     private String quantityOnPage;
+    private String usersDisablePagePath;
 
     @Autowired
     public PageProperties(Environment environment) {
@@ -55,6 +56,7 @@ public class PageProperties {
         this.passwordPagePath = environment.getProperty("password.page.path");
         this.businessCardPagePath = environment.getProperty("business.card.page.path");
         this.quantityOnPage = environment.getProperty("quantity.on.page");
+        this.usersDisablePagePath = environment.getProperty("users.disable.page.path");
     }
 
 

@@ -27,5 +27,9 @@ public class UserValidator implements Validator {
         if (!(pattern.matcher(user.getEmail()).matches())) {
             errors.rejectValue("email", "user.email.invalid");
         }
+
+        if (user.getDisabled().equals(true)) {
+            errors.rejectValue("disabled", "user.blocked");
+        }
     }
 }

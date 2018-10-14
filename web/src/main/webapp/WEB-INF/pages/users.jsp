@@ -20,6 +20,9 @@
                         <a href="${pageContext.request.contextPath}/web/users/roles" class="btn btn-primary"
                                                    aria-pressed="true"
                                                    role="button">ROLES</a>
+                        <a href="${pageContext.request.contextPath}/web/users/disable" class="btn btn-primary"
+                           aria-pressed="true"
+                           role="button">BLOCK USERS</a>
                         <button type="submit" class="btn btn-primary">DELETE</button>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
 import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("profileDtoConverter")
@@ -23,6 +24,6 @@ public class ProfileDtoConverter implements DTOConverter<ProfileDto, Profile> {
 
     @Override
     public List<ProfileDto> toDtoList(List<Profile> list) {
-        return null;
+        return new ArrayList<>();
     }
 }

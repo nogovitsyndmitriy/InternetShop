@@ -80,7 +80,10 @@ public class UserController {
 
     @PostMapping(value = "/{id}")
     @PreAuthorize("isAuthenticated()")
-    public String updateUsers(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
+    public String updateUsers(@PathVariable("id") Long id,
+                              @ModelAttribute UserDto user,
+                              BindingResult result,
+                              ModelMap modelMap) {
         user.setId(id);
         user.getProfileDto().setUserId(id);
         userValidator.validate(user, result);
@@ -148,7 +151,10 @@ public class UserController {
 
     @PostMapping(value = "/roles")
     @PreAuthorize("hasAuthority('CHANGE_ROLE')")
-    public String changeRole(@RequestParam("ids") Long[] ids, ModelMap modelMap, @ModelAttribute UserDto user, @RequestParam("role") String role) {
+    public String changeRole(@RequestParam("ids") Long[] ids,
+                             ModelMap modelMap,
+                             @ModelAttribute UserDto user,
+                             @RequestParam("role") String role) {
         List<RoleDto> roles = roleService.getAll();
         for (Long id : ids) {
             user = userService.get(id);
@@ -172,7 +178,10 @@ public class UserController {
 
     @PostMapping(value = "/{id}/current")
     @PreAuthorize("isAuthenticated()")
-    public String updateCurrentUser(@PathVariable("id") Long id, @ModelAttribute UserDto user, BindingResult result, ModelMap modelMap) {
+    public String updateCurrentUser(@PathVariable("id") Long id,
+                                    @ModelAttribute UserDto user,
+                                    BindingResult result,
+                                    ModelMap modelMap) {
         user.setId(id);
         user.getProfileDto().setUserId(id);
         userValidator.validate(user, result);
@@ -219,7 +228,9 @@ public class UserController {
 
     @PostMapping(value = "/cards/create")
     @PreAuthorize("hasAnyAuthority('MANAGE_BUSINESS_CARD')")
-    public String createCards(ModelMap modelMap, @ModelAttribute BusinessCardDto card, BindingResult result) {
+    public String createCards(ModelMap modelMap,
+                              @ModelAttribute BusinessCardDto card,
+                              BindingResult result) {
         cardValidator.validate(card, result);
         if (result.hasErrors()) {
             modelMap.addAttribute("card", card);
@@ -229,5 +240,32 @@ public class UserController {
             modelMap.addAttribute("card", card);
             return "redirect:/web/users/cards";
         }
+    }
+
+    @GetMapping(value = "/disable")
+    @PreAuthorize("hasAuthority('DISABLE_USERS')")
+    public String changeDisableStatus(@ModelAttribute UserDto user,
+                                      @RequestParam(value = "page", defaultValue = "1") long page,
+                                      ModelMap modelMap) {
+        Long quantityOfUsers = userService.quantityOfUsers();
+        Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        modelMap.addAttribute("pages", pagesQuantity);
+        modelMap.addAttribute("users", users);
+        modelMap.addAttribute("user", user);
+        return pageProperties.getUsersDisablePagePath();
+    }
+
+    @PostMapping(value = "/disable")
+    @PreAuthorize("hasAuthority('DISABLE_USERS')")
+    public String disableUsers(@RequestParam("ids") Long[] ids,
+                               ModelMap modelMap,
+                               @ModelAttribute UserDto user,
+                               @RequestParam("disabled") String disabled) {
+        for (Long id : ids) {
+            userService.disableUser(id, Boolean.valueOf(disabled));
+        }
+        modelMap.addAttribute("user", user);
+        return "redirect:/web/users/disable";
     }
 }
