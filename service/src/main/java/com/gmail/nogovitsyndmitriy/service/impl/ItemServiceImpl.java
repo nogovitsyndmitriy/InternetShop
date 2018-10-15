@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
@@ -48,14 +49,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(readOnly = true)
-    public ItemDto get(Long id) {
-        ItemDto itemDto = new ItemDto();
-        try {
-            Item item = itemDao.get(id);
+    public ItemDto get(Long id){
+        ItemDto itemDto;
+        Item item = itemDao.get(id);
+        if (item != null) {
             itemDto = itemDtoConverter.toDTO(item);
             log.info("Get item by Id successful!");
-        } catch (Exception e) {
-            log.error("Get item by Id failed!", e);
+        } else {
+        throw new EntityNotFoundException("Item NOT Found!");
         }
         return itemDto;
     }

@@ -10,7 +10,7 @@
     <form:form method="post" action="${pageContext.request.contextPath}/web/login">
         <form:errors path="*" cssClass="error" element="div"/>
         <b>Email</b>
-        <input class="log" type="text" name="email" maxlength="30"/>
+        <input class="log" type="email" name="email" maxlength="30"/>
         <b>Password</b>
         <input class="password" type="password" name="password" maxlength="20"/><br/>
         <br>

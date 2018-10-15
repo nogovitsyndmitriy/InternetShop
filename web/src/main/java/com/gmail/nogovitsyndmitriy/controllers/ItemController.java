@@ -83,7 +83,7 @@ public class ItemController {
     }
 
     @GetMapping(value = "/manage")
-    @PreAuthorize("hasRole('SALE_USER')")
+    @PreAuthorize("hasAuthority('CREATE_ITEM')")
     public String manageItems(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfItems = itemService.quantityOfItems();
         Long pagesQuantity = quantityOfPages(quantityOfItems, Integer.parseInt(pageProperties.getQuantityOnPage()));
@@ -94,7 +94,7 @@ public class ItemController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('CUSTOMER_USER','SALE_USER')")
+    @PreAuthorize("hasAuthority('CREATE_ORDER')")
     public String getItem(@PathVariable("id") Long id, ModelMap modelMap) {
         ItemDto item = itemService.get(id);
         modelMap.addAttribute("item", item);

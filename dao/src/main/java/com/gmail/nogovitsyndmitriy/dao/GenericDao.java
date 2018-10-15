@@ -1,6 +1,5 @@
 package com.gmail.nogovitsyndmitriy.dao;
 
-import org.hibernate.Session;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,5 +17,5 @@ public interface GenericDao <T extends Serializable> {
 
     List<T> getAll();
 
-    Session getCurrentSession();
+
 }

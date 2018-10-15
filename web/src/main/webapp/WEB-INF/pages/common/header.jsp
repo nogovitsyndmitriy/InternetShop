@@ -47,7 +47,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/web/orders/admin">Orders</a>
                     </li>
                 </security:authorize>
-                    <security:authorize access="hasAuthority('VIEW_DOCUMENTS')">
+                    <security:authorize access="hasAuthority('SHOW_PERSONAL_ORDERS')">
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/web/orders">Orders</a>
                         </li>

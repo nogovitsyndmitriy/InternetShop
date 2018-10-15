@@ -46,7 +46,7 @@ public abstract class GenericDaoImpl<T extends Serializable> implements GenericD
         delete(entity);
     }
 
-    public Session getCurrentSession() {
+    protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
 }
