@@ -31,6 +31,9 @@ public class PageProperties {
     private String businessCardPagePath;
     private String quantityOnPage;
     private String usersDisablePagePath;
+    private String createNewsPagePath;
+    private String updateNewsPagePath;
+    private String commentsPagePath;
 
     @Autowired
     public PageProperties(Environment environment) {
@@ -57,6 +60,9 @@ public class PageProperties {
         this.businessCardPagePath = environment.getProperty("business.card.page.path");
         this.quantityOnPage = environment.getProperty("quantity.on.page");
         this.usersDisablePagePath = environment.getProperty("users.disable.page.path");
+        this.createNewsPagePath = environment.getProperty("create.news.page.path");
+        this.updateNewsPagePath = environment.getProperty("update.news.page.path");
+        this.commentsPagePath = environment.getProperty("comments.page.path");
     }
 
 

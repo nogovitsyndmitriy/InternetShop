@@ -6,6 +6,15 @@
 </head>
 <jsp:include page="common/header.jsp"/>
 <body class="body">
+<div class="row">
+    <form action="${pageContext.request.contextPath}/web/news/delete" method="post">
+    <div class="col-md-12">
+        <a href="${pageContext.request.contextPath}/web/news/create" class="btn btn-primary"
+           aria-pressed="true"
+           role="button">Create News</a>
+        <button type="submit" class="btn btn-primary">DELETE</button>
+    </div>
+</div>
 <div class="col-md-12">
     <h1 align="center">News</h1>
     <table class="table table-striped table-dark col-md-7" align="center">
@@ -30,9 +39,16 @@
                     <a href="${pageContext.request.contextPath}/web/news/${news.id}" class="btn btn-primary" aria-pressed="true"
                        role="button">Read</a>
                 </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/web/news/${news.id}/update"
+                       class="btn btn-primary"
+                       aria-pressed="true"
+                       role="button">UPDATE</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
+        </form>
     </table>
     <ul class="pagination justify-content-center">
         <c:forEach var="page" begin="1" end="${pages}">

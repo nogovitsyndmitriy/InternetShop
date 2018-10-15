@@ -30,7 +30,7 @@ public class ItemController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('CUSTOMER_USER','SALE_USER')")
+    @PreAuthorize("hasAuthority('VIEW_ITEMS')")
     public String getItems(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         long quantityOfItems = itemService.quantityOfItems();
         long pagesQuantity = quantityOfPages(quantityOfItems, Integer.parseInt(pageProperties.getQuantityOnPage()));

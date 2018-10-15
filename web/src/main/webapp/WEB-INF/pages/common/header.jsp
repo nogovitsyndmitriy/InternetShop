@@ -28,9 +28,11 @@
                                 class="sr-only">(current)</span></a>
                     </li>
                 </security:authorize>
+                <security:authorize access="isAuthenticated()">
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/web/items">Items</a>
                 </li>
+                </security:authorize>
                 <security:authorize access="hasAuthority('UPLOAD_ITEM')">
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/web/items/manage">Manage Items</a>
@@ -52,9 +54,12 @@
                     </security:authorize>
                     <security:authorize access="hasAuthority('MANAGE_BUSINESS_CARD')">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/web/users/cards">Cards</a>
-                        </li>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/web/users/cards">Cards</a>
+                    </li>
                     </security:authorize>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/web/comment">Comments</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Promo</a>
                     </li>

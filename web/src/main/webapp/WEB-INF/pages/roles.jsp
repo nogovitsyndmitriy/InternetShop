@@ -60,7 +60,7 @@
 <ul class="pagination justify-content-center">
     <c:forEach var="page" begin="1" end="${pages}">
         <li class="page-item"><a class="page-link"
-                                 href="${pageContext.request.contextPath}/web/users?page=${page}">${page}</a></li>
+                                 href="${pageContext.request.contextPath}/web/users/roles">${page}</a></li>
     </c:forEach>
 </ul>
 <jsp:include page="common/footer.jsp"/>

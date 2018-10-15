@@ -115,4 +115,34 @@ public class CommentServiceImpl implements CommentService {
         }
         return commentDtoList;
     }
+
+    @Override
+    @Transactional
+    public Long quantityOfComments() {
+        Long quantity = 0L;
+        try {
+            quantity = commentDao.quantityOfComments();
+            log.info("Quantity find successful!");
+        } catch (Exception e) {
+            log.error("Failed to count quantity!", e);
+        }
+        return quantity;
+    }
+
+    @Override
+    @Transactional
+    public List<CommentDto> commentsPangination(Long page, int maxResult) {
+        List<CommentDto> commentsDto = new ArrayList<>();
+        List<Comment> comments;
+        try {
+            comments = commentDao.commentsPangination(page, maxResult);
+            for (Comment comment : comments) {
+                commentsDto.add(commentDtoConverter.toDTO(comment));
+            }
+            log.info("Comments pangination successful!");
+        } catch (Exception e) {
+            log.error("Failed to get comments pangination");
+        }
+        return commentsDto;
+    }
 }

@@ -26,5 +26,20 @@ public class CommentDaoImpl extends GenericDaoImpl<Comment> implements CommentDa
         return query.list();
     }
 
+    @Override
+    public Long quantityOfComments() {
+        String hql = "SELECT COUNT (*) FROM Comment AS C";
+        Query query = getCurrentSession().createQuery(hql);
+        return (long) query.uniqueResult();
+    }
 
+    @Override
+    public List<Comment> commentsPangination(Long page, int maxResult) {
+        String hql = "FROM Comment AS C";
+        Query query = getCurrentSession().createQuery(hql);
+        int startPosition = (int) ((page * maxResult) - maxResult);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maxResult);
+        return query.list();
+    }
 }
