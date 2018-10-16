@@ -14,6 +14,8 @@ public interface ItemService extends GenericService<ItemDto> {
 
     List<ItemDto> itemPagination(Long page, int maxResult);
 
+    List<ItemDto> itemPaginationManage(Long page, int maxResult);
+
     Long quantityOfItems();
 
     void uploadFromFile(MultipartFile file);

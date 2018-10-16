@@ -38,6 +38,10 @@
 
                 <form:input path="profileDto.telephone" placeholder="Telephone"/>
             </div>
+            <div class="form group" hidden>
+                <form:label path="roleDto.id">Role</form:label>
+                <form:input path="roleDto.id" placeholder="Role"/>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="${pageContext.request.contextPath}/web/users/${user.id}/update/password">

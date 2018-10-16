@@ -15,4 +15,6 @@ public interface UserService extends GenericService<UserDto> {
     UserDto changePassword(PasswordDto password, UserDto user);
 
     UserDto disableUser(Long id, Boolean isDisabled);
+
+    UserDto changePasswordAdmin(PasswordDto password, UserDto userDto);
 }

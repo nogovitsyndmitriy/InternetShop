@@ -42,6 +42,7 @@ public class NewsController {
 
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public String getNews(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfNews = newsService.quantityOfNews();
         Long pagesQuantity = quantityOfPages(quantityOfNews, Integer.parseInt(pageProperties.getQuantityOnPage()));
@@ -52,6 +53,7 @@ public class NewsController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String getCurrentNews(@PathVariable("id") Long id, ModelMap modelMap) {
         NewsDto news = newsService.get(id);
         CommentDto comment = new CommentDto();
@@ -63,6 +65,7 @@ public class NewsController {
     }
 
     @PostMapping(value = "/comment/{news_id}")
+    @PreAuthorize("isAuthenticated()")
     public String createComment(ModelMap modelMap, @PathVariable("news_id") Long id, @ModelAttribute CommentDto comment) {
         NewsDto news = newsService.get(id);
         comment = commentService.save(comment, id);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class AppExceptionHandler {
@@ -17,6 +18,10 @@ public class AppExceptionHandler {
         this.pageProperties = pageProperties;
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public String accessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+        return pageProperties.getErrorsPagePath();
+    }
 
     @ExceptionHandler(ServiceException.class)
     public String serviceException(HttpServletRequest request, ServiceException ex) {
@@ -25,12 +30,10 @@ public class AppExceptionHandler {
         return pageProperties.getErrorsPagePath();
     }
 
-
     @ExceptionHandler(Exception.class)
     public String defaultErrorHandler(HttpServletRequest request, Exception e) {
         request.setAttribute("exception", e);
         request.setAttribute("url", request.getRequestURL());
         return pageProperties.getErrorsPagePath();
     }
-
 }

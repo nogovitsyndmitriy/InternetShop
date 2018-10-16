@@ -2,6 +2,7 @@ package com.gmail.nogovitsyndmitriy.controllers.handlers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -66,7 +67,7 @@ public class AppSuccessHandler implements AuthenticationSuccessHandler {
         } else if (isSaleUser) {
             return "/web/items/manage";
         }else if (isApi) {
-            return "/web/login";
+            throw new AccessDeniedException("AccessDenied!");
         } else {
             throw new IllegalStateException();
         }

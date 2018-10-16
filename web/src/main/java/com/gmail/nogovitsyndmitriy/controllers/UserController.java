@@ -58,8 +58,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('VIEW_USERS')")
     public String getUser(@PathVariable("id") Long id, ModelMap modelMap) {
         UserDto user = userService.get(id);
-        RoleDto role = user.getRoleDto();
         modelMap.addAttribute("user", user);
+        RoleDto role = user.getRoleDto();
         modelMap.addAttribute("role", role);
         return pageProperties.getUpdateUserPagePath();
     }
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
     public String updateUsers(@PathVariable("id") Long id,
                               @ModelAttribute UserDto user,
                               BindingResult result,
@@ -172,6 +172,8 @@ public class UserController {
     public String getUser(@ModelAttribute UserDto user, ModelMap modelMap) {
         user = userService.get(CurrentUserUtil.getCurrentUser().getId());
         modelMap.addAttribute("user", user);
+        RoleDto role = user.getRoleDto();
+        modelMap.addAttribute("role", role);
         return pageProperties.getCurrentUserPagePath();
     }
 
@@ -264,5 +266,26 @@ public class UserController {
         }
         modelMap.addAttribute("user", user);
         return "redirect:/web/users/disable";
+    }
+
+    @PostMapping(value = "/{id}/update/password/admin")
+    @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
+    public String passwordPageAdmin(@PathVariable("id") Long id,
+                                    @ModelAttribute PasswordDto password,
+                                    ModelMap modelMap) {
+        UserDto user = userService.get(id);
+        userService.changePasswordAdmin(password, user);
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("password", new PasswordDto());
+        return "redirect:/web/users";
+    }
+
+    @GetMapping(value = "/{id}/update/password/admin")
+    @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
+    public String passwordPageAdmin(@PathVariable("id") Long id, ModelMap modelMap) {
+        UserDto user = userService.get(id);
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("password", new PasswordDto());
+        return pageProperties.getPasswordAdminPagePath();
     }
 }

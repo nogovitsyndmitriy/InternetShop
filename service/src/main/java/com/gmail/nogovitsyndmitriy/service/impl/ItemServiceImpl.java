@@ -206,6 +206,23 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
+    public List<ItemDto> itemPaginationManage(Long page, int maxResult) {
+        List<ItemDto> itemDtoList = new ArrayList<>();
+        List<Item> items;
+        try {
+            items = itemDao.itemPaginationManage(page, maxResult);
+            for (Item item : items) {
+                itemDtoList.add(itemDtoConverter.toDTO(item));
+            }
+            log.info("Successful getting items pagination!");
+        } catch (Exception e) {
+            log.error("Items pagination failed!", e);
+        }
+        return itemDtoList;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Boolean findItemInOrders(Long itemId) {
         Item item = itemDao.get(itemId);

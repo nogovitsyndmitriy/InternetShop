@@ -9,7 +9,7 @@
 <body class="body">
 <jsp:include page="common/header.jsp"/>
 <form:form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/web/items/upload">
-    <input type="file" name="file" accept="text/xml">
+    <input class="upload" type="file" name="file" accept="text/xml">
     <button type="submit" class="btn btn-primary">upload</button>
 </form:form>
 <a href="${pageContext.request.contextPath}/web/items/create" class="btn-primary">Create Item</a>
@@ -22,6 +22,7 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Unique Number</th>
+            <th scope="col">Deleted</th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                 <td>${item.name}</td>
                 <td>${item.price}$</td>
                 <td>${item.uniqueNumber}</td>
+                <td>${item.deleted}</td>
             </tr>
         </c:forEach>
         </tbody>

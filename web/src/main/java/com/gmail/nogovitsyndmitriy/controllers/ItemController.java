@@ -61,7 +61,7 @@ public class ItemController {
     @PreAuthorize("hasAuthority('CREATE_ITEM')")
     public String createPage(ModelMap modelMap, @ModelAttribute ItemDto item) {
         modelMap.addAttribute("item", item);
-        return pageProperties.getCreateItemPagePath();
+        return "redirect:/web/manage";
     }
 
     @PostMapping(value = "/remove")
@@ -79,7 +79,7 @@ public class ItemController {
         }
         itemService.update(item);
         modelMap.addAttribute("item", item);
-        return "redirect:/web/items/manage_items";
+        return "redirect:/web/items/manage";
     }
 
     @GetMapping(value = "/manage")
@@ -87,7 +87,7 @@ public class ItemController {
     public String manageItems(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfItems = itemService.quantityOfItems();
         Long pagesQuantity = quantityOfPages(quantityOfItems, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<ItemDto> items = itemService.itemPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
+        List<ItemDto> items = itemService.itemPaginationManage(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("items", items);
         return pageProperties.getManageItemsPagePath();

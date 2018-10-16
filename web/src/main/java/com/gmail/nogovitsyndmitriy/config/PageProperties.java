@@ -51,6 +51,8 @@ public class PageProperties {
     private String updateNewsPagePath;
     @Value("${comments.page.path}")
     private String commentsPagePath;
+    @Value("password_admin")
+    private String passwordAdminPagePath;
 
 
 }

@@ -4,11 +4,11 @@ import com.gmail.nogovitsyndmitriy.config.PageProperties;
 import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
-import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +23,18 @@ public class OrderController {
     private final PageProperties pageProperties;
     private final OrderService orderService;
     private final ItemService itemService;
-    private final UserService userService;
 
 
     @Autowired
-    public OrderController(PageProperties pageProperties, OrderService orderService, ItemService itemService, UserService userService) {
+    public OrderController(PageProperties pageProperties, OrderService orderService, ItemService itemService) {
         this.pageProperties = pageProperties;
         this.orderService = orderService;
         this.itemService = itemService;
-        this.userService = userService;
+
     }
 
     @GetMapping(value = "/admin")
+    @PreAuthorize("hasAuthority('SHOW_ORDERS')")
     public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfOrders = orderService.quantityOfOrders();
         Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
@@ -45,6 +45,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfOrders = (long) orderService.findOrdersByUserId(CurrentUserUtil.getCurrentUser().getId()).size();
         Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
@@ -55,6 +56,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/create")
+    @PreAuthorize("isAuthenticated()")
     public String createOrder(@RequestParam("item") Long id, ModelMap modelMap, @RequestParam("quantity") Integer quantity) {
         OrderDto order = new OrderDto();
         ItemDto item = itemService.get(id);
@@ -66,6 +68,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/status")
+    @PreAuthorize("hasAuthority('CHANGE_STATUS')")
     public String changeStatus(@RequestParam("ids") Long[] ids,
                                @ModelAttribute OrderDto order,
                                @RequestParam("status") String status,

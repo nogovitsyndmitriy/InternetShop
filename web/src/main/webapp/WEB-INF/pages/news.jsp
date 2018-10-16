@@ -1,20 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>News</title>
 </head>
 <jsp:include page="common/header.jsp"/>
 <body class="body">
-<div class="row">
-    <form action="${pageContext.request.contextPath}/web/news/delete" method="post">
-    <div class="col-md-12">
-        <a href="${pageContext.request.contextPath}/web/news/create" class="btn btn-primary"
-           aria-pressed="true"
-           role="button">Create News</a>
-        <button type="submit" class="btn btn-primary">DELETE</button>
+<security:authorize access="hasAuthority('CREATE_NEWS')">
+    <div class="row">
+        <form action="${pageContext.request.contextPath}/web/news/delete" method="post">
+            <div class="col-md-12">
+                <a href="${pageContext.request.contextPath}/web/news/create" class="btn btn-primary"
+                   aria-pressed="true"
+                   role="button">Create News</a>
+                <button type="submit" class="btn btn-primary">DELETE</button>
+            </div>
     </div>
-</div>
+</security:authorize>
 <div class="col-md-12">
     <h1 align="center">News</h1>
     <table class="table table-striped table-dark col-md-7" align="center">
@@ -36,15 +39,18 @@
                 <td>${news.created.dayOfMonth}-${news.created.monthValue}-${news.created.year}
                         ${news.created.hour}:${news.created.minute}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/web/news/${news.id}" class="btn btn-primary" aria-pressed="true"
+                    <a href="${pageContext.request.contextPath}/web/news/${news.id}" class="btn btn-primary"
+                       aria-pressed="true"
                        role="button">Read</a>
                 </td>
-                <td>
-                    <a href="${pageContext.request.contextPath}/web/news/${news.id}/update"
-                       class="btn btn-primary"
-                       aria-pressed="true"
-                       role="button">UPDATE</a>
-                </td>
+                <security:authorize access="hasAuthority('UPDATE_NEWS')">
+                    <td>
+                        <a href="${pageContext.request.contextPath}/web/news/${news.id}/update"
+                           class="btn btn-primary"
+                           aria-pressed="true"
+                           role="button">UPDATE</a>
+                    </td>
+                </security:authorize>
             </tr>
         </c:forEach>
         </tbody>

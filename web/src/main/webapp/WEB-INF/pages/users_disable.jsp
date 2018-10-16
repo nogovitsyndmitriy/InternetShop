@@ -9,7 +9,7 @@
 <form action="${pageContext.request.contextPath}/web/users/disable" method="post" class="form-action">
     <div class="row">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table table-striped table-dark">
                 <thead>
                 <tr>
                     <th scope="col">#</th>

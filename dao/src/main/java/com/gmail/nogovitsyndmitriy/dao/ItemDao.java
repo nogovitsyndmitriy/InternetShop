@@ -12,5 +12,7 @@ public interface ItemDao extends GenericDao<Item> {
 
     List<Item> itemPagination(Long page, int maxResult);
 
+    List<Item> itemPaginationManage(Long page, int maxResult);
+
     Long quantityOfItems();
 }

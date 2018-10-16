@@ -15,19 +15,22 @@
                    cssClass="form">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <security:authorize access="hasAuthority('CHANGE_STATUS')">
+                <th scope="col">#</th>
+            </security:authorize>
             <th scope="col">User</th>
             <th scope="col">Item</th>
             <th scope="col">Quantity</th>
             <th scope="col">Created</th>
             <th scope="col">Status</th>
-            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${orders}" var="order">
             <tr>
-                <th scope="row"><input type="checkbox" name="ids" value="${order.id}"></th>
+                <security:authorize access="hasAuthority('CHANGE_STATUS')">
+                    <th scope="row"><input type="checkbox" name="ids" value="${order.id}"></th>
+                </security:authorize>
                 <td>${order.userDto.name}</td>
                 <td>${order.itemDto.name}</td>
                 <td>${order.quantity}</td>
@@ -38,42 +41,47 @@
         </c:forEach>
         </tbody>
     </table>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="REVIEWING"
-               checked>
-        <label class="form-check-label" for="exampleRadios1">
-            Reviewing
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="exampleRadios2"
-               value="IN_PROGRESS">
-        <label class="form-check-label" for="exampleRadios2">
-            In Progress
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="exampleRadios3"
-               value="DELIVERED">
-        <label class="form-check-label" for="exampleRadios3">
-            Delivered
-        </label>
-    </div>
-    <button class="btn btn-warning" type="submit">Change Status</button>
+    <security:authorize access="hasAuthority('CHANGE_STATUS')">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="REVIEWING"
+                   checked>
+            <label class="form-check-label" for="exampleRadios1">
+                Reviewing
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="exampleRadios2"
+                   value="IN_PROGRESS">
+            <label class="form-check-label" for="exampleRadios2">
+                In Progress
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="exampleRadios3"
+                   value="DELIVERED">
+            <label class="form-check-label" for="exampleRadios3">
+                Delivered
+            </label>
+        </div>
+        <button class="btn btn-warning" type="submit">Change Status</button>
+    </security:authorize>
     </form:form>
-<security:authorize access="hasAuthority('VIEW_USERS')">
-    <ul class="pagination justify-content-center">
-        <c:forEach var="page" begin="1" end="${pages}">
-            <li class="page-item"><a class="page-link"
-                                     href="${pageContext.request.contextPath}/web/orders/admin?page=${page}">${page}</a></li>
-        </c:forEach>
-    </ul>
-</security:authorize>
+
+    <security:authorize access="hasAuthority('VIEW_USERS')">
+        <ul class="pagination justify-content-center">
+            <c:forEach var="page" begin="1" end="${pages}">
+                <li class="page-item"><a class="page-link"
+                                         href="${pageContext.request.contextPath}/web/orders/admin?page=${page}">${page}</a>
+                </li>
+            </c:forEach>
+        </ul>
+    </security:authorize>
     <security:authorize access="hasAuthority('VIEW_DOCUMENTS')">
         <ul class="pagination justify-content-center">
             <c:forEach var="page" begin="1" end="${pages}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/web/orders?page=${page}">${page}</a></li>
+                                         href="${pageContext.request.contextPath}/web/orders?page=${page}">${page}</a>
+                </li>
             </c:forEach>
         </ul>
     </security:authorize>

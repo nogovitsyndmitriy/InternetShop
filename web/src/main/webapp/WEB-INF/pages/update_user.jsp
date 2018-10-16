@@ -22,7 +22,7 @@
                 <form:label path="surname">Surname</form:label>
                 <form:input path="surname" placeholder="Surname"/>
             </div>
-            <div class="form group">
+            <div class="form group" hidden>
                 <form:label path="password">Password</form:label>
                 <form:input path="password" placeholder="Password" type="password"/>
             </div>
@@ -44,6 +44,9 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="${pageContext.request.contextPath}/web/users/${user.id}/update/password/admin">
+            Change Password
+        </a>
     </form:form>
 </div>
 <jsp:include page="common/footer.jsp"/>

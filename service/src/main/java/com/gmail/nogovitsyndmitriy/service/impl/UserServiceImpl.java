@@ -202,6 +202,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public UserDto changePasswordAdmin(PasswordDto password, UserDto userDto) {
+        password.setNewPassword(encoder.encode(password.getNewPassword()));
+        userDto.setPassword(password.getNewPassword());
+        User user = userConverter.toEntity(userDto);
+        userDao.update(user);
+        userDto = userDtoConverter.toDTO(user);
+        return userDto;
+    }
+
+    @Override
+    @Transactional
     public UserDto disableUser(Long id, Boolean isDisabled) {
         User user = userDao.get(id);
         if (isDisabled.equals(true)) {

@@ -3,8 +3,6 @@ package com.gmail.nogovitsyndmitriy.dao.impl;
 import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Feedback;
 import com.gmail.nogovitsyndmitriy.dao.entities.Item;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -44,7 +42,16 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     }
 
     public List<Item> itemPagination(Long page, int maxResult) {
-        String hql = "FROM Item AS I WHERE I.deleted=false";
+        String hqlq = "FROM Item AS I WHERE I.deleted=false";
+        Query query = getCurrentSession().createQuery(hqlq);
+        int startPosition = (int) ((page * maxResult) - maxResult);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maxResult);
+        return query.list();
+    }
+
+    public List<Item> itemPaginationManage(Long page, int maxResult) {
+        String hql = "FROM Item AS I";
         Query query = getCurrentSession().createQuery(hql);
         int startPosition = (int) ((page * maxResult) - maxResult);
         query.setFirstResult(startPosition);
