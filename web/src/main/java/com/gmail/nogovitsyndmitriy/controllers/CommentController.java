@@ -1,7 +1,7 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
-import com.gmail.nogovitsyndmitriy.controllers.utils.PanginationUtil;
+import com.gmail.nogovitsyndmitriy.service.utils.PanginationUtil;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import org.springframework.beans.factory.annotation.Autowired;

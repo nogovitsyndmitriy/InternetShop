@@ -8,10 +8,9 @@ import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.RoleService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.*;
+import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.gmail.nogovitsyndmitriy.controllers.utils.PanginationUtil.quantityOfPages;
+import static com.gmail.nogovitsyndmitriy.service.utils.PanginationUtil.quantityOfPages;
 
 @Controller
 @RequestMapping("/web/users")
@@ -59,7 +58,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('VIEW_USERS')")
     public String getUser(@PathVariable("id") Long id, ModelMap modelMap) {
         UserDto user = userService.get(id);
+        RoleDto role = user.getRoleDto();
         modelMap.addAttribute("user", user);
+        modelMap.addAttribute("role", role);
         return pageProperties.getUpdateUserPagePath();
     }
 
@@ -88,12 +89,12 @@ public class UserController {
         user.getProfileDto().setUserId(id);
         userValidator.validate(user, result);
         if (result.hasErrors()) {
-            return pageProperties.getUsersPagePath();
+            return "redirect:/web/users";
         } else {
             user = userService.update(user);
             modelMap.addAttribute("user", user);
         }
-        return pageProperties.getUsersPagePath();
+        return "redirect:/web/users";
     }
 
     @PostMapping("/delete")
@@ -169,9 +170,7 @@ public class UserController {
     @GetMapping(value = "/current")
     @PreAuthorize("isAuthenticated()")
     public String getUser(@ModelAttribute UserDto user, ModelMap modelMap) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        user = userService.get(userPrincipal.getId());
+        user = userService.get(CurrentUserUtil.getCurrentUser().getId());
         modelMap.addAttribute("user", user);
         return pageProperties.getCurrentUserPagePath();
     }
@@ -218,9 +217,7 @@ public class UserController {
     @GetMapping(value = "/cards")
     @PreAuthorize("hasAnyAuthority('MANAGE_BUSINESS_CARD')")
     public String getCards(ModelMap modelMap, @ModelAttribute BusinessCardDto card) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        List<BusinessCardDto> cards = cardService.getAllById(userPrincipal.getId());
+        List<BusinessCardDto> cards = cardService.getAllById(CurrentUserUtil.getCurrentUser().getId());
         modelMap.addAttribute("card", card);
         modelMap.addAttribute("cards", cards);
         return pageProperties.getBusinessCardPagePath();

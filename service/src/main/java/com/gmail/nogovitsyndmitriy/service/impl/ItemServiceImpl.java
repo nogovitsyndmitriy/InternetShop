@@ -49,14 +49,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional(readOnly = true)
-    public ItemDto get(Long id){
+    public ItemDto get(Long id) {
         ItemDto itemDto;
         Item item = itemDao.get(id);
         if (item != null) {
             itemDto = itemDtoConverter.toDTO(item);
             log.info("Get item by Id successful!");
         } else {
-        throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return itemDto;
     }
@@ -92,24 +92,24 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public void delete(ItemDto itemDto) {
-        try {
-            Item item = itemConverter.toEntity(itemDto);
+        Item item = itemConverter.toEntity(itemDto);
+        if (item != null) {
             itemDao.delete(item);
             log.info("Delete item successful!");
-        } catch (Exception e) {
-            log.error("Delete item failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            Item item = itemDao.get(id);
+        Item item = itemDao.get(id);
+        if (item != null) {
             itemDao.delete(item);
             log.info("Delete item by Id successful!");
-        } catch (Exception e) {
-            log.error("Delete item by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 
@@ -133,7 +133,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public long count(BigDecimal above, BigDecimal below) {
-        Long number = Long.valueOf(0);
+        Long number = 0L;
         try {
             number = itemDao.count(above, below);
             log.info("Count get successful!");

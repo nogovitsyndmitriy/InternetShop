@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -35,13 +35,13 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional(readOnly = true)
     public ProfileDto get(Long id) {
-        ProfileDto profileDto = new ProfileDto();
-        try {
-            Profile profile = profileDao.get(id);
+        ProfileDto profileDto;
+        Profile profile = profileDao.get(id);
+        if (profile != null) {
             profileDto = profileDtoConverter.toDTO(profile);
             log.info("Get profile successful!");
-        } catch (Exception e) {
-            log.error("Get profile failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return profileDto;
     }
@@ -101,6 +101,6 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public List<ProfileDto> getAll() {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 }

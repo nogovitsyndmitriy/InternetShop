@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -37,12 +37,12 @@ public class AuditServiceImpl implements AuditService {
     @Transactional(readOnly = true)
     public AuditDto get(Long id) {
         AuditDto auditDto = new AuditDto();
-        try {
-            Audit audit = auditDao.get(id);
+        Audit audit = auditDao.get(id);
+        if (auditDto != null) {
             auditDto = auditDtoConverter.toDTO(audit);
             log.info("Getting audit by Id successful!");
-        } catch (Exception e) {
-            log.error("Getting audit by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return auditDto;
     }
@@ -90,18 +90,18 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            Audit audit = auditDao.get(id);
+        Audit audit = auditDao.get(id);
+        if (audit != null) {
             auditDao.delete(audit);
             log.info("Delete by Id audit successful!");
-        } catch (Exception e) {
-            log.error("Delete by Id audit failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 
     @Override
     @Transactional
     public List<AuditDto> getAll() {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 }

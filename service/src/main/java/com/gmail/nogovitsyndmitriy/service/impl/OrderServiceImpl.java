@@ -1,12 +1,15 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
+import com.gmail.nogovitsyndmitriy.dao.ItemDao;
 import com.gmail.nogovitsyndmitriy.dao.OrderDao;
+import com.gmail.nogovitsyndmitriy.dao.UserDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Order;
 import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.OrderDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.OrderConverter;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
+import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -26,33 +30,43 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDtoConverter orderDtoConverter;
     private final OrderConverter orderConverter;
     private final OrderDao orderDao;
+    private final UserDao userDao;
+    private final ItemDao itemDao;
 
     @Autowired
-    public OrderServiceImpl(@Qualifier("orderDtoConverter") OrderDtoConverter orderDtoConverter, @Qualifier("orderConverter") OrderConverter orderConverter, OrderDao orderDao) {
+    public OrderServiceImpl(@Qualifier("orderDtoConverter") OrderDtoConverter orderDtoConverter, @Qualifier("orderConverter") OrderConverter orderConverter, OrderDao orderDao, UserDao userDao, ItemDao itemDao) {
         this.orderDtoConverter = orderDtoConverter;
         this.orderConverter = orderConverter;
         this.orderDao = orderDao;
+        this.userDao = userDao;
+        this.itemDao = itemDao;
     }
 
     @Override
     @Transactional(readOnly = true)
     public OrderDto get(Long id) {
         OrderDto orderDto = new OrderDto();
-        try {
+        if (orderDto != null) {
             Order order = orderDao.get(id);
             orderDto = orderDtoConverter.toDTO(order);
             log.info("Get order successful!");
-        } catch (Exception e) {
-            log.error("Get order failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return orderDto;
     }
 
     @Override
     @Transactional
-    public OrderDto save(OrderDto orderDto) {
+    public OrderDto save(OrderDto orderDto, Long itemId, Integer quantity) {
         try {
             Order order = orderConverter.toEntity(orderDto);
+            order.setUser(userDao.get(CurrentUserUtil.getCurrentUser().getId()));
+            if (quantity <= 0) {
+                quantity = 1;
+            }
+            order.setQuantity(quantity);
+            order.setItem(itemDao.get(itemId));
             order.setStatus(Status.NEW);
             order.setCreated(LocalDateTime.now());
             orderDao.save(order);
@@ -93,12 +107,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            Order order = orderDao.get(id);
+        Order order = orderDao.get(id);
+        if (order != null) {
             orderDao.save(order);
             log.info("Delete order by Id successful!");
-        } catch (Exception e) {
-            log.error("Delete order by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 
@@ -164,5 +178,10 @@ public class OrderServiceImpl implements OrderService {
             log.error("Failed to get orders pangination");
         }
         return ordersDto;
+    }
+
+    @Override
+    public OrderDto save(OrderDto dto) {
+        throw new UnsupportedOperationException();
     }
 }

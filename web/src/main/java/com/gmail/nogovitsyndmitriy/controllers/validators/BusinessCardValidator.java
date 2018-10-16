@@ -17,12 +17,12 @@ public class BusinessCardValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "invalid.card.title");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "workingTelephone", "invalid.working.phone");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "card.title.invalid");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "workingTelephone", "working.phone.length.invalid");
 
         BusinessCardDto businessCardDto = (BusinessCardDto) o;
         if (businessCardDto.getWorkingTelephone().length() >= 20) {
-            errors.rejectValue("workingTelephone", "invalid.working.phone");
+            errors.rejectValue("workingTelephone", "working.phone.length.invalid");
         }
     }
 }

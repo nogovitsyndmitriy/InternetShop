@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +46,13 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     @Transactional(readOnly = true)
     public DiscountDto get(Long id) {
-        DiscountDto discountDto = new DiscountDto();
-        try {
-            Discount discount = discountDao.get(id);
+        DiscountDto discountDto;
+        Discount discount = discountDao.get(id);
+        if (discount != null) {
             discountDto = discountDtoConverter.toDTO(discount);
             log.info("Get Discount successful!");
-        } catch (Exception e) {
-            log.error("Failed to get Discount!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return discountDto;
     }
@@ -130,12 +131,12 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            Discount discount = discountDao.get(id);
+        Discount discount = discountDao.get(id);
+        if (discount != null) {
             discountDao.delete(discount);
             log.info("Get feedback by Id successful!");
-        } catch (Exception e) {
-            log.error("Failed to get feedback by Id!");
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 

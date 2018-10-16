@@ -10,16 +10,15 @@ import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.NewsDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
-import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
+import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +48,13 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public NewsDto get(Long id) {
-        NewsDto newsDto = new NewsDto();
-        try {
-            News news = newsDao.get(id);
+        NewsDto newsDto;
+        News news = newsDao.get(id);
+        if (news != null) {
             newsDto = newsDtoConverter.toDTO(news);
             log.info("Getting news by Id successful!");
-        } catch (Exception e) {
-            log.error("Getting news by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return newsDto;
     }
@@ -63,11 +62,9 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public NewsDto save(NewsDto newsDto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         try {
             News news = newsConverter.toEntity(newsDto);
-            news.setUser(userDao.get(userPrincipal.getId()));
+            news.setUser(userDao.get(CurrentUserUtil.getCurrentUser().getId()));
             news.setCreated(LocalDateTime.now());
             newsDao.save(news);
             newsDto = newsDtoConverter.toDTO(news);
@@ -81,10 +78,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public NewsDto update(NewsDto newsDto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         try {
-            User user = userDao.get(userPrincipal.getId());
+            User user = userDao.get(CurrentUserUtil.getCurrentUser().getId());
             News news = newsConverter.toEntity(newsDto);
             news.setCreated(LocalDateTime.now());
             news.setUser(user);
@@ -112,23 +107,23 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            News news = newsDao.get(id);
+        News news = newsDao.get(id);
+        if (news != null) {
             List<Comment> comments = commentDao.findCommentsByNewsId(id);
             newsDao.delete(news);
             for (Comment comment : comments) {
                 commentDao.delete(comment);
             }
             log.info("Delete news by Id successful!");
-        } catch (Exception e) {
-            log.error("Delete news by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 
     @Override
     @Transactional
     public List<NewsDto> getAll() {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 
     @Override

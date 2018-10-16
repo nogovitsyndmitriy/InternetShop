@@ -1,15 +1,12 @@
 package com.gmail.nogovitsyndmitriy.controllers.handlers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
-import com.gmail.nogovitsyndmitriy.exceptions.EntityNotFoundException;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @ControllerAdvice
 public class AppExceptionHandler {
@@ -20,19 +17,14 @@ public class AppExceptionHandler {
         this.pageProperties = pageProperties;
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public String entityNotFoundException(HttpServletRequest request, Exception e, Long id){
-        request.setAttribute("id", id);
-        request.setAttribute("exception", e);
-        request.setAttribute("url", request.getRequestURL());
+
+    @ExceptionHandler(ServiceException.class)
+    public String serviceException(HttpServletRequest request, ServiceException ex) {
+        request.setAttribute("errCode", ex.getErrCode());
+        request.setAttribute("errMsg", ex.getErrMsg());
         return pageProperties.getErrorsPagePath();
     }
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "IOException occurred")
-    @ExceptionHandler(IOException.class)
-    public String notFoundException() {
-        return pageProperties.getErrorsPagePath();
-    }
 
     @ExceptionHandler(Exception.class)
     public String defaultErrorHandler(HttpServletRequest request, Exception e) {

@@ -7,17 +7,15 @@ import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
-import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
+import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.gmail.nogovitsyndmitriy.controllers.utils.PanginationUtil.quantityOfPages;
+import static com.gmail.nogovitsyndmitriy.service.utils.PanginationUtil.quantityOfPages;
 
 @Controller
 @RequestMapping("/web/orders")
@@ -48,11 +46,9 @@ public class OrderController {
 
     @GetMapping
     public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Long quantityOfOrders = (long) orderService.findOrdersByUserId(userPrincipal.getId()).size();
+        Long quantityOfOrders = (long) orderService.findOrdersByUserId(CurrentUserUtil.getCurrentUser().getId()).size();
         Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<OrderDto> orders = orderService.ordersPanginationById(page, Integer.parseInt(pageProperties.getQuantityOnPage()), userPrincipal.getId());
+        List<OrderDto> orders = orderService.ordersPanginationById(page, Integer.parseInt(pageProperties.getQuantityOnPage()), CurrentUserUtil.getCurrentUser().getId());
         modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("orders", orders);
         return pageProperties.getOrdersPagePath();
@@ -60,14 +56,9 @@ public class OrderController {
 
     @PostMapping(value = "/create")
     public String createOrder(@RequestParam("item") Long id, ModelMap modelMap, @RequestParam("quantity") Integer quantity) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         OrderDto order = new OrderDto();
         ItemDto item = itemService.get(id);
-        order.setUserDto(userService.get(userPrincipal.getId()));
-        order.setQuantity(quantity);
-        order.setItemDto(item);
-        orderService.save(order);
+        orderService.save(order, id, quantity);
         modelMap.addAttribute("item", item);
         modelMap.addAttribute("quantity", quantity);
         modelMap.addAttribute("order", order);

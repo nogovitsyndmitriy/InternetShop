@@ -1,69 +1,56 @@
 package com.gmail.nogovitsyndmitriy.config;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 @Component
 @Getter
 public class PageProperties {
 
-    private final Environment environment;
 
+    @Value("${login.page.path}")
     private String loginPagePath;
+    @Value("${users.page.path}")
     private String usersPagePath;
+    @Value("${errors.page.path}")
     private String errorsPagePath;
+    @Value("${items.page.path}")
     private String itemsPagePath;
+    @Value("${registration.page.path}")
     private String registrationPagePath;
+    @Value("${update.user.page.path}")
     private String updateUserPagePath;
+    @Value("${news.page.path}")
     private String newsPage;
+    @Value("${single.news.page.path}")
     private String singleNewsPagePath;
+    @Value("${orders.page.path}")
     private String ordersPagePath;
+    @Value("${create.item.page.path}")
     private String createItemPagePath;
+    @Value("${roles.page.path}")
     private String rolesPagePath;
+    @Value("${manage.items.page.path}")
     private String manageItemsPagePath;
+    @Value("${create.order.page.path}")
     private String createOrderPagePath;
+    @Value("${current.user.page.path}")
     private String currentUserPagePath;
+    @Value("${password.page.path}")
     private String passwordPagePath;
+    @Value("${business.card.page.path}")
     private String businessCardPagePath;
+    @Value("${quantity.on.page}")
     private String quantityOnPage;
+    @Value("${users.disable.page.path}")
     private String usersDisablePagePath;
+    @Value("${create.news.page.path}")
     private String createNewsPagePath;
+    @Value("${update.news.page.path}")
     private String updateNewsPagePath;
+    @Value("${comments.page.path}")
     private String commentsPagePath;
-
-    @Autowired
-    public PageProperties(Environment environment) {
-        this.environment = environment;
-    }
-
-    @PostConstruct
-    public void initialize() {
-        this.loginPagePath = environment.getProperty("login.page.path");
-        this.usersPagePath = environment.getProperty("users.page.path");
-        this.errorsPagePath = environment.getProperty("errors.page.path");
-        this.itemsPagePath = environment.getProperty("items.page.path");
-        this.registrationPagePath = environment.getProperty("registration.page.path");
-        this.updateUserPagePath = environment.getProperty("update.user.page.path");
-        this.newsPage = environment.getProperty("news.page.path");
-        this.singleNewsPagePath = environment.getProperty("single.news.page.path");
-        this.ordersPagePath = environment.getProperty("orders.page.path");
-        this.createItemPagePath = environment.getProperty("create.item.page.path");
-        this.rolesPagePath = environment.getProperty("roles.page.path");
-        this.manageItemsPagePath = environment.getProperty("manage.items.page.path");
-        this.createOrderPagePath = environment.getProperty("create.order.page.path");
-        this.currentUserPagePath = environment.getProperty("current.user.page.path");
-        this.passwordPagePath = environment.getProperty("password.page.path");
-        this.businessCardPagePath = environment.getProperty("business.card.page.path");
-        this.quantityOnPage = environment.getProperty("quantity.on.page");
-        this.usersDisablePagePath = environment.getProperty("users.disable.page.path");
-        this.createNewsPagePath = environment.getProperty("create.news.page.path");
-        this.updateNewsPagePath = environment.getProperty("update.news.page.path");
-        this.commentsPagePath = environment.getProperty("comments.page.path");
-    }
 
 
 }

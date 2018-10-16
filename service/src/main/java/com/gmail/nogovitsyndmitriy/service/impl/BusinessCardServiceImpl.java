@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +47,13 @@ public class BusinessCardServiceImpl implements BusinessCardService {
     @Override
     @Transactional(readOnly = true)
     public BusinessCardDto get(Long id) {
-        BusinessCardDto cardDto = null;
-        try {
-            BusinessCard card = businessCardDao.get(id);
+        BusinessCardDto cardDto;
+        BusinessCard card = businessCardDao.get(id);
+        if (card != null) {
             cardDto = dtoConverter.toDTO(card);
             log.info("Get user successful!");
-        } catch (Exception e) {
-            log.error("Get user failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return cardDto;
     }
@@ -78,7 +79,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
     @Override
     @Transactional
     public BusinessCardDto update(BusinessCardDto businessCardDto) {
-        return new BusinessCardDto();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -96,12 +97,12 @@ public class BusinessCardServiceImpl implements BusinessCardService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            BusinessCard card = businessCardDao.get(id);
+        BusinessCard card = businessCardDao.get(id);
+        if (card != null) {
             businessCardDao.delete(card);
             log.info("Delete card by Id successful!");
-        } catch (Exception e) {
-            log.error("Delete card by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 

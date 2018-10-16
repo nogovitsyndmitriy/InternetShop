@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>User Update</title>
@@ -34,8 +35,12 @@
                 <form:input path="profileDto.address" placeholder="Address"/>
             </div>
             <div class="form group">
-                <form:label path="profileDto.telephone">Telephone</form:label>
-                <form:input path="profileDto.telephone" placeholder="Telephone" />
+                <form:label path="">Telephone</form:label>
+                <form:input path="profileDto.telephone" placeholder="Telephone"/>
+            </div>
+            <div class="form group" hidden>
+                <form:label path="roleDto.id">Role</form:label>
+                <form:input path="roleDto.id" placeholder="Role"/>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

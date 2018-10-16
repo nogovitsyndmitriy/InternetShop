@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -36,13 +36,13 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional(readOnly = true)
     public PermissionDto get(Long id) {
-        PermissionDto permissionDto = new PermissionDto();
-        try {
-            Permission permission = permissionDao.get(id);
+        PermissionDto permissionDto;
+        Permission permission = permissionDao.get(id);
+        if (permission != null) {
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Get permission successful!");
-        } catch (Exception e) {
-            log.error("Get permission failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return permissionDto;
     }
@@ -50,13 +50,13 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional
     public PermissionDto save(PermissionDto permissionDto) {
-        try {
-            Permission permission = permissionConverter.toEntity(permissionDto);
+        Permission permission = permissionConverter.toEntity(permissionDto);
+        if (permission != null) {
             permissionDao.save(permission);
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Saving permission successful!");
-        } catch (Exception e) {
-            log.error("Saving permission failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return permissionDto;
     }
@@ -102,6 +102,6 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional
     public List<PermissionDto> getAll() {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 }

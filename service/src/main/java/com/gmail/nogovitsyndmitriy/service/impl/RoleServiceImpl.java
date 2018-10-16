@@ -103,7 +103,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public List<RoleDto> getAll() {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 
     @Override

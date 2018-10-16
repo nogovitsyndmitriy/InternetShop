@@ -102,6 +102,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     @Transactional
     public List<FeedbackDto> getAll() {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 }

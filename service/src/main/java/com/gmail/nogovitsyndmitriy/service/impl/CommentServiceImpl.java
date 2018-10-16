@@ -1,11 +1,16 @@
 package com.gmail.nogovitsyndmitriy.service.impl;
 
 import com.gmail.nogovitsyndmitriy.dao.CommentDao;
+import com.gmail.nogovitsyndmitriy.dao.UserDao;
 import com.gmail.nogovitsyndmitriy.dao.entities.Comment;
+import com.gmail.nogovitsyndmitriy.dao.entities.News;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
+import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.CommentDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.CommentConverter;
+import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
+import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +18,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -23,35 +29,48 @@ public class CommentServiceImpl implements CommentService {
     private final CommentConverter commentConverter;
     private final CommentDtoConverter commentDtoConverter;
     private final CommentDao commentDao;
+    private final NewsConverter newsConverter;
+    private final NewsService newsService;
+    private final UserDao userDao;
 
 
     @Autowired
-    public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter, @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter, CommentDao commentDao) {
+    public CommentServiceImpl(@Qualifier("commentConverter") CommentConverter commentConverter,
+                              @Qualifier("commentDtoConverter") CommentDtoConverter commentDtoConverter,
+                              CommentDao commentDao,
+                              @Qualifier("newsConverter") NewsConverter newsConverter,
+                              NewsService newsService, UserDao userDao) {
         this.commentConverter = commentConverter;
         this.commentDtoConverter = commentDtoConverter;
         this.commentDao = commentDao;
+        this.newsConverter = newsConverter;
+        this.newsService = newsService;
+        this.userDao = userDao;
     }
 
     @Override
     @Transactional(readOnly = true)
     public CommentDto get(Long id) {
-        CommentDto commentDto = new CommentDto();
-        try {
-            Comment comment = commentDao.get(id);
+        CommentDto commentDto;
+        Comment comment = commentDao.get(id);
+        if (comment != null) {
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Getting comment by Id successful!");
-        } catch (Exception e) {
-            log.error("Getting comment by Id failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
         return commentDto;
     }
 
     @Override
     @Transactional
-    public CommentDto save(CommentDto commentDto) {
+    public CommentDto save(CommentDto commentDto, Long newsId) {
         try {
-
+            News news = newsConverter.toEntity(newsService.get(newsId));
             Comment comment = commentConverter.toEntity(commentDto);
+            comment.setUser(userDao.findByEmail(CurrentUserUtil.getCurrentUser().getUsername()));
+            comment.setNews(news);
+            comment.setCreated(LocalDateTime.now());
             commentDao.save(comment);
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Saving comment successful!");
@@ -90,19 +109,19 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        try {
-            Comment comment = commentDao.get(id);
+        Comment comment = commentDao.get(id);
+        if (comment != null) {
             commentDao.delete(comment);
             log.info("Delete comment successful!");
-        } catch (Exception e) {
-            log.error("Delete comment failed!", e);
+        } else {
+            throw new EntityNotFoundException("Item NOT Found!");
         }
     }
 
     @Override
     @Transactional
     public List<CommentDto> getAll() {
-        return new LinkedList<>();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -144,5 +163,10 @@ public class CommentServiceImpl implements CommentService {
             log.error("Failed to get comments pangination");
         }
         return commentsDto;
+    }
+
+    @Override
+    public CommentDto save(CommentDto dto) {
+        throw new UnsupportedOperationException();
     }
 }
