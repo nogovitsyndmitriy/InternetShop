@@ -44,7 +44,7 @@
                 </li>
                 </security:authorize>
                 <security:authorize access="isAuthenticated()">
-                    <security:authorize access="hasAuthority('VIEW_USERS')">
+                    <security:authorize access="hasAuthority('CHANGE_STATUS')">
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/web/orders/admin">Orders</a>
                         </li>

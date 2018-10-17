@@ -8,12 +8,13 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@SuppressWarnings("ALL")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -27,20 +28,15 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", nullable = false, updatable = false)
     private Long id;
-    @Column(name = "F_EMAIL")
-//    @Email
-//    @NotNull
-//    @Min(7)
+    @Column(name = "F_EMAIL", updatable = false, unique = true)
+    @Email
+    @NotNull
     private String email;
     @Column(name = "F_NAME")
-//    @Size(min = 2, max = 10)
     private String name;
     @Column(name = "F_SURNAME")
-//    @Size(min = 2, max = 15)
     private String surname;
     @Column(name = "F_PASSWORD")
-//    @Size(min = 6, max = 15)
-//    @NotNull
     private String password;
     @Column(name = "F_DISABLED")
     private Boolean disabled;
@@ -59,7 +55,6 @@ public class User implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "F_DISCOUNT_ID", unique = true)
     private Discount discount;
-
 
 
     @Override

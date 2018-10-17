@@ -9,6 +9,7 @@ import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.CommentDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.CommentConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.apache.logging.log4j.LogManager;
@@ -57,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
             commentDto = commentDtoConverter.toDTO(comment);
             log.info("Getting comment by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return commentDto;
     }
@@ -76,6 +77,7 @@ public class CommentServiceImpl implements CommentService {
             log.info("Saving comment successful!");
         } catch (Exception e) {
             log.error("Saving comment failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return commentDto;
     }
@@ -90,6 +92,7 @@ public class CommentServiceImpl implements CommentService {
             log.info("Update comment successful!");
         } catch (Exception e) {
             log.error("Update comment failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return commentDto;
     }
@@ -103,6 +106,7 @@ public class CommentServiceImpl implements CommentService {
             log.info("Saving comment successful!");
         } catch (Exception e) {
             log.error("Saving comment failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -114,7 +118,7 @@ public class CommentServiceImpl implements CommentService {
             commentDao.delete(comment);
             log.info("Delete comment successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 
@@ -138,12 +142,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Long quantityOfComments() {
-        Long quantity = 0L;
+        Long quantity;
         try {
             quantity = commentDao.quantityOfComments();
             log.info("Quantity find successful!");
         } catch (Exception e) {
             log.error("Failed to count quantity!", e);
+            throw new ServiceException("Service Exception!");
         }
         return quantity;
     }

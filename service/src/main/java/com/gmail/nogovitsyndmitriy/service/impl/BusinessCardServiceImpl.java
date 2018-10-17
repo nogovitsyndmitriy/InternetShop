@@ -7,6 +7,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.BusinessCardService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.BusinessCardDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.BusinessCardConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.BusinessCardDto;
 import com.gmail.nogovitsyndmitriy.service.model.UserPrincipal;
 import org.apache.logging.log4j.LogManager;
@@ -39,7 +40,6 @@ public class BusinessCardServiceImpl implements BusinessCardService {
         this.converter = converter;
         this.dtoConverter = dtoConverter;
         this.businessCardDao = businessCardDao;
-
         this.userDao = userDao;
     }
 
@@ -53,7 +53,8 @@ public class BusinessCardServiceImpl implements BusinessCardService {
             cardDto = dtoConverter.toDTO(card);
             log.info("Get user successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            log.warn("Get user failed!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return cardDto;
     }
@@ -72,6 +73,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
             log.info("Saving card successful!");
         } catch (Exception e) {
             log.error("Saving card failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return businessCardDto;
     }
@@ -91,6 +93,7 @@ public class BusinessCardServiceImpl implements BusinessCardService {
             log.info("Delete card successful!");
         } catch (Exception e) {
             log.error("Delete card failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -102,7 +105,8 @@ public class BusinessCardServiceImpl implements BusinessCardService {
             businessCardDao.delete(card);
             log.info("Delete card by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            log.warn("Delete card by Id failed!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 

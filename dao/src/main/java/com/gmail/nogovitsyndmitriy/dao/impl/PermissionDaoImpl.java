@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PermissionDaoImpl extends GenericDaoImpl<Permission> implements PermissionDao {
 
-    private final static Logger log = LogManager.getLogger(PermissionDaoImpl.class);
-
     public PermissionDaoImpl() {
         super(Permission.class);
     }

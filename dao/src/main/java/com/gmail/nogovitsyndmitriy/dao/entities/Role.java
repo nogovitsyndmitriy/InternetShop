@@ -30,7 +30,7 @@ public class Role implements Serializable {
     private String name;
 
     //  Permissions
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "roles")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "roles")
     private Set<Permission> permissions = new HashSet<>();
 
 

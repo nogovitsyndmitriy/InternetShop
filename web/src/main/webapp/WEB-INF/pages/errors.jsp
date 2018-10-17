@@ -13,7 +13,7 @@
     <h3>Debug Information:</h3>
     Requested URL = ${url}<br><br>
 
-    Exception = ${exception.message}<br><br>
+    Exception = ${exceptio}<br><br>
 </div>
 </body>
 <jsp:include page="common/footer.jsp"/>

@@ -33,8 +33,8 @@ public class CommentController {
     public String getComments(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfComments = commentService.quantityOfComments();
         Long pageQuantity = PanginationUtil.quantityOfPages(quantityOfComments, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<CommentDto> comments = commentService.commentsPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pageQuantity);
+        List<CommentDto> comments = commentService.commentsPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("comments", comments);
         return pageProperties.getCommentsPagePath();
     }

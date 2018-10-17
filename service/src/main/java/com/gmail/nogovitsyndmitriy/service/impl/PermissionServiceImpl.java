@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Permission;
 import com.gmail.nogovitsyndmitriy.service.PermissionService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.PermissionDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.PermissionConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.PermissionDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +43,7 @@ public class PermissionServiceImpl implements PermissionService {
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Get permission successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return permissionDto;
     }
@@ -56,7 +57,7 @@ public class PermissionServiceImpl implements PermissionService {
             permissionDto = permissionDtoConverter.toDTO(permission);
             log.info("Saving permission successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new ServiceException("Service Exception!");
         }
         return permissionDto;
     }
@@ -71,6 +72,7 @@ public class PermissionServiceImpl implements PermissionService {
             log.info("Update permission successful!");
         } catch (Exception e) {
             log.error("Update permission failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return permissionDto;
     }
@@ -84,6 +86,7 @@ public class PermissionServiceImpl implements PermissionService {
             log.info("Delete permission successful!");
         } catch (Exception e) {
             log.error("Delete permission failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -96,6 +99,7 @@ public class PermissionServiceImpl implements PermissionService {
             log.info("Delete permission by Id successful!");
         } catch (Exception e) {
             log.error("Delete permission by Id failed!", e);
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 

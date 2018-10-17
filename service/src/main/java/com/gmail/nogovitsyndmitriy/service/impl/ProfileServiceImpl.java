@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Profile;
 import com.gmail.nogovitsyndmitriy.service.ProfileService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ProfileDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ProfileConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.ProfileDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +42,7 @@ public class ProfileServiceImpl implements ProfileService {
             profileDto = profileDtoConverter.toDTO(profile);
             log.info("Get profile successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return profileDto;
     }
@@ -56,6 +57,7 @@ public class ProfileServiceImpl implements ProfileService {
             log.info("Saving profile successful!");
         } catch (Exception e) {
             log.error("Saving profile failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return profileDto;
     }
@@ -70,6 +72,7 @@ public class ProfileServiceImpl implements ProfileService {
             log.info("Update profile successful!");
         } catch (Exception e) {
             log.error("Update profile failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return profileDto;
     }
@@ -83,6 +86,7 @@ public class ProfileServiceImpl implements ProfileService {
             log.info("Delete profile successful!");
         } catch (Exception e) {
             log.error("Delete profile failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -95,6 +99,7 @@ public class ProfileServiceImpl implements ProfileService {
             log.info("Delete profile by Id successful!");
         } catch (Exception e) {
             log.error("Delete profile by Id failed!", e);
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 

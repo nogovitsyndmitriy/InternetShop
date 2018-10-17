@@ -16,7 +16,6 @@ public class DiscountDaoImpl extends GenericDaoImpl<Discount> implements Discoun
         super(Discount.class);
     }
 
-
     public List<Item> findByAmountOfDiscount(BigDecimal percent) {
         String hql = "SELECT D.items FROM Discount AS D WHERE D.percent=:percent";
         Query query = getCurrentSession().createQuery(hql);

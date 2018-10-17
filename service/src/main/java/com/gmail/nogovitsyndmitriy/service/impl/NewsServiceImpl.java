@@ -9,6 +9,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.User;
 import com.gmail.nogovitsyndmitriy.service.NewsService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.NewsDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.NewsConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
 import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.apache.logging.log4j.LogManager;
@@ -54,7 +55,7 @@ public class NewsServiceImpl implements NewsService {
             newsDto = newsDtoConverter.toDTO(news);
             log.info("Getting news by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return newsDto;
     }
@@ -71,6 +72,7 @@ public class NewsServiceImpl implements NewsService {
             log.info("Saving news successful!");
         } catch (Exception e) {
             log.error("Saving news failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return newsDto;
     }
@@ -88,6 +90,7 @@ public class NewsServiceImpl implements NewsService {
             log.info("Update news successful!");
         } catch (Exception e) {
             log.error("Update news failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return newsDto;
     }
@@ -101,6 +104,7 @@ public class NewsServiceImpl implements NewsService {
             log.info("Delete news successful!");
         } catch (Exception e) {
             log.error("Delete news failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -116,7 +120,7 @@ public class NewsServiceImpl implements NewsService {
             }
             log.info("Delete news by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 
@@ -139,6 +143,7 @@ public class NewsServiceImpl implements NewsService {
             log.info("Successful getting news pagination!");
         } catch (Exception e) {
             log.error("News pagination failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return newsDtoList;
     }
@@ -146,12 +151,13 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(readOnly = true)
     public Long quantityOfNews() {
-        Long quantity = 0L;
+        Long quantity;
         try {
             quantity = newsDao.quantityOfNews();
             log.info("Quantity of news getting successful!");
         } catch (Exception e) {
             log.error("Failed to get news quantity!", e);
+            throw new ServiceException("Service Exception!");
         }
         return quantity;
     }

@@ -8,6 +8,7 @@ import com.gmail.nogovitsyndmitriy.dao.enums.Status;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.OrderDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.OrderConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import com.gmail.nogovitsyndmitriy.service.utils.CurrentUserUtil;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
             orderDto = orderDtoConverter.toDTO(order);
             log.info("Get order successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return orderDto;
     }
@@ -74,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
             log.info("Saving order successful!");
         } catch (Exception e) {
             log.error("Saving order failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return orderDto;
     }
@@ -88,6 +90,7 @@ public class OrderServiceImpl implements OrderService {
             log.info("Update order successful!");
         } catch (Exception e) {
             log.error("Update order failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return orderDto;
     }
@@ -101,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
             log.info("Delete order successful!");
         } catch (Exception e) {
             log.error("Delete order failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -112,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
             orderDao.save(order);
             log.info("Delete order by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 
@@ -128,6 +132,7 @@ public class OrderServiceImpl implements OrderService {
             log.info("Order pangination successful!");
         } catch (Exception e) {
             log.error("Failed to get orders pangination");
+            throw new ServiceException("Service Exception!");
         }
         return ordersDto;
     }
@@ -135,12 +140,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public Long quantityOfOrders() {
-        Long quantity = 0L;
+        Long quantity;
         try {
             quantity = orderDao.quantityOfOrders();
             log.info("Quantity find successful!");
         } catch (Exception e) {
             log.error("Failed to count quantity!", e);
+            throw new ServiceException("Service Exception!");
         }
         return quantity;
     }
@@ -176,6 +182,7 @@ public class OrderServiceImpl implements OrderService {
             log.info("Order pangination successful!");
         } catch (Exception e) {
             log.error("Failed to get orders pangination");
+            throw new ServiceException("Service Exception!");
         }
         return ordersDto;
     }

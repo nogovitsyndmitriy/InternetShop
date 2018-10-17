@@ -12,11 +12,9 @@ import java.util.List;
 @Repository
 public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
 
-
     public ItemDaoImpl() {
         super(Item.class);
     }
-
 
     public List<Item> findItemInRangeOfPrice(BigDecimal above, BigDecimal below) {
         String hql = "FROM Item AS I WHERE I.price>:above And I.price<:below";

@@ -38,9 +38,11 @@ public class OrderController {
     public String getOrdersAllPagination(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfOrders = orderService.quantityOfOrders();
         Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<OrderDto> orders = orderService.ordersPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
+        List<OrderDto> orders = orderService.ordersPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("orders", orders);
+        Status[] statuses = Status.values();
+        modelMap.addAttribute("statuses", statuses);
         return pageProperties.getOrdersPagePath();
     }
 
@@ -49,8 +51,8 @@ public class OrderController {
     public String getOrdersById(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfOrders = (long) orderService.findOrdersByUserId(CurrentUserUtil.getCurrentUser().getId()).size();
         Long pagesQuantity = quantityOfPages(quantityOfOrders, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<OrderDto> orders = orderService.ordersPanginationById(page, Integer.parseInt(pageProperties.getQuantityOnPage()), CurrentUserUtil.getCurrentUser().getId());
         modelMap.addAttribute("pages", pagesQuantity);
+        List<OrderDto> orders = orderService.ordersPanginationById(page, Integer.parseInt(pageProperties.getQuantityOnPage()), CurrentUserUtil.getCurrentUser().getId());
         modelMap.addAttribute("orders", orders);
         return pageProperties.getOrdersPagePath();
     }
@@ -59,11 +61,11 @@ public class OrderController {
     @PreAuthorize("isAuthenticated()")
     public String createOrder(@RequestParam("item") Long id, ModelMap modelMap, @RequestParam("quantity") Integer quantity) {
         OrderDto order = new OrderDto();
-        ItemDto item = itemService.get(id);
-        orderService.save(order, id, quantity);
-        modelMap.addAttribute("item", item);
-        modelMap.addAttribute("quantity", quantity);
         modelMap.addAttribute("order", order);
+        ItemDto item = itemService.get(id);
+        modelMap.addAttribute("item", item);
+        orderService.save(order, id, quantity);
+        modelMap.addAttribute("quantity", quantity);
         return "redirect:/web/items";
     }
 
@@ -76,21 +78,10 @@ public class OrderController {
     ) {
         for (Long id : ids) {
             order = orderService.get(id);
-            switch (status) {
-                case "REVIEWING":
-                    order.setStatus(Status.REVIEWING);
-                    break;
-                case "IN_PROGRESS":
-                    order.setStatus(Status.IN_PROGRESS);
-                    break;
-                case "DELIVERED":
-                    order.setStatus(Status.DELIVERED);
-                    break;
-            }
+            order.setStatus(Status.valueOf(status));
             orderService.update(order);
         }
         modelMap.addAttribute("order", order);
         return "redirect:/web/orders/admin";
     }
-
 }

@@ -25,6 +25,7 @@ import static com.gmail.nogovitsyndmitriy.service.utils.PanginationUtil.quantity
 @RequestMapping("/web/users")
 public class UserController {
 
+
     private final PageProperties pageProperties;
     private final UserService userService;
     private final DiscountService discountService;
@@ -75,7 +76,7 @@ public class UserController {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user = userService.save(user);
             modelMap.addAttribute("user", user);
-            return "redirect:/web/login";
+            return pageProperties.getLoginPagePath();
         }
     }
 
@@ -111,8 +112,8 @@ public class UserController {
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfUsers = userService.quantityOfUsers();
         Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
+        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("users", users);
         return pageProperties.getUsersPagePath();
     }
@@ -143,9 +144,11 @@ public class UserController {
     ) {
         Long quantityOfUsers = userService.quantityOfUsers();
         Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
+        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("users", users);
+        List<RoleDto> roles = roleService.getAll();
+        modelMap.addAttribute("roles", roles);
         modelMap.addAttribute("user", user);
         return pageProperties.getRolesPagePath();
     }
@@ -155,11 +158,11 @@ public class UserController {
     public String changeRole(@RequestParam("ids") Long[] ids,
                              ModelMap modelMap,
                              @ModelAttribute UserDto user,
-                             @RequestParam("role") String role) {
+                             @RequestParam("roleId") Long roleId) {
         List<RoleDto> roles = roleService.getAll();
         for (Long id : ids) {
             user = userService.get(id);
-            user.setRoleDto(roleService.findByName(role));
+            user.setRoleDto(roleService.get(roleId));
             userService.update(user);
         }
         modelMap.addAttribute("user", user);
@@ -210,8 +213,8 @@ public class UserController {
                                @ModelAttribute PasswordDto password,
                                ModelMap modelMap) {
         UserDto user = userService.get(id);
-        userService.changePassword(password, user);
         modelMap.addAttribute("user", user);
+        userService.changePassword(password, user);
         modelMap.addAttribute("password", new PasswordDto());
         return pageProperties.getCurrentUserPagePath();
     }
@@ -220,8 +223,8 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('MANAGE_BUSINESS_CARD')")
     public String getCards(ModelMap modelMap, @ModelAttribute BusinessCardDto card) {
         List<BusinessCardDto> cards = cardService.getAllById(CurrentUserUtil.getCurrentUser().getId());
-        modelMap.addAttribute("card", card);
         modelMap.addAttribute("cards", cards);
+        modelMap.addAttribute("card", card);
         return pageProperties.getBusinessCardPagePath();
     }
 
@@ -248,8 +251,8 @@ public class UserController {
                                       ModelMap modelMap) {
         Long quantityOfUsers = userService.quantityOfUsers();
         Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
+        List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("users", users);
         modelMap.addAttribute("user", user);
         return pageProperties.getUsersDisablePagePath();

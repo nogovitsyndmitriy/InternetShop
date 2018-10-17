@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RoleDaoImpl extends GenericDaoImpl<Role> implements RoleDao {
 
-    private final static Logger log = LogManager.getLogger(RoleDaoImpl.class);
-
     public RoleDaoImpl() {
         super(Role.class);
     }

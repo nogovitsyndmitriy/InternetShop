@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public class BusinessCardDaoImpl extends GenericDaoImpl<BusinessCard> implements BusinessCardDao {
 
-
     public BusinessCardDaoImpl() {
         super(BusinessCard.class);
     }

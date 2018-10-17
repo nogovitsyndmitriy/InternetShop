@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProfileDaoImpl extends GenericDaoImpl<Profile> implements ProfileDao {
 
-    private final static Logger log = LogManager.getLogger(ProfileDaoImpl.class);
-
 public ProfileDaoImpl() {
         super(Profile.class);
     }

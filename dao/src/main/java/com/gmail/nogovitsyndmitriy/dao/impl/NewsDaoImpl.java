@@ -12,12 +12,9 @@ import java.util.List;
 @Repository
 public class NewsDaoImpl extends GenericDaoImpl<News> implements NewsDao {
 
-    private final static Logger log = LogManager.getLogger(NewsDaoImpl.class);
-
     public NewsDaoImpl() {
         super(News.class);
     }
-
 
     public List<News> newsPagination(Long page, int maxResult) {
         String hql = "FROM News AS N ORDER BY N.created DESC";

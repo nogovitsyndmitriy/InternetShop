@@ -7,54 +7,42 @@
 <jsp:include page="common/header.jsp"/>
 <body class="body">
 <form action="${pageContext.request.contextPath}/web/users/roles" method="post">
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-striped table-dark">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Email</th>
-                <th scope="col">FirstName</th>
-                <th scope="col">LastName</th>
-                <th scope="col">Role</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${users}" var="user">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-dark">
+                <thead>
                 <tr>
-                    <th scope="row"><input type="checkbox" name="ids" value="${user.id}"></th>
-                    <td>${user.email}</td>
-                    <td>${user.name}</td>
-                    <td>${user.surname}</td>
-                    <td>${user.roleDto.name}</td>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Role</th>
                 </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                        <th scope="row"><input type="checkbox" name="ids" value="${user.id}"></th>
+                        <td>${user.email}</td>
+                        <td>${user.name}</td>
+                        <td>${user.surname}</td>
+                        <td>${user.roleDto.name}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <c:forEach items="${roles}" var="role">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="roleId" id="exampleRadios1" value="${role.id}"
+                       checked>
+                <label class="form-check-label" for="exampleRadios1">
+                        ${role.name}
+                </label>
+            </div>
             </c:forEach>
-            </tbody>
-        </table>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="role" id="exampleRadios1" value="SALE_USER"
-                   checked>
-            <label class="form-check-label" for="exampleRadios1">
-                SALE USER
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="role" id="exampleRadios2"
-                   value="CUSTOMER_USER">
-            <label class="form-check-label" for="exampleRadios2">
-                CUSTOMER USER
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="role" id="exampleRadios3"
-                   value="API_USER">
-            <label class="form-check-label" for="exampleRadios3">
-                API USER
-            </label>
-        </div>
-        <button class="btn btn-warning" type="submit">Change ROLE</button>
-        </form>
-    </div>
+            <button class="btn btn-warning" type="submit">Change ROLE</button>
+</form>
+</div>
 </div>
 </body>
 <ul class="pagination justify-content-center">

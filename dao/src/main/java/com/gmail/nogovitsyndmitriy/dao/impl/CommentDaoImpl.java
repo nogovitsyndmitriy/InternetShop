@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public class CommentDaoImpl extends GenericDaoImpl<Comment> implements CommentDao {
 
-    private final static Logger log = LogManager.getLogger(CommentDaoImpl.class);
-
     public CommentDaoImpl() {
         super(Comment.class);
     }

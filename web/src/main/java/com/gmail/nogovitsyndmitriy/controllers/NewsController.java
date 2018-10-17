@@ -1,10 +1,10 @@
 package com.gmail.nogovitsyndmitriy.controllers;
 
 import com.gmail.nogovitsyndmitriy.config.PageProperties;
+import com.gmail.nogovitsyndmitriy.controllers.validators.CommentValidator;
 import com.gmail.nogovitsyndmitriy.controllers.validators.NewsValidator;
 import com.gmail.nogovitsyndmitriy.service.CommentService;
 import com.gmail.nogovitsyndmitriy.service.NewsService;
-import com.gmail.nogovitsyndmitriy.service.UserService;
 import com.gmail.nogovitsyndmitriy.service.model.CommentDto;
 import com.gmail.nogovitsyndmitriy.service.model.NewsDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +23,21 @@ import static com.gmail.nogovitsyndmitriy.service.utils.PanginationUtil.quantity
 public class NewsController {
     private final PageProperties pageProperties;
     private final NewsService newsService;
-    private final UserService userService;
     private final CommentService commentService;
     private final NewsValidator validator;
+    private final CommentValidator commentValidator;
 
     @Autowired
     public NewsController(PageProperties pageProperties,
                           NewsService newsService,
-                          UserService userService,
                           CommentService commentService,
-                          NewsValidator validator) {
+                          NewsValidator validator,
+                          CommentValidator commentValidator) {
         this.pageProperties = pageProperties;
         this.newsService = newsService;
-        this.userService = userService;
         this.commentService = commentService;
         this.validator = validator;
+        this.commentValidator = commentValidator;
     }
 
 
@@ -46,8 +46,8 @@ public class NewsController {
     public String getNews(@RequestParam(value = "page", defaultValue = "1") Long page, ModelMap modelMap) {
         Long quantityOfNews = newsService.quantityOfNews();
         Long pagesQuantity = quantityOfPages(quantityOfNews, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<NewsDto> news = newsService.newsPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("pages", pagesQuantity);
+        List<NewsDto> news = newsService.newsPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("news", news);
         return pageProperties.getNewsPage();
     }
@@ -56,24 +56,32 @@ public class NewsController {
     @PreAuthorize("isAuthenticated()")
     public String getCurrentNews(@PathVariable("id") Long id, ModelMap modelMap) {
         NewsDto news = newsService.get(id);
-        CommentDto comment = new CommentDto();
-        List<CommentDto> comments = commentService.findCommentsByNewsId(id);
         modelMap.addAttribute("news", news);
-        modelMap.addAttribute("comments", comments);
+        CommentDto comment = new CommentDto();
         modelMap.addAttribute("comment", comment);
+        List<CommentDto> comments = commentService.findCommentsByNewsId(id);
+        modelMap.addAttribute("comments", comments);
         return pageProperties.getSingleNewsPagePath();
     }
 
     @PostMapping(value = "/comment/{news_id}")
     @PreAuthorize("isAuthenticated()")
-    public String createComment(ModelMap modelMap, @PathVariable("news_id") Long id, @ModelAttribute CommentDto comment) {
+    public String createComment(ModelMap modelMap, @PathVariable("news_id") Long id, @ModelAttribute CommentDto comment, BindingResult result) {
+        commentValidator.validate(comment, result);
         NewsDto news = newsService.get(id);
-        comment = commentService.save(comment, id);
         modelMap.addAttribute("news", news);
-        List<CommentDto> comments = commentService.findCommentsByNewsId(id);
-        modelMap.addAttribute("comments", comments);
-        modelMap.addAttribute("comment", comment);
-        return pageProperties.getSingleNewsPagePath();
+        if (result.hasErrors()) {
+            modelMap.addAttribute("news", news);
+            modelMap.addAttribute("comment", comment);
+            return pageProperties.getSingleNewsPagePath();
+        } else {
+            modelMap.addAttribute("comment", comment);
+            comment = commentService.save(comment, id);
+            modelMap.addAttribute("comment", comment);
+            List<CommentDto> comments = commentService.findCommentsByNewsId(id);
+            modelMap.addAttribute("comments", comments);
+            return pageProperties.getSingleNewsPagePath();
+        }
     }
 
     @GetMapping(value = "/create")
@@ -91,11 +99,11 @@ public class NewsController {
             return pageProperties.getErrorsPagePath();
         }
         newsService.save(newsDto);
+        modelMap.addAttribute("newsDto", newsDto);
         Long quantityOfNews = newsService.quantityOfNews();
         Long pagesQuantity = quantityOfPages(quantityOfNews, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        List<NewsDto> news = newsService.newsPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        modelMap.addAttribute("newsDto", newsDto);
         modelMap.addAttribute("pages", pagesQuantity);
+        List<NewsDto> news = newsService.newsPagination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
         modelMap.addAttribute("news", news);
         return pageProperties.getNewsPage();
     }
@@ -134,5 +142,4 @@ public class NewsController {
             return "redirect:/web/news";
         }
     }
-
 }

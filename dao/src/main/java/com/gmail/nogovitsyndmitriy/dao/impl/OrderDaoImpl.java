@@ -13,8 +13,6 @@ import java.util.List;
 @Repository
 public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
-    private final static Logger log = LogManager.getLogger(OrderDaoImpl.class);
-
     public OrderDaoImpl() {
         super(Order.class);
     }

@@ -6,6 +6,7 @@ import com.gmail.nogovitsyndmitriy.service.ItemService;
 import com.gmail.nogovitsyndmitriy.service.OrderService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.ItemDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.ItemConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import com.gmail.nogovitsyndmitriy.service.model.OrderDto;
 import com.gmail.nogovitsyndmitriy.service.model.UploadedFileDto;
@@ -66,11 +67,13 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto save(ItemDto itemDto) {
         try {
             Item item = itemConverter.toEntity(itemDto);
+            item.setDeleted(false);
             itemDao.save(item);
             itemDto = itemDtoConverter.toDTO(item);
             log.info("Saving item successful!");
         } catch (Exception e) {
             log.error("Saving item failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return itemDto;
     }
@@ -85,6 +88,7 @@ public class ItemServiceImpl implements ItemService {
             log.info("Update item successful!");
         } catch (Exception e) {
             log.error("Update item failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return itemDto;
     }
@@ -97,7 +101,7 @@ public class ItemServiceImpl implements ItemService {
             itemDao.delete(item);
             log.info("Delete item successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -126,6 +130,7 @@ public class ItemServiceImpl implements ItemService {
             log.info("Find items by price in range successful!");
         } catch (Exception e) {
             log.error("Find items by price in range failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return itemDtoList;
     }
@@ -133,12 +138,13 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public long count(BigDecimal above, BigDecimal below) {
-        Long number = 0L;
+        Long number;
         try {
             number = itemDao.count(above, below);
             log.info("Count get successful!");
         } catch (Exception e) {
             log.error("Count get failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return number;
     }
@@ -146,12 +152,13 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public List<ItemDto> getAll() {
-        List<ItemDto> items = new ArrayList<>();
+        List<ItemDto> items;
         try {
             items = itemDtoConverter.toDtoList(itemDao.getAll());
             log.info("Get all items successful!");
         } catch (Exception e) {
             log.info("Get all items failed!");
+            throw new ServiceException("Service Exception!");
         }
         return items;
     }
@@ -169,6 +176,7 @@ public class ItemServiceImpl implements ItemService {
             log.info("Successful getting items pagination!");
         } catch (Exception e) {
             log.error("Items pagination failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return itemDtoList;
     }
@@ -176,12 +184,13 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional(readOnly = true)
     public Long quantityOfItems() {
-        Long quantity = 0L;
+        Long quantity;
         try {
             quantity = itemDao.quantityOfItems();
             log.info("Quantity of items getting successful!");
         } catch (Exception e) {
             log.error("Failed to get items quantity!", e);
+            throw new ServiceException("Service Exception!");
         }
         return quantity;
     }
@@ -218,12 +227,13 @@ public class ItemServiceImpl implements ItemService {
             log.info("Successful getting items pagination!");
         } catch (Exception e) {
             log.error("Items pagination failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return itemDtoList;
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Boolean findItemInOrders(Long itemId) {
         Item item = itemDao.get(itemId);
         int count = 0;

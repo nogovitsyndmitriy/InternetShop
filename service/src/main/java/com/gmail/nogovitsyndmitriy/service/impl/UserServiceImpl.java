@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto save(UserDto userDto) {
+
         try {
             User user = userConverter.toEntity(userDto);
             Role role = roleDao.findByName("CUSTOMER_USER");
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService {
             log.info("Saving user successful!");
         } catch (Exception e) {
             log.error("Saving user failed!", e);
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
         return userDto;
     }
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
             log.info("Update user successful!");
         } catch (Exception e) {
             log.error("Update user failed!", e);
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
         return userDto;
     }
@@ -105,7 +106,7 @@ public class UserServiceImpl implements UserService {
             log.info("Delete user successful!");
         } catch (Exception e) {
             log.error("Delete user failed!", e);
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -117,7 +118,8 @@ public class UserServiceImpl implements UserService {
             userDao.delete(user);
             log.info("Delete user by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            log.warn("Delete user by Id failed!");
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -130,7 +132,7 @@ public class UserServiceImpl implements UserService {
             log.info("Get all users successful!");
         } catch (Exception e) {
             log.info("Get all users failed!");
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
         return users;
     }
@@ -146,7 +148,7 @@ public class UserServiceImpl implements UserService {
             log.info("Find user by email successful!");
         } catch (Exception e) {
             log.error("Find user by email failed!", e);
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
         return userDto;
     }
@@ -160,7 +162,7 @@ public class UserServiceImpl implements UserService {
             log.info("Quantity find successful!");
         } catch (Exception e) {
             log.error("Failed to count quantity!", e);
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
         return quantity;
     }
@@ -178,7 +180,7 @@ public class UserServiceImpl implements UserService {
             log.info("User pangination successful!");
         } catch (Exception e) {
             log.error("Failed to get users pangination");
-            throw new ServiceException("666", "Service Exception!");
+            throw new ServiceException("Service Exception!");
         }
         return usersDto;
     }
@@ -192,11 +194,12 @@ public class UserServiceImpl implements UserService {
             password.setConfirmPassword(encoder.encode(password.getConfirmPassword()));
             userDto.setPassword(password.getNewPassword());
             User user = userConverter.toEntity(userDto);
+            user.setDisabled(false);
             userDao.update(user);
             userDto = userDtoConverter.toDTO(user);
             return userDto;
         } else {
-            throw new ServiceException("666", "Wrong password!");
+            throw new ServiceException("Service Exception!");
         }
     }
 

@@ -5,6 +5,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Audit;
 import com.gmail.nogovitsyndmitriy.service.AuditService;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.dto.AuditDtoConverter;
 import com.gmail.nogovitsyndmitriy.service.converter.impl.entity.AuditConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.AuditDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +43,7 @@ public class AuditServiceImpl implements AuditService {
             auditDto = auditDtoConverter.toDTO(audit);
             log.info("Getting audit by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return auditDto;
     }
@@ -71,6 +72,7 @@ public class AuditServiceImpl implements AuditService {
             log.info("Update audit successful!");
         } catch (Exception e) {
             log.error("Update audit failed!", e);
+            throw new ServiceException("Service Exception!");
         }
         return auditDto;
     }
@@ -84,6 +86,7 @@ public class AuditServiceImpl implements AuditService {
             log.info("Delete audit successful!");
         } catch (Exception e) {
             log.error("Delete audit failed!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -95,7 +98,7 @@ public class AuditServiceImpl implements AuditService {
             auditDao.delete(audit);
             log.info("Delete by Id audit successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 

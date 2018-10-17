@@ -7,6 +7,7 @@ import com.gmail.nogovitsyndmitriy.dao.entities.Item;
 import com.gmail.nogovitsyndmitriy.service.DiscountService;
 import com.gmail.nogovitsyndmitriy.service.converter.Converter;
 import com.gmail.nogovitsyndmitriy.service.converter.DTOConverter;
+import com.gmail.nogovitsyndmitriy.service.exceptions.ServiceException;
 import com.gmail.nogovitsyndmitriy.service.model.DiscountDto;
 import com.gmail.nogovitsyndmitriy.service.model.ItemDto;
 import org.apache.logging.log4j.LogManager;
@@ -52,7 +53,7 @@ public class DiscountServiceImpl implements DiscountService {
             discountDto = discountDtoConverter.toDTO(discount);
             log.info("Get Discount successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
         return discountDto;
     }
@@ -67,6 +68,7 @@ public class DiscountServiceImpl implements DiscountService {
             log.info("Discount save successful!");
         } catch (Exception e) {
             log.error("Failed to save Discount!", e);
+            throw new ServiceException("Service Exception!");
         }
         return discountDto;
     }
@@ -81,6 +83,7 @@ public class DiscountServiceImpl implements DiscountService {
             log.info("Discount Update Successful!");
         } catch (Exception e) {
             log.error("Failed to Update Discount!", e);
+            throw new ServiceException("Service Exception!");
         }
         return discountDto;
     }
@@ -98,6 +101,7 @@ public class DiscountServiceImpl implements DiscountService {
             log.info("Find by amount discount Successful!");
         } catch (Exception e) {
             log.error("Failed to Find by amount Discount!", e);
+            throw new ServiceException("Service Exception!");
         }
         return itemDtoList;
     }
@@ -113,6 +117,7 @@ public class DiscountServiceImpl implements DiscountService {
             log.info("Add discount by item price successful!");
         } catch (Exception e) {
             log.error("Failed to add discount by item price!", e);
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -125,6 +130,7 @@ public class DiscountServiceImpl implements DiscountService {
             log.info("Discount delete successful!");
         } catch (Exception e) {
             log.error("Failed to delete discount!");
+            throw new ServiceException("Service Exception!");
         }
     }
 
@@ -136,19 +142,20 @@ public class DiscountServiceImpl implements DiscountService {
             discountDao.delete(discount);
             log.info("Get feedback by Id successful!");
         } else {
-            throw new EntityNotFoundException("Item NOT Found!");
+            throw new EntityNotFoundException("Entity with id: " + id + " not found!");
         }
     }
 
     @Override
     @Transactional
     public List<DiscountDto> getAll() {
-        List<DiscountDto> discounts = new ArrayList<>();
+        List<DiscountDto> discounts;
         try {
             discounts = discountDtoConverter.toDtoList(discountDao.getAll());
             log.info("Get all discounts successful!");
         } catch (Exception e) {
             log.info("Get all discounts failed!");
+            throw new ServiceException("Service Exception!");
         }
         return discounts;
     }
@@ -157,7 +164,6 @@ public class DiscountServiceImpl implements DiscountService {
     @Transactional
     public DiscountDto findByName(String name) {
         Discount discount = discountDao.findByName(name);
-        DiscountDto discountDto = discountDtoConverter.toDTO(discount);
-        return discountDto;
+        return discountDtoConverter.toDTO(discount);
     }
 }
