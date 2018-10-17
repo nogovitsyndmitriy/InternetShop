@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Configurration status = "Debug">
+<Configurration status="INFO">
     <Appenders>
-        <Console name = "Console" target = "SYSTEM>OUT">
-            <PatternLayout pattern = "%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n"/>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n"/>
         </Console>
-        <RollingFile name ="RollingFile" filename = "logs/application.log">
+        <RollingFile name="RollingFile" filename="D:/projects/test/logs/applog.log" filePattern="D:/projects/test/logs/applog-%i.log">
+            <PatternLayout pattern="%{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n"/>
             <Policies>
-
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="20"/>
         </RollingFile>
     </Appenders>
+    <Loggers>
+
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
 </Configurration>

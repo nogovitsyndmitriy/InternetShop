@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+    <items>
+        <items>
+            <item>
+                <description>MotorOil</description>
+                <name>Shell</name>
+                <price>75.23</price>
+                <deleted>false</deleted>
+                <uniqueNumber>mOS75</uniqueNumber>
+            </item>
+            <item>
+                <description>MotorOil</description>
+                <name>Mobil-1</name>
+                <price>34.57</price>
+                <deleted>false</deleted>
+                <uniqueNumber>mOM13</uniqueNumber>
+            </item>
+        </items>
+    </items>
