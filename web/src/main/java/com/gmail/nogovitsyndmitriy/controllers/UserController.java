@@ -144,10 +144,10 @@ public class UserController {
     ) {
         Long quantityOfUsers = userService.quantityOfUsers();
         Long pagesQuantity = quantityOfPages(quantityOfUsers, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        modelMap.addAttribute("pages", pagesQuantity);
         List<UserDto> users = userService.usersPangination(page, Integer.parseInt(pageProperties.getQuantityOnPage()));
-        modelMap.addAttribute("users", users);
         List<RoleDto> roles = roleService.getAll();
+        modelMap.addAttribute("users", users);
+        modelMap.addAttribute("pages", pagesQuantity);
         modelMap.addAttribute("roles", roles);
         modelMap.addAttribute("user", user);
         return pageProperties.getRolesPagePath();

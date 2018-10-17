@@ -66,7 +66,7 @@ public class OrderController {
         modelMap.addAttribute("item", item);
         orderService.save(order, id, quantity);
         modelMap.addAttribute("quantity", quantity);
-        return "redirect:/web/items";
+        return "redirect:/web/orders";
     }
 
     @PostMapping(value = "/status")

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -109,7 +110,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public List<RoleDto> getAll() {
-        throw new UnsupportedOperationException();
+        List<Role> roles = roleDao.getAll();
+        List<RoleDto> rolesDtos = new ArrayList<>();
+        for (Role role : roles) {
+            rolesDtos.add(roleDtoConverter.toDTO(role));
+        }
+        return rolesDtos;
     }
 
     @Override

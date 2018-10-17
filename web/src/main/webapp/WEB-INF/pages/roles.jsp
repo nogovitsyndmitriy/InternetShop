@@ -42,8 +42,6 @@
             </c:forEach>
             <button class="btn btn-warning" type="submit">Change ROLE</button>
 </form>
-</div>
-</div>
 </body>
 <ul class="pagination justify-content-center">
     <c:forEach var="page" begin="1" end="${pages}">
