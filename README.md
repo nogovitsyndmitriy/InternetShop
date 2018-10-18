@@ -36,3 +36,4 @@ Motor oils InternetShop
  5. API user
     Items: create, update, remove (soft delete), delete if not exists in any order
 
+P.s. password for all users: qwerty
