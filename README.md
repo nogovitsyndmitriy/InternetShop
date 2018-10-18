@@ -2,7 +2,7 @@ Motor oils InternetShop
 
  Environment:
  Java 8
- Spring 5.0.8.RELEASE
+ Spring 5.1.0.RELEASE
  Hibernate 5.3.5.Final
  Tomcat 9.0.11
  GitHub
